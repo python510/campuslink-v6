@@ -2888,12 +2888,19 @@
                 let coverUrl = PROFILE.cover_url || null;
                 if (epAvFile) {
                     try {
-                        const compressed = await compressImage(epAvFile);
+                        b.textContent = 'Uploading photo…';
+                        const compressed = await compressImage(epAvFile, 400, 0.6);
                         const path = `${USER.id}/${Date.now()}.jpg`;
-                        await sb.storage.from('avatars').upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
+                        const { error: upErr } = await sb.storage.from('avatars').upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
+                        if (upErr) throw upErr;
                         const { data } = sb.storage.from('avatars').getPublicUrl(path);
                         avUrl = data.publicUrl;
-                    } catch (e) { console.error(e); toast('Photo upload failed', 'warn'); }
+                        b.textContent = 'Saving profile…';
+                    } catch (e) {
+                        console.error('Avatar upload error:', e);
+                        toast('Photo upload failed — profile saved without new photo', 'warn');
+                        b.textContent = 'Saving profile…';
+                    }
                 }
                 if (epCoverFile) {
                     try {
@@ -2905,7 +2912,14 @@
                     } catch (e) { console.error(e); toast('Cover upload failed', 'warn'); }
                 }
                 const upd = { full_name: Q('ep-name').value.trim(), username: Q('ep-user').value.trim().toLowerCase(), bio: Q('ep-bio').value.trim(), university_name: Q('ep-uni').value.trim(), course: Q('ep-course').value.trim(), year_of_study: YEARS.indexOf(eY) + 1 || 1, gender: eG, interests: eI, purposes: eP, avatar_url: avUrl, cover_url: coverUrl };
-                await sb.from('profiles').update(upd).eq('id', USER.id); PROFILE = { ...PROFILE, ...upd };
+                const { error: dbErr } = await sb.from('profiles').update(upd).eq('id', USER.id);
+                b.disabled = false; b.textContent = 'Save Changes ✓';
+                if (dbErr) {
+                    console.error('Profile save error:', dbErr);
+                    toast('Save failed — ' + (dbErr.message || 'check your connection'), 'err');
+                    return;
+                }
+                PROFILE = { ...PROFILE, ...upd };
                 haptic(HFX.success);
                 toast('Profile updated! ✨', 'ok');
                 renderProfile();
@@ -2917,21 +2931,30 @@
             const t = document.createElement('div'); t.className = `toast toast-${type}`; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('show'), 10); setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3000);
         }
         // Compress image before upload for speed
-        function compressImage(file, maxWidth = 800, quality = 0.75) {
-            return new Promise(resolve => {
+        // Compress hard — avatar max 400px, quality 0.6 — fast upload on slow Kenyan data
+        function compressImage(file, maxWidth = 400, quality = 0.6) {
+            return new Promise((resolve, reject) => {
+                // Timeout after 8 seconds so it never hangs forever
+                const timeout = setTimeout(() => reject(new Error('Compression timeout')), 8000);
                 const reader = new FileReader();
                 reader.onload = e => {
                     const img = new Image();
                     img.onload = () => {
+                        clearTimeout(timeout);
                         const canvas = document.createElement('canvas');
                         const ratio = Math.min(maxWidth / img.width, maxWidth / img.height, 1);
-                        canvas.width = img.width * ratio;
-                        canvas.height = img.height * ratio;
+                        canvas.width = Math.round(img.width * ratio);
+                        canvas.height = Math.round(img.height * ratio);
                         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                        canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+                        canvas.toBlob(blob => {
+                            if (blob) resolve(blob);
+                            else reject(new Error('Compression failed'));
+                        }, 'image/jpeg', quality);
                     };
+                    img.onerror = () => { clearTimeout(timeout); reject(new Error('Image load failed')); };
                     img.src = e.target.result;
                 };
+                reader.onerror = () => { clearTimeout(timeout); reject(new Error('File read failed')); };
                 reader.readAsDataURL(file);
             });
         }
@@ -3600,22 +3623,22 @@
             document.body.appendChild(sheet);
         }
 
-        async function sendFeedWave(targetId, targetName, btn) {
-            btn.disabled = true; btn.textContent = 'Sending…';
-            haptic(HFX.like);
-            // Insert a like — if they already liked you, this creates a match
-            const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
-            const { data: match } = await sb.from('matches')
-                .select('id')
-                .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
-                .maybeSingle();
-            document.getElementById('feed-user-sheet')?.remove();
-            if (match) {
-                toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
-                haptic(HFX.match);
-            } else {
-                toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
-            }
+
+        btn.disabled = true; btn.textContent = 'Sending…';
+        haptic(HFX.like);
+        // Insert a like — if they already liked you, this creates a match
+        const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
+        const { data: match } = await sb.from('matches')
+            .select('id')
+            .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
+            .maybeSingle();
+        document.getElementById('feed-user-sheet')?.remove();
+        if (match) {
+            toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
+            haptic(HFX.match);
+        } else {
+            toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
+        }
         }
 
         function openNewPost() {
