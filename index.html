@@ -3600,22 +3600,22 @@
             document.body.appendChild(sheet);
         }
 
-
-        btn.disabled = true; btn.textContent = 'Sending…';
-        haptic(HFX.like);
-        // Insert a like — if they already liked you, this creates a match
-        const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
-        const { data: match } = await sb.from('matches')
-            .select('id')
-            .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
-            .maybeSingle();
-        document.getElementById('feed-user-sheet')?.remove();
-        if (match) {
-            toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
-            haptic(HFX.match);
-        } else {
-            toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
-        }
+        async function sendFeedWave(targetId, targetName, btn) {
+            btn.disabled = true; btn.textContent = 'Sending…';
+            haptic(HFX.like);
+            // Insert a like — if they already liked you, this creates a match
+            const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
+            const { data: match } = await sb.from('matches')
+                .select('id')
+                .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
+                .maybeSingle();
+            document.getElementById('feed-user-sheet')?.remove();
+            if (match) {
+                toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
+                haptic(HFX.match);
+            } else {
+                toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
+            }
         }
 
         function openNewPost() {
