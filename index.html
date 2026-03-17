@@ -581,8 +581,8 @@
         }
 
 
-        /* ── SECURITY TOAST ── */
-        #toast {
+        /* ── TOAST ── */
+        .toast {
             position: fixed;
             top: 20px;
             left: 50%;
@@ -605,20 +605,20 @@
             max-width: 90vw
         }
 
-        #toast.show {
+        .toast.show {
             transform: translateX(-50%) translateY(0)
         }
 
-        #toast.ok {
-            border-color: rgba(52, 211, 153, .35)
+        .toast-ok {
+            border-color: rgba(52, 211, 153, .35) !important
         }
 
-        #toast.err {
-            border-color: rgba(255, 107, 107, .35)
+        .toast-err {
+            border-color: rgba(255, 107, 107, .35) !important
         }
 
-        #toast.warn {
-            border-color: rgba(251, 191, 36, .35)
+        .toast-warn {
+            border-color: rgba(251, 191, 36, .35) !important
         }
 
         /* ── STRENGTH BAR ── */
@@ -907,18 +907,23 @@
             padding-bottom: 80px;
             background: #07090f
         }
+
         /* ── SAFETY MODAL ── */
         .safety-sheet {
             position: fixed;
             inset: 0;
             z-index: 300;
-            background: rgba(0,0,0,.75);
+            background: rgba(0, 0, 0, .75);
             backdrop-filter: blur(8px);
             display: none;
             align-items: flex-end;
             justify-content: center
         }
-        .safety-sheet.on { display: flex }
+
+        .safety-sheet.on {
+            display: flex
+        }
+
         .safety-inner {
             background: #111318;
             border-radius: 24px 24px 0 0;
@@ -926,6 +931,7 @@
             width: 100%;
             max-width: 480px
         }
+
         .safety-opt {
             display: flex;
             align-items: center;
@@ -941,7 +947,11 @@
             font-family: 'Sora', sans-serif;
             color: #fff
         }
-        .safety-opt:hover { background: rgba(255,255,255,.05) }
+
+        .safety-opt:hover {
+            background: rgba(255, 255, 255, .05)
+        }
+
         .safety-opt .s-ico {
             width: 40px;
             height: 40px;
@@ -952,29 +962,55 @@
             font-size: 18px;
             flex-shrink: 0
         }
-        #pg-feed { padding-bottom: 80px; background: #07090f }
+
+        #pg-feed {
+            padding-bottom: 80px;
+            background: #07090f
+        }
 
         /* ── COMMUNITIES ── */
-        #pg-communities { padding-bottom: 80px; background: #07090f }
-        #pg-comm-room { background: #07090f }
+        #pg-communities {
+            padding-bottom: 80px;
+            background: #07090f
+        }
+
+        #pg-comm-room {
+            background: #07090f
+        }
+
         .comm-card {
-            background: rgba(255,255,255,.04);
-            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
             border-radius: 18px;
             overflow: hidden;
             cursor: pointer;
             transition: transform .18s, box-shadow .18s
         }
-        .comm-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3) }
-        .comm-banner { height: 70px; position: relative; display:flex; align-items:center; justify-content:center }
-        .comm-body { padding: 12px 14px 14px }
+
+        .comm-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .3)
+        }
+
+        .comm-banner {
+            height: 70px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .comm-body {
+            padding: 12px 14px 14px
+        }
+
         .ch-tab {
             padding: 8px 14px;
             border-radius: 10px;
             cursor: pointer;
             font-size: 13px;
             font-weight: 500;
-            color: rgba(255,255,255,.5);
+            color: rgba(255, 255, 255, .5);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -985,8 +1021,17 @@
             text-align: left;
             font-family: 'Sora', sans-serif
         }
-        .ch-tab:hover { background: rgba(255,255,255,.05); color: #fff }
-        .ch-tab.on { background: rgba(255,255,255,.08); color: #fff }
+
+        .ch-tab:hover {
+            background: rgba(255, 255, 255, .05);
+            color: #fff
+        }
+
+        .ch-tab.on {
+            background: rgba(255, 255, 255, .08);
+            color: #fff
+        }
+
         .comm-msg-wrap {
             flex: 1;
             overflow-y: auto;
@@ -995,50 +1040,87 @@
             flex-direction: column;
             gap: 12px
         }
+
         .comm-msg {
             display: flex;
             gap: 10px;
             align-items: flex-start
         }
+
         .comm-msg-bubble {
-            background: rgba(255,255,255,.05);
+            background: rgba(255, 255, 255, .05);
             border-radius: 0 14px 14px 14px;
             padding: 10px 14px;
             font-size: 14px;
             line-height: 1.55;
-            color: rgba(255,255,255,.9);
+            color: rgba(255, 255, 255, .9);
             max-width: 80%;
             word-break: break-word
         }
-        .comm-msg.me { flex-direction: row-reverse }
+
+        .comm-msg.me {
+            flex-direction: row-reverse
+        }
+
         .comm-msg.me .comm-msg-bubble {
-            background: linear-gradient(135deg,#e8457a,#f7915a);
+            background: linear-gradient(135deg, #e8457a, #f7915a);
             color: #fff;
             border-radius: 14px 0 14px 14px
         }
 
         /* ── SAFETY MODAL ── */
         .safety-sheet {
-            position: fixed; inset: 0; z-index: 300;
-            background: rgba(0,0,0,.75); backdrop-filter: blur(8px);
-            display: none; align-items: flex-end; justify-content: center
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: flex-end;
+            justify-content: center
         }
-        .safety-sheet.on { display: flex }
+
+        .safety-sheet.on {
+            display: flex
+        }
+
         .safety-inner {
-            background: #111318; border-radius: 24px 24px 0 0;
-            padding: 24px 20px 40px; width: 100%; max-width: 480px
+            background: #111318;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 40px;
+            width: 100%;
+            max-width: 480px
         }
+
         .safety-opt {
-            display: flex; align-items: center; gap: 14px; padding: 14px;
-            border-radius: 14px; cursor: pointer; transition: background .15s;
-            border: none; background: none; width: 100%; text-align: left;
-            font-family: 'Sora', sans-serif; color: #fff
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background .15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: 'Sora', sans-serif;
+            color: #fff
         }
-        .safety-opt:hover { background: rgba(255,255,255,.05) }
+
+        .safety-opt:hover {
+            background: rgba(255, 255, 255, .05)
+        }
+
         .safety-opt .s-ico {
-            width: 40px; height: 40px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; flex-shrink: 0
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0
         }
     </style>
 
@@ -1048,11 +1130,18 @@
     <div id="pg-splash" class="page on">
         <div style="text-align:center">
             <div style="position:relative;width:80px;height:80px;margin:0 auto 22px">
-                <div style="position:absolute;inset:-12px;border-radius:50%;background:rgba(99,179,237,.12);animation:pulse-ring 1.8s ease-out infinite"></div>
-                <div style="width:80px;height:80px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 20px 50px rgba(79,195,247,.4);position:relative">🎓</div>
+                <div
+                    style="position:absolute;inset:-12px;border-radius:50%;background:rgba(99,179,237,.12);animation:pulse-ring 1.8s ease-out infinite">
+                </div>
+                <div
+                    style="width:80px;height:80px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 20px 50px rgba(79,195,247,.4);position:relative">
+                    🎓</div>
             </div>
-            <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px">CampusLink</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.35);font-weight:300;margin-bottom:32px">Your campus. Your people.</div>
+            <div
+                style="font-family:'Fraunces',serif;font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px">
+                CampusLink</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.35);font-weight:300;margin-bottom:32px">Your campus. Your
+                people.</div>
             <div class="spin" style="margin:0 auto;border-color:rgba(79,195,247,.2);border-top-color:#4fc3f7"></div>
         </div>
     </div>
@@ -1060,87 +1149,231 @@
     <!-- ══════════════════════ SIGNUP ══════════════════════ -->
     <div id="pg-signup" class="page" style="background:#07090f;overflow-y:auto">
         <style>
-            @keyframes gradShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-            @keyframes cardFloat { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-10px) rotate(-2deg)} }
-            @keyframes cardFloat2 { 0%,100%{transform:translateY(0) rotate(3deg)} 50%{transform:translateY(-14px) rotate(3deg)} }
-            @keyframes pulse-ring { 0%{transform:scale(1);opacity:.6} 100%{transform:scale(1.5);opacity:0} }
-            @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-            @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-            .land-cta { background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:16px;color:#fff;font-size:17px;font-weight:700;padding:18px;width:100%;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 16px 48px rgba(232,69,122,.45);letter-spacing:-.2px;transition:transform .15s,box-shadow .15s; }
-            .land-cta:active{transform:scale(.97);box-shadow:0 8px 24px rgba(232,69,122,.3)}
-            .feat-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;flex:1;min-width:140px; }
-            .tick-item { display:inline-flex;align-items:center;gap:8px;padding:0 32px;white-space:nowrap;font-size:13px;color:rgba(255,255,255,.5);font-weight:500; }
-            .land-section { animation:slideUp .6s ease both; }
+            @keyframes gradShift {
+
+                0%,
+                100% {
+                    background-position: 0% 50%
+                }
+
+                50% {
+                    background-position: 100% 50%
+                }
+            }
+
+            @keyframes cardFloat {
+
+                0%,
+                100% {
+                    transform: translateY(0) rotate(-2deg)
+                }
+
+                50% {
+                    transform: translateY(-10px) rotate(-2deg)
+                }
+            }
+
+            @keyframes cardFloat2 {
+
+                0%,
+                100% {
+                    transform: translateY(0) rotate(3deg)
+                }
+
+                50% {
+                    transform: translateY(-14px) rotate(3deg)
+                }
+            }
+
+            @keyframes pulse-ring {
+                0% {
+                    transform: scale(1);
+                    opacity: .6
+                }
+
+                100% {
+                    transform: scale(1.5);
+                    opacity: 0
+                }
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0)
+                }
+            }
+
+            @keyframes ticker {
+                0% {
+                    transform: translateX(0)
+                }
+
+                100% {
+                    transform: translateX(-50%)
+                }
+            }
+
+            .land-cta {
+                background: linear-gradient(135deg, #e8457a, #f7915a);
+                border: none;
+                border-radius: 16px;
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+                padding: 18px;
+                width: 100%;
+                cursor: pointer;
+                font-family: 'Sora', sans-serif;
+                box-shadow: 0 16px 48px rgba(232, 69, 122, .45);
+                letter-spacing: -.2px;
+                transition: transform .15s, box-shadow .15s;
+            }
+
+            .land-cta:active {
+                transform: scale(.97);
+                box-shadow: 0 8px 24px rgba(232, 69, 122, .3)
+            }
+
+            .feat-card {
+                background: rgba(255, 255, 255, .04);
+                border: 1px solid rgba(255, 255, 255, .08);
+                border-radius: 20px;
+                padding: 20px;
+                flex: 1;
+                min-width: 140px;
+            }
+
+            .tick-item {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 0 32px;
+                white-space: nowrap;
+                font-size: 13px;
+                color: rgba(255, 255, 255, .5);
+                font-weight: 500;
+            }
+
+            .land-section {
+                animation: slideUp .6s ease both;
+            }
         </style>
 
         <!-- ── HERO ── -->
         <div style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden">
             <!-- Animated background -->
-            <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a0410,#0d0818,#07090f);z-index:0"></div>
-            <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% -5%,rgba(232,69,122,.28) 0%,transparent 65%);z-index:0"></div>
-            <div style="position:absolute;top:-100px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(247,145,90,.12),transparent 70%);z-index:0"></div>
-            <div style="position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,#07090f,transparent);z-index:1"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a0410,#0d0818,#07090f);z-index:0">
+            </div>
+            <div
+                style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% -5%,rgba(232,69,122,.28) 0%,transparent 65%);z-index:0">
+            </div>
+            <div
+                style="position:absolute;top:-100px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(247,145,90,.12),transparent 70%);z-index:0">
+            </div>
+            <div
+                style="position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,#07090f,transparent);z-index:1">
+            </div>
 
             <!-- Floating profile cards -->
             <div style="position:absolute;top:15%;left:-10px;z-index:2;animation:cardFloat 4s ease-in-out infinite">
-                <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.4)">
-                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop&crop=face" style="width:38px;height:38px;border-radius:50%;object-fit:cover">
-                    <div><div style="font-size:12px;font-weight:600">Amara, 20</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Year 2 · CS 🎓</div></div>
+                <div
+                    style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.4)">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop&crop=face"
+                        style="width:38px;height:38px;border-radius:50%;object-fit:cover">
+                    <div>
+                        <div style="font-size:12px;font-weight:600">Amara, 20</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,.4)">Year 2 · CS 🎓</div>
+                    </div>
                 </div>
             </div>
             <div style="position:absolute;top:28%;right:-10px;z-index:2;animation:cardFloat2 5s ease-in-out infinite">
-                <div style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.4)">
-                    <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=80&h=80&fit=crop&crop=face" style="width:38px;height:38px;border-radius:50%;object-fit:cover">
-                    <div><div style="font-size:12px;font-weight:600">Zuri, 21</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Year 3 · Business 🎓</div></div>
+                <div
+                    style="background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(0,0,0,.4)">
+                    <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=80&h=80&fit=crop&crop=face"
+                        style="width:38px;height:38px;border-radius:50%;object-fit:cover">
+                    <div>
+                        <div style="font-size:12px;font-weight:600">Zuri, 21</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,.4)">Year 3 · Business 🎓</div>
+                    </div>
                 </div>
             </div>
             <div style="position:absolute;top:55%;left:5px;z-index:2;animation:cardFloat 6s ease-in-out infinite .5s">
-                <div style="background:rgba(232,69,122,.15);backdrop-filter:blur(12px);border:1px solid rgba(232,69,122,.25);border-radius:14px;padding:8px 12px;font-size:11px;font-weight:600;color:#f9a8c9">💘 It's a match!</div>
+                <div
+                    style="background:rgba(232,69,122,.15);backdrop-filter:blur(12px);border:1px solid rgba(232,69,122,.25);border-radius:14px;padding:8px 12px;font-size:11px;font-weight:600;color:#f9a8c9">
+                    💘 It's a match!</div>
             </div>
 
             <!-- Nav -->
-            <div style="position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:20px 22px">
+            <div
+                style="position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:20px 22px">
                 <div style="display:flex;align-items:center;gap:8px">
-                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#e8457a,#f7915a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px">💘</div>
+                    <div
+                        style="width:32px;height:32px;background:linear-gradient(135deg,#e8457a,#f7915a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px">
+                        💘</div>
                     <span style="font-family:'Fraunces',serif;font-size:16px;font-weight:900">CampusLink</span>
                 </div>
-                <button onclick="go('pg-login')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;color:#fff;font-size:13px;font-weight:600;padding:8px 18px;cursor:pointer;font-family:'Sora',sans-serif">Sign in</button>
+                <button onclick="go('pg-login')"
+                    style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;color:#fff;font-size:13px;font-weight:600;padding:8px 18px;cursor:pointer;font-family:'Sora',sans-serif">Sign
+                    in</button>
             </div>
 
             <!-- Hero content -->
-            <div style="position:relative;z-index:3;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 24px 80px;text-align:center">
+            <div
+                style="position:relative;z-index:3;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 24px 80px;text-align:center">
                 <!-- Live badge -->
-                <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.25);border-radius:20px;padding:6px 14px;margin-bottom:24px">
+                <div
+                    style="display:inline-flex;align-items:center;gap:8px;background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.25);border-radius:20px;padding:6px 14px;margin-bottom:24px">
                     <div style="position:relative;width:8px;height:8px">
-                        <div style="position:absolute;inset:0;border-radius:50%;background:#4fc3f7;animation:pulse-ring 1.5s ease-out infinite"></div>
+                        <div
+                            style="position:absolute;inset:0;border-radius:50%;background:#4fc3f7;animation:pulse-ring 1.5s ease-out infinite">
+                        </div>
                         <div style="width:8px;height:8px;border-radius:50%;background:#4fc3f7"></div>
                     </div>
                     <span style="font-size:12px;font-weight:600;color:#4fc3f7">Live on Campus</span>
                 </div>
 
-                <h1 style="font-family:'Fraunces',serif;font-size:42px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px">
-                    Your campus.<br><em style="background:linear-gradient(135deg,#4fc3f7,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic">Your</em><br>people.
+                <h1
+                    style="font-family:'Fraunces',serif;font-size:42px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px">
+                    Your campus.<br><em
+                        style="background:linear-gradient(135deg,#4fc3f7,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic">Your</em><br>people.
                 </h1>
-                <p style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:16px;max-width:300px">
-                    Connect with students at your university. Find friends, study partners, plan hangouts — or more. A safe space built for campus life.
+                <p
+                    style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:16px;max-width:300px">
+                    Connect with students at your university. Find friends, study partners, plan hangouts — or more. A
+                    safe space built for campus life.
                 </p>
 
                 <!-- Trust badges -->
                 <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px">
-                    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#34d399">✓ Verified Students Only</span>
-                    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#a78bfa">🔒 Safe & Moderated</span>
-                    <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#4fc3f7">🎓 Campus-Only</span>
+                    <span
+                        style="display:inline-flex;align-items:center;gap:5px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#34d399">✓
+                        Verified Students Only</span>
+                    <span
+                        style="display:inline-flex;align-items:center;gap:5px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#a78bfa">🔒
+                        Safe & Moderated</span>
+                    <span
+                        style="display:inline-flex;align-items:center;gap:5px;background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#4fc3f7">🎓
+                        Campus-Only</span>
                 </div>
 
-                <button class="land-cta" onclick="suGo(1);document.getElementById('pg-signup').scrollTo({top:document.getElementById('su-form').offsetTop,behavior:'smooth'})">
+                <button class="land-cta"
+                    onclick="suGo(1);document.getElementById('pg-signup').scrollTo({top:document.getElementById('su-form').offsetTop,behavior:'smooth'})">
                     Join Your Campus Network →
                 </button>
-                <p style="font-size:11px;color:rgba(255,255,255,.25);margin-top:12px">Free · Campus emails only · Safe & moderated</p>
+                <p style="font-size:11px;color:rgba(255,255,255,.25);margin-top:12px">Free · Campus emails only · Safe &
+                    moderated</p>
             </div>
         </div>
 
         <!-- ── TICKER ── -->
-        <div style="overflow:hidden;padding:14px 0;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02)">
+        <div
+            style="overflow:hidden;padding:14px 0;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02)">
             <div style="display:flex;animation:ticker 18s linear infinite;width:max-content">
                 <span class="tick-item">💘 Dating</span>
                 <span class="tick-item">📚 Study Groups</span>
@@ -1160,44 +1393,81 @@
         <!-- ── VALUE PROPS ── -->
         <div style="padding:48px 22px 32px;max-width:480px;margin:0 auto" class="land-section">
             <div style="text-align:center;margin-bottom:32px">
-                <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:10px">Why CampusLink</div>
-                <h2 style="font-family:'Fraunces',serif;font-size:28px;font-weight:900;line-height:1.2">Built for campus.<br>Not for everyone.</h2>
+                <div
+                    style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:10px">
+                    Why CampusLink</div>
+                <h2 style="font-family:'Fraunces',serif;font-size:28px;font-weight:900;line-height:1.2">Built for
+                    campus.<br>Not for everyone.</h2>
             </div>
             <div style="display:flex;flex-direction:column;gap:14px">
                 <div class="feat-card" style="display:flex;align-items:flex-start;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:14px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🔒</div>
-                    <div><div style="font-size:15px;font-weight:700;margin-bottom:4px">Safe & Verified</div><div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Campus email verification required. Report & block features on every profile. Zero tolerance for harassment.</div></div>
+                    <div
+                        style="width:44px;height:44px;border-radius:14px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+                        🔒</div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Safe & Verified</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Campus email verification
+                            required. Report & block features on every profile. Zero tolerance for harassment.</div>
+                    </div>
                 </div>
                 <div class="feat-card" style="display:flex;align-items:flex-start;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🌍</div>
-                    <div><div style="font-size:15px;font-weight:700;margin-bottom:4px">More Than Dating</div><div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Plan study sessions, campus hangouts, nights out or just find people who share your interests. Everyone is welcome.</div></div>
+                    <div
+                        style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+                        🌍</div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;margin-bottom:4px">More Than Dating</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Plan study sessions,
+                            campus hangouts, nights out or just find people who share your interests. Everyone is
+                            welcome.</div>
+                    </div>
                 </div>
                 <div class="feat-card" style="display:flex;align-items:flex-start;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:14px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🎓</div>
-                    <div><div style="font-size:15px;font-weight:700;margin-bottom:4px">Built for Campus Life</div><div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Course communities, campus events, anonymous confessions, notes sharing — everything a student needs.</div></div>
+                    <div
+                        style="width:44px;height:44px;border-radius:14px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+                        🎓</div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Built for Campus Life</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Course communities,
+                            campus events, anonymous confessions, notes sharing — everything a student needs.</div>
+                    </div>
                 </div>
                 <div class="feat-card" style="display:flex;align-items:flex-start;gap:16px">
-                    <div style="width:44px;height:44px;border-radius:14px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🤝</div>
-                    <div><div style="font-size:15px;font-weight:700;margin-bottom:4px">Respectful Community</div><div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Community guidelines enforced. A platform your parents would be proud of. Serious students, serious connections.</div></div>
+                    <div
+                        style="width:44px;height:44px;border-radius:14px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+                        🤝</div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Respectful Community</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.5">Community guidelines
+                            enforced. A platform your parents would be proud of. Serious students, serious connections.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ── TESTIMONIALS ── -->
         <div style="padding:16px 22px 40px;max-width:480px;margin:0 auto" class="land-section">
-            <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:20px;text-align:center">What students say</div>
+            <div
+                style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:20px;text-align:center">
+                What students say</div>
             <div style="display:flex;flex-direction:column;gap:12px">
-                <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px">
-                    <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:12px">"Finally an app where I know everyone is actually a student. Met my study partner for CATs here 📚"</p>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px">
+                    <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:12px">"Finally an
+                        app where I know everyone is actually a student. Met my study partner for CATs here 📚"</p>
                     <div style="display:flex;align-items:center;gap:10px">
-                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&h=60&fit=crop&crop=face" style="width:28px;height:28px;border-radius:50%;object-fit:cover">
+                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=60&h=60&fit=crop&crop=face"
+                            style="width:28px;height:28px;border-radius:50%;object-fit:cover">
                         <div style="font-size:12px;font-weight:600">Amara · Year 2, Computer Science</div>
                     </div>
                 </div>
-                <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px">
-                    <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:12px">"Matched with someone from my faculty. We've been talking every day since. This app is different 🔥"</p>
+                <div
+                    style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px">
+                    <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:12px">"Matched
+                        with someone from my faculty. We've been talking every day since. This app is different 🔥"</p>
                     <div style="display:flex;align-items:center;gap:10px">
-                        <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=60&h=60&fit=crop&crop=face" style="width:28px;height:28px;border-radius:50%;object-fit:cover">
+                        <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=60&h=60&fit=crop&crop=face"
+                            style="width:28px;height:28px;border-radius:50%;object-fit:cover">
                         <div style="font-size:12px;font-weight:600">Zuri · Year 3, Business</div>
                     </div>
                 </div>
@@ -1206,11 +1476,16 @@
 
         <!-- ── BOTTOM CTA ── -->
         <div style="padding:16px 22px 60px;max-width:480px;margin:0 auto;text-align:center" class="land-section">
-            <div style="background:linear-gradient(135deg,rgba(232,69,122,.12),rgba(247,145,90,.08));border:1px solid rgba(232,69,122,.2);border-radius:24px;padding:32px 24px">
+            <div
+                style="background:linear-gradient(135deg,rgba(232,69,122,.12),rgba(247,145,90,.08));border:1px solid rgba(232,69,122,.2);border-radius:24px;padding:32px 24px">
                 <div style="font-size:32px;margin-bottom:12px">💘</div>
-                <h3 style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;margin-bottom:8px">Ready to connect?</h3>
-                <p style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;line-height:1.6">Join students across universities worldwide. Free forever for the basics.</p>
-                <button class="land-cta" onclick="suGo(1);document.getElementById('pg-signup').scrollTo({top:document.getElementById('su-form').offsetTop,behavior:'smooth'})">Get Started Free →</button>
+                <h3 style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;margin-bottom:8px">Ready to
+                    connect?</h3>
+                <p style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;line-height:1.6">Join students
+                    across universities worldwide. Free forever for the basics.</p>
+                <button class="land-cta"
+                    onclick="suGo(1);document.getElementById('pg-signup').scrollTo({top:document.getElementById('su-form').offsetTop,behavior:'smooth'})">Get
+                    Started Free →</button>
             </div>
         </div>
 
@@ -1225,9 +1500,11 @@
                 <!-- Step 1 -->
                 <div id="su1">
                     <div class="slbl" style="margin-bottom:6px">Step 1 of 3</div>
-                    <h2 style="font-family:'Fraunces',serif;font-size:30px;font-weight:900;line-height:1.2;margin-bottom:5px">
+                    <h2
+                        style="font-family:'Fraunces',serif;font-size:30px;font-weight:900;line-height:1.2;margin-bottom:5px">
                         Join your<br><em style="color:#4fc3f7;font-style:italic">campus network.</em></h2>
-                    <p style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:26px;font-weight:300;line-height:1.6">
+                    <p
+                        style="font-size:14px;color:rgba(255,255,255,.4);margin-bottom:26px;font-weight:300;line-height:1.6">
                         A safe space for students. Verified, moderated and respectful.</p>
                     <div class="field"><label class="lbl">Email Address</label><input class="inp" id="su-em"
                             type="email" placeholder="your@email.com" />
@@ -1298,7 +1575,10 @@
                             style="flex:1;padding:14px 10px;border-radius:14px;cursor:pointer;text-align:center;border:1.5px solid rgba(232,69,122,.4);background:rgba(232,69,122,.09);transition:all .2s">
                             <div style="font-size:22px;margin-bottom:5px">✉️</div>
                             <div style="font-size:12px;font-weight:600">University Email</div>
-                            <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:2px">e.g. you@university.edu</div>
+                            <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:2px">e.g.
+                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                    data-cfemail="f58c9a80b5809b9c839087869c818cdb909180">[email&#160;protected]</a>
+                            </div>
                         </div>
                         <div id="vt-id" onclick="setVM('id')"
                             style="flex:1;padding:14px 10px;border-radius:14px;cursor:pointer;text-align:center;border:1.5px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);transition:all .2s">
@@ -1527,7 +1807,9 @@
         <div style="max-width:480px;margin:0 auto;padding:20px 16px 0;position:relative;z-index:1">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
                 <div style="display:flex;align-items:center;gap:9px">
-                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">🎓</div>
+                    <div
+                        style="width:32px;height:32px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">
+                        🎓</div>
                     <span style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">Meet People</span>
                 </div>
                 <span id="disc-ct" style="font-size:12px;color:rgba(255,255,255,.32)"></span>
@@ -1554,7 +1836,8 @@
                         style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border:none;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 10px 30px rgba(79,195,247,.35);transition:transform .15s"
                         onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">👋</button>
                 </div>
-                <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.2)">Swipe or tap buttons · ⚠️ to report</p>
+                <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.2)">Swipe or tap buttons · ⚠️ to
+                    report</p>
             </div>
         </div>
     </div>
@@ -1562,34 +1845,73 @@
     <!-- ══════════════════════ FEED ══════════════════════ -->
     <div id="pg-feed" class="page block">
         <div style="max-width:480px;margin:0 auto;width:100%">
-            <div style="padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div
+                style="padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
                 <div style="display:flex;align-items:center;gap:9px">
-                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">🌍</div>
+                    <div
+                        style="width:32px;height:32px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">
+                        🌍</div>
                     <span style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">Campus Feed</span>
                 </div>
-                <button onclick="openNewPost()" style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+ Post</button>
+                <button onclick="openNewPost()"
+                    style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+
+                    Post</button>
             </div>
-            <div id="feed-filters" style="display:flex;gap:7px;overflow-x:auto;padding:0 16px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none"></div>
-            <div style="padding:0 16px 12px;display:flex;gap:8px">
-                <button id="feed-uni-all" onclick="setFeedUni('all')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(135deg,#a78bfa,#4fc3f7);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🌍 All Unis</button>
-                <button id="feed-uni-mine" onclick="setFeedUni('mine')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);font-size:11px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🎓 My Uni</button>
+            <!-- Feed / Explore Tab Toggle -->
+            <div style="display:flex;padding:0 16px;margin-bottom:12px;gap:6px">
+                <button id="feed-tab-feed" onclick="switchFeedTab('feed')"
+                    style="flex:1;padding:9px;border-radius:12px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.35);color:#a78bfa;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s">🌍
+                    Feed</button>
+                <button id="feed-tab-explore" onclick="switchFeedTab('explore')"
+                    style="flex:1;padding:9px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s">🗺️
+                    Explore</button>
             </div>
-            <div id="feed-list" style="padding:0 12px 100px"></div>
+            <!-- Feed view -->
+            <div id="feed-view">
+                <div id="feed-filters"
+                    style="display:flex;gap:7px;overflow-x:auto;padding:0 16px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+                </div>
+                <div style="padding:0 16px 12px;display:flex;gap:8px">
+                    <button id="feed-uni-all" onclick="setFeedUni('all')"
+                        style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(135deg,#a78bfa,#4fc3f7);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🌍
+                        All Unis</button>
+                    <button id="feed-uni-mine" onclick="setFeedUni('mine')"
+                        style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);font-size:11px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🎓
+                        My Uni</button>
+                </div>
+                <div id="feed-list" style="padding:0 12px 100px"></div>
+            </div><!-- /feed-view -->
+            <!-- Explore view -->
+            <div id="explore-view" style="display:none;padding-bottom:100px">
+                <div id="explore-wrap"></div>
+            </div>
         </div>
         <!-- New Post Sheet -->
-        <div id="new-post-sheet" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px)" onclick="if(event.target===this)closeNewPost()">
-            <div style="position:absolute;bottom:0;left:0;right:0;background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 40px;max-width:480px;margin:0 auto">
-                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
-                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:16px">What's on your mind?</h3>
-                <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;scrollbar-width:none" id="post-cat-picker"></div>
-                <textarea id="new-post-text" placeholder="Share something with campus…" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;padding:14px;resize:none;height:110px;outline:none;line-height:1.6"></textarea>
+        <div id="new-post-sheet"
+            style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px)"
+            onclick="if(event.target===this)closeNewPost()">
+            <div
+                style="position:absolute;bottom:0;left:0;right:0;background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 40px;max-width:480px;margin:0 auto">
+                <div
+                    style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px">
+                </div>
+                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:16px">What's on
+                    your mind?</h3>
+                <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;scrollbar-width:none"
+                    id="post-cat-picker"></div>
+                <textarea id="new-post-text" placeholder="Share something with campus…"
+                    style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;padding:14px;resize:none;height:110px;outline:none;line-height:1.6"></textarea>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
-                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.5)">
+                    <label
+                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.5)">
                         <input type="checkbox" id="post-anon" style="accent-color:#e8457a"> Post anonymously
                     </label>
-                    <button onclick="submitFeedPost()" style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;padding:12px 24px;cursor:pointer;font-family:'Sora',sans-serif">Post 🚀</button>
+                    <button onclick="submitFeedPost()"
+                        style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;padding:12px 24px;cursor:pointer;font-family:'Sora',sans-serif">Post
+                        🚀</button>
                 </div>
-                <p style="font-size:10px;color:rgba(255,255,255,.2);margin-top:10px;text-align:center">Be respectful. No false information about individuals or institutions.</p>
+                <p style="font-size:10px;color:rgba(255,255,255,.2);margin-top:10px;text-align:center">Be respectful. No
+                    false information about individuals or institutions.</p>
             </div>
         </div>
     </div>
@@ -1598,8 +1920,10 @@
     <!-- ══════════════════════ MATCHES ══════════════════════ -->
     <div id="pg-matches" class="page block">
         <div style="max-width:480px;margin:0 auto;padding:22px 16px 0;position:relative;z-index:1">
-            <h2 style="font-family:'Fraunces',serif;font-size:30px;font-weight:900;line-height:1.15;margin-bottom:4px">Your<br><em style="color:#e8457a;font-style:italic">Matches</em></h2>
-            <p id="m-sub" style="font-size:13px;color:rgba(255,255,255,.38);margin-bottom:24px;font-weight:300">Loading…</p>
+            <h2 style="font-family:'Fraunces',serif;font-size:30px;font-weight:900;line-height:1.15;margin-bottom:4px">
+                Your<br><em style="color:#e8457a;font-style:italic">Matches</em></h2>
+            <p id="m-sub" style="font-size:13px;color:rgba(255,255,255,.38);margin-bottom:24px;font-weight:300">Loading…
+            </p>
             <div id="m-content"></div>
         </div>
     </div>
@@ -1699,51 +2023,99 @@
     <!-- ══════════════════════ SAFETY SHEET ══════════════════════ -->
     <div class="safety-sheet" id="safety-sheet" onclick="if(event.target===this)closeSafety()">
         <div class="safety-inner">
-            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
-            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:900;margin-bottom:6px" id="safety-name">Report or Block</h3>
-            <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:18px">Your safety matters. All reports are reviewed.</p>
+            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px">
+            </div>
+            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:900;margin-bottom:6px" id="safety-name">
+                Report or Block</h3>
+            <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:18px">Your safety matters. All reports
+                are reviewed.</p>
 
             <button class="safety-opt" onclick="reportUser('inappropriate')">
                 <div class="s-ico" style="background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.2)">⚠️</div>
-                <div><div style="font-size:14px;font-weight:600">Inappropriate content</div><div style="font-size:12px;color:rgba(255,255,255,.35)">Offensive photos, bio or messages</div></div>
+                <div>
+                    <div style="font-size:14px;font-weight:600">Inappropriate content</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.35)">Offensive photos, bio or messages</div>
+                </div>
             </button>
             <button class="safety-opt" onclick="reportUser('harassment')">
                 <div class="s-ico" style="background:rgba(232,69,122,.12);border:1px solid rgba(232,69,122,.2)">🚫</div>
-                <div><div style="font-size:14px;font-weight:600">Harassment or threats</div><div style="font-size:12px;color:rgba(255,255,255,.35)">Bullying, threats or unwanted contact</div></div>
+                <div>
+                    <div style="font-size:14px;font-weight:600">Harassment or threats</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.35)">Bullying, threats or unwanted contact</div>
+                </div>
             </button>
             <button class="safety-opt" onclick="reportUser('fake')">
                 <div class="s-ico" style="background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.2)">👤</div>
-                <div><div style="font-size:14px;font-weight:600">Fake profile</div><div style="font-size:12px;color:rgba(255,255,255,.35)">Not a real student or impersonation</div></div>
+                <div>
+                    <div style="font-size:14px;font-weight:600">Fake profile</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.35)">Not a real student or impersonation</div>
+                </div>
             </button>
             <button class="safety-opt" onclick="reportUser('spam')">
-                <div class="s-ico" style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2)">📢</div>
-                <div><div style="font-size:14px;font-weight:600">Spam or scam</div><div style="font-size:12px;color:rgba(255,255,255,.35)">Selling something or suspicious links</div></div>
+                <div class="s-ico" style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2)">📢
+                </div>
+                <div>
+                    <div style="font-size:14px;font-weight:600">Spam or scam</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.35)">Selling something or suspicious links</div>
+                </div>
             </button>
 
             <div style="height:1px;background:rgba(255,255,255,.07);margin:12px 0"></div>
 
             <button class="safety-opt" onclick="blockUser()" style="color:#ff6b6b">
-                <div class="s-ico" style="background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.2)">🛑</div>
-                <div><div style="font-size:14px;font-weight:600;color:#ff6b6b">Block this person</div><div style="font-size:12px;color:rgba(255,255,255,.35)">They won't be able to see or contact you</div></div>
+                <div class="s-ico" style="background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.2)">🛑
+                </div>
+                <div>
+                    <div style="font-size:14px;font-weight:600;color:#ff6b6b">Block this person</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.35)">They won't be able to see or contact you
+                    </div>
+                </div>
             </button>
 
-            <button onclick="closeSafety()" style="width:100%;padding:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;margin-top:12px">Cancel</button>
+            <button onclick="closeSafety()"
+                style="width:100%;padding:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;margin-top:12px">Cancel</button>
         </div>
     </div>
 
     <!-- ══════════════════════ COMMUNITY GUIDELINES MODAL ══════════════════════ -->
-    <div class="safety-sheet" id="guidelines-sheet" onclick="if(event.target===this)Q('guidelines-sheet').classList.remove('on')">
+    <div class="safety-sheet" id="guidelines-sheet"
+        onclick="if(event.target===this)Q('guidelines-sheet').classList.remove('on')">
         <div class="safety-inner" style="max-height:80vh;overflow-y:auto">
-            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
-            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:900;margin-bottom:16px">🤝 Community Guidelines</h3>
-            <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.7)">
-                <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:12px;padding:12px"><strong style="color:#34d399">✓ Be respectful</strong><br>Treat every student with dignity. Harassment, hate speech and bullying will result in immediate removal.</div>
-                <div style="background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:12px;padding:12px"><strong style="color:#4fc3f7">✓ Be real</strong><br>Use your real name and photo. Fake profiles undermine trust for everyone.</div>
-                <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:12px;padding:12px"><strong style="color:#a78bfa">✓ Keep it appropriate</strong><br>No explicit content, no solicitation, no sharing of personal information without consent.</div>
-                <div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:12px;padding:12px"><strong style="color:#fbbf24">✓ Students only</strong><br>This platform is exclusively for enrolled university students. No outsiders.</div>
-                <div style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:12px;padding:12px"><strong style="color:#ff6b6b">✗ Zero tolerance</strong><br>Any form of sexual harassment, threats, or exploitation results in permanent ban and may be reported to university authorities.</div>
+            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px">
             </div>
-            <button onclick="Q('guidelines-sheet').classList.remove('on')" style="width:100%;padding:14px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;margin-top:20px">I understand →</button>
+            <h3 style="font-family:'Fraunces',serif;font-size:18px;font-weight:900;margin-bottom:16px">🤝 Community
+                Guidelines</h3>
+            <div
+                style="display:flex;flex-direction:column;gap:12px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.7)">
+                <div
+                    style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:12px;padding:12px">
+                    <strong style="color:#34d399">✓ Be respectful</strong><br>Treat every student with dignity.
+                    Harassment, hate speech and bullying will result in immediate removal.
+                </div>
+                <div
+                    style="background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:12px;padding:12px">
+                    <strong style="color:#4fc3f7">✓ Be real</strong><br>Use your real name and photo. Fake profiles
+                    undermine trust for everyone.
+                </div>
+                <div
+                    style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:12px;padding:12px">
+                    <strong style="color:#a78bfa">✓ Keep it appropriate</strong><br>No explicit content, no
+                    solicitation, no sharing of personal information without consent.
+                </div>
+                <div
+                    style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:12px;padding:12px">
+                    <strong style="color:#fbbf24">✓ Students only</strong><br>This platform is exclusively for enrolled
+                    university students. No outsiders.
+                </div>
+                <div
+                    style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:12px;padding:12px">
+                    <strong style="color:#ff6b6b">✗ Zero tolerance</strong><br>Any form of sexual harassment, threats,
+                    or exploitation results in permanent ban and may be reported to university authorities.
+                </div>
+            </div>
+            <button onclick="Q('guidelines-sheet').classList.remove('on')"
+                style="width:100%;padding:14px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;margin-top:20px">I
+                understand →</button>
         </div>
     </div>
 
@@ -1751,24 +2123,36 @@
     <!-- ══════════════════════ COMMUNITIES LIST ══════════════════════ -->
     <div id="pg-communities" class="page block">
         <div style="max-width:480px;margin:0 auto;width:100%">
-            <div style="padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div
+                style="padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
                 <div style="display:flex;align-items:center;gap:9px">
-                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">🏛️</div>
+                    <div
+                        style="width:32px;height:32px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px">
+                        🏛️</div>
                     <span style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">Communities</span>
                 </div>
-                <button onclick="openCreateComm()" style="background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+ Create</button>
+                <button onclick="openCreateComm()"
+                    style="background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+
+                    Create</button>
             </div>
             <div style="padding:0 16px 12px;position:relative">
                 <span style="position:absolute;left:28px;top:50%;transform:translateY(-50%);font-size:14px">🔍</span>
-                <input id="comm-search" placeholder="Search communities..." oninput="filterComms()" style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px 11px 38px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none"/>
+                <input id="comm-search" placeholder="Search communities..." oninput="filterComms()"
+                    style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px 11px 38px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none" />
             </div>
-            <div id="comm-cats" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none"></div>
+            <div id="comm-cats"
+                style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+            </div>
             <div style="padding:0 16px 8px">
-                <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">My Communities</div>
+                <div
+                    style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">
+                    My Communities</div>
                 <div id="my-comms" style="display:flex;flex-direction:column;gap:10px"></div>
             </div>
             <div style="padding:16px 16px 100px">
-                <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">Discover</div>
+                <div
+                    style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">
+                    Discover</div>
                 <div id="disc-comms" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
             </div>
         </div>
@@ -1776,49 +2160,75 @@
 
     <!-- ══════════════════════ COMMUNITY ROOM ══════════════════════ -->
     <div id="pg-comm-room" class="page block" style="padding-bottom:0">
-        <div id="comm-room-hdr" style="position:sticky;top:0;z-index:10;background:rgba(7,9,15,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08)"></div>
-        <div id="comm-room-tabs" style="display:flex;gap:6px;padding:8px 16px;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,.07);scrollbar-width:none;background:rgba(7,9,15,.95)"></div>
+        <div id="comm-room-hdr"
+            style="position:sticky;top:0;z-index:10;background:rgba(7,9,15,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08)">
+        </div>
+        <div id="comm-room-tabs"
+            style="display:flex;gap:6px;padding:8px 16px;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,.07);scrollbar-width:none;background:rgba(7,9,15,.95)">
+        </div>
         <div id="comm-room-content" style="padding:16px 16px 120px;min-height:60vh"></div>
-        <div id="comm-room-input" style="position:fixed;bottom:0;left:0;right:0;padding:10px 14px 32px;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto;z-index:10"></div>
+        <div id="comm-room-input"
+            style="position:fixed;bottom:0;left:0;right:0;padding:10px 14px 32px;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto;z-index:10">
+        </div>
     </div>
 
     <!-- ══════════════════════ CREATE COMMUNITY SHEET ══════════════════════ -->
-    <div id="create-comm-sheet" style="position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center" onclick="if(event.target===this)closeCreateComm()">
-        <div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto">
-            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
-            <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:6px">Create a Community</h3>
-            <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:20px">Any verified student can create. No explicit content allowed.</p>
+    <div id="create-comm-sheet"
+        style="position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center"
+        onclick="if(event.target===this)closeCreateComm()">
+        <div
+            style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto">
+            <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px">
+            </div>
+            <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:6px">Create a Community
+            </h3>
+            <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:20px">Any verified student can create. No
+                explicit content allowed.</p>
             <div style="margin-bottom:16px">
-                <label style="font-size:11px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:8px">Pick an Icon</label>
+                <label
+                    style="font-size:11px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:8px">Pick
+                    an Icon</label>
                 <div id="comm-emoji-picker" style="display:flex;gap:8px;flex-wrap:wrap"></div>
             </div>
-            <div class="field"><label class="lbl">Community Name</label><input class="inp" id="new-comm-name" placeholder="e.g. CS Students Hub" maxlength="40"/></div>
-            <div class="field"><label class="lbl">Description</label><textarea class="inp" id="new-comm-desc" placeholder="What is this community about?" style="height:80px" maxlength="160"></textarea></div>
+            <div class="field"><label class="lbl">Community Name</label><input class="inp" id="new-comm-name"
+                    placeholder="e.g. CS Students Hub" maxlength="40" /></div>
+            <div class="field"><label class="lbl">Description</label><textarea class="inp" id="new-comm-desc"
+                    placeholder="What is this community about?" style="height:80px" maxlength="160"></textarea></div>
             <div class="field">
                 <label class="lbl">Category</label>
                 <div id="new-comm-cat-btns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
                 <input type="checkbox" id="new-comm-private" style="accent-color:#a78bfa;width:16px;height:16px">
-                <label for="new-comm-private" style="font-size:13px;color:rgba(255,255,255,.6);cursor:pointer">Private community (invite only)</label>
+                <label for="new-comm-private" style="font-size:13px;color:rgba(255,255,255,.6);cursor:pointer">Private
+                    community (invite only)</label>
             </div>
-            <button onclick="submitCreateComm()" id="create-comm-btn" style="width:100%;padding:15px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Create Community 🏛️</button>
-            <p style="font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:10px">No explicit or adult content. Violations result in permanent ban.</p>
+            <button onclick="submitCreateComm()" id="create-comm-btn"
+                style="width:100%;padding:15px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Create
+                Community 🏛️</button>
+            <p style="font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:10px">No explicit or adult
+                content. Violations result in permanent ban.</p>
         </div>
     </div>
 
     <!-- NAV -->
     <nav id="nav">
-        <button class="ni on" id="n-discover" onclick="navTo('discover')"><span class="ico">🔍</span><span class="lbl2">Discover</span></button>
-        <button class="ni" id="n-communities" onclick="navTo('communities')"><span class="ico">🏛️</span><span class="lbl2">Communities</span></button>
-        <button class="ni" id="n-feed" onclick="navTo('feed')"><span class="ico">🌍</span><span class="lbl2">Feed</span></button>
-        <button class="ni" id="n-messages" onclick="navTo('messages')"><span class="ico">💬</span><span class="lbl2">Messages</span>
+        <button class="ni on" id="n-discover" onclick="navTo('discover')"><span class="ico">🔍</span><span
+                class="lbl2">Discover</span></button>
+        <button class="ni" id="n-communities" onclick="navTo('communities')"><span class="ico">🏛️</span><span
+                class="lbl2">Communities</span></button>
+        <button class="ni" id="n-feed" onclick="navTo('feed')"><span class="ico">🌍</span><span
+                class="lbl2">Feed</span></button>
+        <button class="ni" id="n-messages" onclick="navTo('messages')"><span class="ico">💬</span><span
+                class="lbl2">Messages</span>
             <div class="nbadge" id="nav-badge"></div>
         </button>
-        <button class="ni" id="n-profile" onclick="navTo('profile')"><span class="ico">👤</span><span class="lbl2">Profile</span></button>
+        <button class="ni" id="n-profile" onclick="navTo('profile')"><span class="ico">👤</span><span
+                class="lbl2">Profile</span></button>
     </nav>
 
-    
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
         // ══════════════════════════════════════════════
         // CONFIG
@@ -1872,7 +2282,7 @@
             el.classList.remove('pg-enter');
             void el.offsetWidth;
             el.classList.add('pg-enter');
-            const appPages = ['pg-discover', 'pg-communities', 'pg-comm-room', 'pg-matches', 'pg-messages', 'pg-profile'];
+            const appPages = ['pg-discover', 'pg-communities', 'pg-comm-room', 'pg-feed', 'pg-matches', 'pg-messages', 'pg-profile'];
             Q('nav').classList.toggle('on', appPages.includes(pid));
         }
         function tp(inp, btn) { const i = Q(inp); i.type = i.type === 'password' ? 'text' : 'password'; Q(btn).textContent = i.type === 'password' ? '👁' : '🙈'; }
@@ -2029,10 +2439,11 @@
                     const { error } = await sb.storage.from('avatars').upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
                     if (!error) { const { data } = sb.storage.from('avatars').getPublicUrl(path); avUrl = data.publicUrl; }
                     else { console.error('Avatar upload error:', error); toast('Photo upload failed — profile saved without photo', 'warn'); }
-                } catch(e) { console.error(e); }
+                } catch (e) { console.error(e); }
             }
             const upd = { full_name: san(Q('ps-name').value), username: san(Q('ps-user').value).toLowerCase(), date_of_birth: Q('ps-dob').value, gender: selGender, university_name: san(Q('ps-uni').value), course: san(Q('ps-course').value), year_of_study: YEARS.indexOf(selYear) + 1 || 1, bio: san(Q('ps-bio').value), interests: selInterests, ...(avUrl && { avatar_url: avUrl }) };
             await sb.from('profiles').update(upd).eq('id', USER.id); PROFILE = { ...PROFILE, ...upd };
+            haptic(HFX.success);
             H('ps5-name', `You're all set,<br><em style="color:#a78bfa;font-style:italic">${upd.full_name.split(' ')[0] || 'friend'}.</em>`);
             psGo(5); setTimeout(() => enterApp(), 1600);
         }
@@ -2113,14 +2524,14 @@
     ${p.is_founder ? `<div style="position:absolute;top:16px;left:16px;background:rgba(251,191,36,.2);border:1px solid rgba(251,191,36,.4);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;color:#fbbf24">✦ Founder</div>` : p.is_verified ? `<div style="position:absolute;top:16px;left:16px;background:rgba(52,211,153,.2);border:1px solid rgba(52,211,153,.4);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;color:#34d399">✓ Verified</div>` : ''}
     <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(7,9,15,1) 0%,rgba(7,9,15,.88) 40%,transparent 100%);padding:22px 18px 18px;pointer-events:none">
       <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
-        <h3 style="font-family:'Fraunces',serif;font-size:26px;font-weight:900;line-height:1">${p.full_name}</h3>
+        <h3 style="font-family:'Fraunces',serif;font-size:26px;font-weight:900;line-height:1">${esc(p.full_name)}</h3>
         ${p.age ? `<span style="font-size:13px;color:rgba(255,255,255,.5)">${p.age}</span>` : ''}
         <span style="font-size:12px;color:rgba(255,255,255,.38)">· ${ylbl(p.year_of_study)} Yr</span>
       </div>
       <p style="font-size:13px;color:rgba(255,255,255,.52);margin-bottom:9px">${p.course || ''} · ${p.university_name || ''}</p>
       ${ptags ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">${ptags}</div>` : ''}
       ${itags ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:${p.bio ? 8 : 0}px">${itags}</div>` : ''}
-      ${p.bio ? `<p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;font-style:italic">"${p.bio}"</p>` : ''}
+      ${p.bio ? `<p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;font-style:italic">"${esc(p.bio)}"</p>` : ''}
     </div>`;
             card.addEventListener('mousedown', e => dStart(e.clientX));
             card.addEventListener('touchstart', e => dStart(e.touches[0].clientX), { passive: true });
@@ -2136,6 +2547,7 @@
         async function swipe(dir) {
             if (!rateCheck('like')) return;
             if (discProc || discIdx >= discProfs.length) return; discProc = true;
+            haptic(dir === 'right' ? HFX.like : HFX.tap);
             const p = discProfs[discIdx]; const c = Q('disc-card');
             if (c) { c.style.transition = 'transform .38s cubic-bezier(.22,1,.36,1)'; c.style.transform = dir === 'right' ? 'translateX(140%) rotate(22deg)' : 'translateX(-140%) rotate(-22deg)'; }
             if (dir === 'right') await doLike(p);
@@ -2161,7 +2573,7 @@
             // If liked profile is a bot — auto match + send welcome message
             if (p.is_bot) {
                 // Bot likes back
-                await sb.from('likes').insert({ liker_id: p.id, liked_id: USER.id }).catch(() => {});
+                await sb.from('likes').insert({ liker_id: p.id, liked_id: USER.id }).catch(() => { });
 
                 // Create the match
                 const { data: newMatch } = await sb.from('matches').insert({ user_id: p.id, target_id: USER.id }).select('id').single();
@@ -2170,14 +2582,15 @@
                     // Bot sends welcome message after 3 seconds
                     setTimeout(async () => {
                         const msg = BOT_MESSAGES[Math.floor(Math.random() * BOT_MESSAGES.length)];
-                        await sb.from('messages').insert({ match_id: newMatch.id, sender_id: p.id, content: msg });
+                        await sb.from('messages').insert({ sender_id: p.id, receiver_id: USER.id, content: msg });
                         loadConvos(); // refresh inbox
                     }, 3000);
                 }
             }
         }
         function showMatchModal(p, mid) {
-            const mm = Q('match-modal'); H('mm-name', `You & ${p.full_name}`);
+            haptic(HFX.match);
+            const mm = Q('match-modal'); H('mm-name', `You & ${esc(p.full_name)}`);
             if (PROFILE?.avatar_url) Q('mm-my-av').innerHTML = `<img src="${PROFILE.avatar_url}" style="width:100%;height:100%;object-fit:cover">`;
             if (p.avatar_url) Q('mm-their-av').innerHTML = `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover">`;
             Q('mm-chat-btn').onclick = () => { closeMatchModal(); openChat(mid, p); }; mm.classList.add('on'); setTimeout(() => { const heart = mm.querySelector('#mm-heart'); if (heart) { heart.classList.remove('hb'); void heart.offsetWidth; heart.classList.add('hb'); } }, 100);
@@ -2219,7 +2632,7 @@
       ${list.map(m => `<div class="mcard" onclick="openChatById('${m.matchId}','${m.other.id}')">
         ${av(m.other.avatar_url, 56)}
         <div style="flex:1;min-width:0">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-size:14px;font-weight:600">${m.other.full_name}</span><span style="font-size:11px;color:rgba(255,255,255,.32)">${m.timeAgo}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-size:14px;font-weight:600">${esc(m.other.full_name)}</span><span style="font-size:11px;color:rgba(255,255,255,.32)">${m.timeAgo}</span></div>
           <div style="font-size:12px;color:rgba(255,255,255,.42);margin-bottom:5px">${m.other.course || ''} · ${m.other.university_name || ''}</div>
           ${m.goal ? `<span style="font-size:12px;color:${m.goal.color};font-weight:500">${m.goal.emoji} ${m.goal.title}</span>` : ''}
         </div>
@@ -2232,15 +2645,35 @@
         // MESSAGES
         // ══════════════════════════════════════════════
         async function loadConvos() {
-            const { data: matches } = await sb.from('matches').select(`id,created_at,user_id,target_id,profile_a:profiles!matches_user_id_fkey(id,full_name,avatar_url,course),profile_b:profiles!matches_target_id_fkey(id,full_name,avatar_url,course)`).or(`user_id.eq.${USER.id},target_id.eq.${USER.id}`).order('created_at', { ascending: false });
+            // messages table uses sender_id + receiver_id (no match_id)
+            // get all matches to know who we're connected with
+            const { data: matches } = await sb.from('matches')
+                .select(`id,created_at,user_id,target_id,
+                    profile_a:profiles!matches_user_id_fkey(id,full_name,avatar_url,course),
+                    profile_b:profiles!matches_target_id_fkey(id,full_name,avatar_url,course)`)
+                .or(`user_id.eq.${USER.id},target_id.eq.${USER.id}`)
+                .order('created_at', { ascending: false });
             if (!matches?.length) { convos = []; renderConvos(); return; }
             convos = await Promise.all(matches.map(async m => {
                 const other = m.user_id === USER.id ? m.profile_b : m.profile_a;
-                const { data: msgs } = await sb.from('messages').select('id,content,sender_id,is_read,created_at').eq('match_id', m.id).order('created_at', { ascending: false }).limit(1);
-                const { count } = await sb.from('messages').select('id', { count: 'exact', head: true }).eq('match_id', m.id).neq('sender_id', USER.id).eq('is_read', false);
+                if (!other) return null;
+                const otherId = other.id;
+                // fetch last message between me and this person
+                const { data: msgs } = await sb.from('messages')
+                    .select('id,content,sender_id,is_read,created_at')
+                    .or(`and(sender_id.eq.${USER.id},receiver_id.eq.${otherId}),and(sender_id.eq.${otherId},receiver_id.eq.${USER.id})`)
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+                // count unread messages sent TO me by this person
+                const { count } = await sb.from('messages')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('sender_id', otherId)
+                    .eq('receiver_id', USER.id)
+                    .eq('is_read', false);
                 return { matchId: m.id, other, lastMsg: msgs?.[0] || null, unread: count || 0 };
             }));
-            convos = convos.filter(c => c.other).sort((a, b) => (b.lastMsg?.created_at || '0').localeCompare(a.lastMsg?.created_at || '0'));
+            convos = convos.filter(Boolean).filter(c => c.other)
+                .sort((a, b) => (b.lastMsg?.created_at || b.matchId || '0').localeCompare(a.lastMsg?.created_at || a.matchId || '0'));
             renderConvos(); updateBadge();
         }
         function renderConvos() {
@@ -2264,7 +2697,7 @@
                 const last = c.lastMsg, isMe = last?.sender_id === USER.id; return `<div class="crow" onclick="openChatById('${c.matchId}','${c.other.id}')">
     <div style="position:relative;flex-shrink:0">${av(c.other.avatar_url, 52)}${c.unread > 0 ? `<div style="position:absolute;bottom:1px;right:1px;width:13px;height:13px;background:#34d399;border-radius:50%;border:2px solid #07090f"></div>` : ''}</div>
     <div style="flex:1;min-width:0">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:14px;font-weight:${c.unread ? 700 : 600};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.other.full_name}</span><span style="font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:8px">${fmtInbox(last?.created_at)}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:14px;font-weight:${c.unread ? 700 : 600};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.other.full_name)}</span><span style="font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:8px">${fmtInbox(last?.created_at)}</span></div>
       <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:${c.unread ? 'rgba(255,255,255,.72)' : 'rgba(255,255,255,.38)'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;font-weight:${c.unread ? 500 : 400}">${last ? (isMe ? 'You: ' : '') + last.content : "Matched! Say hello 👋"}</span>${c.unread ? `<span style="background:#e8457a;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;flex-shrink:0;margin-left:8px">${c.unread > 9 ? '9+' : c.unread}</span>` : ''}</div>
     </div>
   </div>`;
@@ -2281,19 +2714,38 @@
             chatMatchId = matchId; chatOther = other; chatMsgs = [];
             go('pg-chat');
             H('ch-av', av(other.avatar_url, 42));
-            H('ch-info', `<div style="font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${other.full_name}</div><div style="font-size:12px;color:rgba(255,255,255,.38)">${other.course || ''}</div>`);
+            H('ch-info', `<div style="font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(other.full_name)}</div><div style="font-size:12px;color:rgba(255,255,255,.38)">${other.course || ''}</div>`);
             Q('chat-inp').placeholder = `Message ${other.full_name?.split(' ')[0]}…`;
-            H('info-content', `<div style="text-align:center;margin-bottom:20px">${av(other.avatar_url, 80)}<div style="font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-top:14px;margin-bottom:3px">${other.full_name}</div><div style="font-size:13px;color:rgba(255,255,255,.4)">${other.course || ''} · ${other.university_name || ''}</div>${other.is_founder ? `<div style="margin-top:8px;display:inline-flex;align-items:center;gap:4px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.28);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:#fbbf24">✦ Founder</div>` : other.is_verified ? `<div style="margin-top:8px" class="vbadge">✓ Verified Student</div>` : ''}</div>${other.bio ? `<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:13px;margin-bottom:13px"><div class="slbl" style="margin-bottom:6px">Bio</div><p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.65">${other.bio}</p></div>` : ''}<div style="display:flex;gap:8px;flex-direction:column"><button onclick="doUnmatch()" style="padding:11px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);border-radius:11px;color:#ff6b6b;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🚫 Unmatch</button><button onclick="openSafety('${other.id}','${other.full_name}');closeInfo()" style="padding:11px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:11px;color:#fbbf24;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">⚠️ Report or Block</button></div>`);
+            H('info-content', `<div style="text-align:center;margin-bottom:20px">${av(other.avatar_url, 80)}<div style="font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin-top:14px;margin-bottom:3px">${esc(other.full_name)}</div><div style="font-size:13px;color:rgba(255,255,255,.4)">${other.course || ''} · ${other.university_name || ''}</div>${other.is_founder ? `<div style="margin-top:8px;display:inline-flex;align-items:center;gap:4px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.28);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:#fbbf24">✦ Founder</div>` : other.is_verified ? `<div style="margin-top:8px" class="vbadge">✓ Verified Student</div>` : ''}</div>${other.bio ? `<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:13px;margin-bottom:13px"><div class="slbl" style="margin-bottom:6px">Bio</div><p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.65">${esc(other.bio)}</p></div>` : ''}<div style="display:flex;gap:8px;flex-direction:column"><button onclick="doUnmatch()" style="padding:11px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);border-radius:11px;color:#ff6b6b;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🚫 Unmatch</button><button onclick="openSafety('${other.id}','${esc(other.full_name)}');closeInfo()" style="padding:11px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:11px;color:#fbbf24;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">⚠️ Report or Block</button></div>`);
             H('chat-qr', QUICK.map(r => `<button style="padding:8px 14px;border-radius:22px;border:1.5px solid rgba(232,69,122,.3);background:rgba(232,69,122,.07);color:rgba(255,255,255,.8);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;transition:all .15s;flex-shrink:0" onclick="sendMsg('${r.replace(/'/g, "\\'")}'">${r}</button>`).join(''));
             H('chat-msgs', `<div style="display:flex;justify-content:center;padding-top:40px"><div class="spin"></div></div>`);
-            const { data: hist } = await sb.from('messages').select('*').eq('match_id', matchId).order('created_at', { ascending: true });
+            // Load messages by sender/receiver pair (no match_id column in DB)
+            const otherId = other.id;
+            const { data: hist } = await sb.from('messages')
+                .select('*')
+                .or(`and(sender_id.eq.${USER.id},receiver_id.eq.${otherId}),and(sender_id.eq.${otherId},receiver_id.eq.${USER.id})`)
+                .order('created_at', { ascending: true });
             chatMsgs = hist || []; renderMsgs();
-            await sb.from('messages').update({ is_read: true }).eq('match_id', matchId).neq('sender_id', USER.id).eq('is_read', false);
+            // Mark messages from them as read
+            await sb.from('messages')
+                .update({ is_read: true })
+                .eq('sender_id', otherId)
+                .eq('receiver_id', USER.id)
+                .eq('is_read', false);
             updateBadge();
             if (chatCh) sb.removeChannel(chatCh);
-            chatCh = sb.channel(`chat-${matchId}`).on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `match_id=eq.${matchId}` }, pl => {
-                if (!chatMsgs.find(m => m.id === pl.new.id)) { chatMsgs.push(pl.new); renderMsgs(); if (pl.new.sender_id !== USER.id) { sb.from('messages').update({ is_read: true }).eq('id', pl.new.id); loadConvos(); } }
-            }).subscribe();
+            // Realtime: listen for new messages in this conversation
+            chatCh = sb.channel(`chat-${USER.id}-${otherId}`)
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, pl => {
+                    const msg = pl.new;
+                    const isMine = msg.sender_id === USER.id && msg.receiver_id === otherId;
+                    const isTheirs = msg.sender_id === otherId && msg.receiver_id === USER.id;
+                    if (!isMine && !isTheirs) return;
+                    if (!chatMsgs.find(m => m.id === msg.id)) {
+                        chatMsgs.push(msg); renderMsgs();
+                        if (isTheirs) { sb.from('messages').update({ is_read: true }).eq('id', msg.id); loadConvos(); }
+                    }
+                }).subscribe();
         }
         function leaveChat() { if (chatCh) sb.removeChannel(chatCh); go('pg-messages'); loadConvos(); }
         function renderMsgs() {
@@ -2305,7 +2757,7 @@
                 return `<div style="display:flex;align-items:flex-end;gap:8px;justify-content:${isMe ? 'flex-end' : 'flex-start'}">
       ${!isMe ? `<div style="width:28px;flex-shrink:0;opacity:${showAv ? 1 : 0}">${av(chatOther?.avatar_url, 28)}</div>` : ''}
       <div>
-        <div class="bub ${isMe ? 'bme' : 'bthem'}" style="opacity:${msg._temp ? .7 : 1}">${msg.content}</div>
+        <div class="bub ${isMe ? 'bme' : 'bthem'}" style="opacity:${msg._temp ? .7 : 1}">${esc(msg.content)}</div>
         <div style="font-size:10px;color:rgba(255,255,255,.22);margin-top:3px;text-align:${isMe ? 'right' : 'left'}">${msg._temp ? 'Sending…' : fmtT(msg.created_at)}${isMe && !msg._temp ? `<span style="margin-left:4px">${msg.is_read ? '✓✓' : '✓'}</span>` : ''}</div>
       </div>
     </div>`;
@@ -2316,12 +2768,17 @@
         function toggleEP() { const ep = Q('chat-ep'); ep.style.display = ep.style.display === 'flex' ? 'none' : 'flex'; }
         async function sendMsg(text) {
             if (!rateCheck('msg')) return;
-            const content = san(text || Q('chat-inp').value); if (!content || !chatMatchId) return;
+            const content = san(text || Q('chat-inp').value); if (!content || !chatOther) return;
+            haptic(HFX.send);
             Q('chat-inp').value = ''; updateSendBtn(); Q('chat-ep').style.display = 'none';
-            const tid = `t-${Date.now()}`; chatMsgs.push({ id: tid, sender_id: USER.id, content, created_at: new Date().toISOString(), is_read: false, _temp: true }); renderMsgs();
-            const { data, error } = await sb.from('messages').insert({ match_id: chatMatchId, sender_id: USER.id, content }).select().single();
+            const tid = `t-${Date.now()}`;
+            chatMsgs.push({ id: tid, sender_id: USER.id, receiver_id: chatOther.id, content, created_at: new Date().toISOString(), is_read: false, _temp: true });
+            renderMsgs();
+            const { data, error } = await sb.from('messages')
+                .insert({ sender_id: USER.id, receiver_id: chatOther.id, content })
+                .select().single();
             if (!error) { const i = chatMsgs.findIndex(m => m.id === tid); if (i > -1) chatMsgs[i] = data; renderMsgs(); loadConvos(); }
-            else { chatMsgs = chatMsgs.filter(m => m.id !== tid); renderMsgs(); }
+            else { chatMsgs = chatMsgs.filter(m => m.id !== tid); renderMsgs(); toast('Failed to send', 'err'); }
         }
         async function doUnmatch() { if (!confirm('Unmatch?')) return; await sb.from('matches').delete().eq('id', chatMatchId); closeInfo(); leaveChat(); }
         function toggleInfo() { const p = Q('info-panel'); p.classList.toggle('on'); Q('info-overlay').style.display = p.classList.contains('on') ? 'block' : 'none'; }
@@ -2335,8 +2792,8 @@
             const { count: mc2 } = await sb.from('matches').select('id', { count: 'exact', head: true }).or(`user_id.eq.${USER.id},target_id.eq.${USER.id}`);
             const { count: lc } = await sb.from('likes').select('id', { count: 'exact', head: true }).eq('liked_id', USER.id);
             H('prof-wrap', `
-    <div style="height:180px;background:linear-gradient(135deg,rgba(232,69,122,.35),rgba(167,139,250,.3),rgba(79,195,247,.25));position:relative;overflow:hidden">
-      ${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;opacity:.35">` : ''}
+    <div style="height:180px;${p.cover_url ? `background:url(${p.cover_url}) center/cover no-repeat` : 'background:linear-gradient(135deg,rgba(232,69,122,.35),rgba(167,139,250,.3),rgba(79,195,247,.25))'};position:relative;overflow:hidden">
+      ${!p.cover_url && p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover;opacity:.35">` : ''}
       <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,#07090f,transparent)"></div>
     </div>
     <div style="padding:0 20px;margin-top:-56px">
@@ -2354,7 +2811,7 @@
       <div style="margin-bottom:4px"><span style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;margin-right:9px">${p.full_name || ''}</span><span style="font-size:13px;color:rgba(255,255,255,.38)">@${p.username || ''}</span></div>
       <div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:8px">${p.course || ''} · ${p.university_name || ''}</div>
       <div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:18px">${ylbl(p.year_of_study)} Year · ${p.gender || ''}</div>
-      ${p.bio ? `<p style="font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:20px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid rgba(255,255,255,.07)">${p.bio}</p>` : ''}
+      ${p.bio ? `<p style="font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:20px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid rgba(255,255,255,.07)">${esc(p.bio)}</p>` : ''}
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px">
         ${[{ n: mc2 || 0, l: 'Matches', e: '💘' }, { n: lc || 0, l: 'Liked you', e: '👀' }, { n: p.interests?.length || 0, l: 'Interests', e: '✨' }].map(s => `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 10px;text-align:center"><div style="font-size:22px;margin-bottom:5px">${s.e}</div><div style="font-family:'Fraunces',serif;font-size:22px;font-weight:900">${s.n}</div><div style="font-size:11px;color:rgba(255,255,255,.38);margin-top:3px">${s.l}</div></div>`).join('')}
       </div>
@@ -2380,14 +2837,28 @@
             const p = PROFILE; if (!p) return;
             let eI = [...(p.interests || [])], eP = [...(p.purposes || [])], eG = p.gender || '', eY = YEARS[(p.year_of_study || 1) - 1] || '';
             H('prof-wrap', `
-    <div style="padding:56px 20px 0">
-      <button class="btn-back" onclick="renderProfile()">← Back</button>
-      <h2 style="font-family:'Fraunces',serif;font-size:26px;font-weight:900;margin-bottom:22px">Edit Profile</h2>
-      <div style="display:flex;justify-content:center;margin-bottom:16px">
-        <div class="av-ring" id="ep-av-ring" onclick="Q('ep-photo').click()" style="width:90px;height:90px">${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover">` : '<div style="text-align:center"><div style="font-size:24px">📷</div></div>'}</div>
+    <div style="padding:0 0 0">
+      <!-- Cover photo section -->
+      <div id="ep-cover-ring" onclick="Q('ep-cover').click()" style="width:100%;height:140px;background:${p.cover_url ? `url(${p.cover_url}) center/cover` : 'linear-gradient(135deg,rgba(232,69,122,.35),rgba(167,139,250,.3),rgba(79,195,247,.25))'};position:relative;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center">
+        <div style="background:rgba(0,0,0,.4);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#fff;backdrop-filter:blur(4px)">
+          🖼️ ${p.cover_url ? 'Change Cover' : 'Add Cover Photo'}
+        </div>
       </div>
-      <p id="ep-av-rm" style="${p.avatar_url ? '' : 'display:none;'}text-align:center;font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px"><span onclick="clearEpAv()" style="color:#e8457a;cursor:pointer">Remove photo</span></p>
+      <input type="file" id="ep-cover" accept="image/*" style="display:none" onchange="loadEpCover(event)"/>
+      <div style="padding:0 20px;margin-top:-40px;margin-bottom:20px">
+        <!-- Avatar over cover -->
+        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:20px">
+          <div class="av-ring" id="ep-av-ring" onclick="Q('ep-photo').click()" style="width:80px;height:80px;border:3px solid #07090f;flex-shrink:0">${p.avatar_url ? `<img src="${p.avatar_url}" style="width:100%;height:100%;object-fit:cover">` : '<div style="text-align:center"><div style="font-size:22px">📷</div></div>'}</div>
+          <div style="padding-bottom:8px">
+            <p id="ep-av-rm" style="${p.avatar_url ? '' : 'display:none;'}font-size:11px;color:rgba(255,255,255,.35);margin-bottom:4px"><span onclick="clearEpAv()" style="color:#e8457a;cursor:pointer">Remove photo</span></p>
+            <p style="font-size:11px;color:rgba(255,255,255,.3)">Tap photo to change</p>
+          </div>
+        </div>
+      </div>
       <input type="file" id="ep-photo" accept="image/*" style="display:none" onchange="loadEpAv(event)"/>
+      <div style="padding:0 20px">
+      <button class="btn-back" onclick="renderProfile()" style="margin-bottom:16px">← Back to Profile</button>
+      <h2 style="font-family:'Fraunces',serif;font-size:22px;font-weight:900;margin-bottom:20px">Edit Profile</h2>
       <div class="field"><label class="lbl">Full Name</label><input class="inp" id="ep-name" value="${p.full_name || ''}"/></div>
       <div class="field"><label class="lbl">Username</label><div style="position:relative"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.3)">@</span><input class="inp" id="ep-user" value="${p.username || ''}" style="padding-left:30px" oninput="this.value=this.value.replace(/[^a-zA-Z0-9_]/g,'').toLowerCase()"/></div></div>
       <div class="field"><label class="lbl">Bio</label><textarea class="inp" id="ep-bio" style="height:88px" maxlength="200">${p.bio || ''}</textarea></div>
@@ -2397,20 +2868,24 @@
       <div class="field"><label class="lbl">Gender</label><div style="display:flex;gap:7px;flex-wrap:wrap" id="ep-genders"></div></div>
       <div class="field"><label class="lbl">Goals</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="ep-goals"></div></div>
       <div class="field"><label class="lbl">Interests (max 8)</label><div id="ep-chips"></div></div>
-      <button class="btn" id="ep-save" onclick="saveEdit()" style="margin-top:8px">Save Changes</button>
+      <button class="btn" id="ep-save" onclick="saveEdit()" style="margin-top:8px">Save Changes ✓</button>
       <button class="btn btn-ghost" onclick="renderProfile()" style="margin-top:8px">Cancel</button>
-      <div style="height:20px"></div>
+      <div style="height:40px"></div>
+      </div>
     </div>`);
             const yc = Q('ep-years'); YEARS.forEach(y => { const b = document.createElement('button'); b.className = 'tog'; b.style.background = y === eY ? 'rgba(79,195,247,.12)' : ''; b.style.borderColor = y === eY ? 'rgba(79,195,247,.38)' : ''; b.style.color = y === eY ? '#fff' : ''; b.textContent = y; b.onclick = () => { eY = y; yc.querySelectorAll('.tog').forEach(x => { x.style.background = ''; x.style.borderColor = ''; x.style.color = ''; }); b.style.background = 'rgba(79,195,247,.12)'; b.style.borderColor = 'rgba(79,195,247,.38)'; b.style.color = '#fff'; }; yc.appendChild(b); });
             const gc = Q('ep-genders'); GENDERS.forEach(g => { const b = document.createElement('button'); b.className = 'tog'; b.style.background = g === eG ? 'rgba(167,139,250,.15)' : ''; b.style.borderColor = g === eG ? 'rgba(167,139,250,.4)' : ''; b.style.color = g === eG ? '#fff' : ''; b.textContent = g; b.onclick = () => { eG = g; gc.querySelectorAll('.tog').forEach(x => { x.style.background = ''; x.style.borderColor = ''; x.style.color = ''; }); b.style.background = 'rgba(167,139,250,.15)'; b.style.borderColor = 'rgba(167,139,250,.4)'; b.style.color = '#fff'; }; gc.appendChild(b); });
             const glc = Q('ep-goals'); PURPOSES.forEach(pp => { const on = eP.includes(pp.id); const d = document.createElement('div'); d.style.cssText = `padding:11px;border-radius:12px;cursor:pointer;border:1.5px solid ${on ? pp.bdr : 'rgba(255,255,255,.07)'};background:${on ? pp.bg : 'rgba(255,255,255,.03)'};text-align:center;transition:all .18s`; d.innerHTML = `<div style="font-size:18px">${pp.emoji}</div><div style="font-size:11px;font-weight:600;color:${on ? pp.color : 'rgba(255,255,255,.55)'};margin-top:4px;line-height:1.3">${pp.title}</div>`; d.onclick = () => { const i = eP.indexOf(pp.id); if (i > -1) eP.splice(i, 1); else eP.push(pp.id); const s = eP.includes(pp.id); d.style.borderColor = s ? pp.bdr : 'rgba(255,255,255,.07)'; d.style.background = s ? pp.bg : 'rgba(255,255,255,.03)'; d.querySelector('div:last-child').style.color = s ? pp.color : 'rgba(255,255,255,.55)'; }; glc.appendChild(d); });
             const ic = Q('ep-chips'); INTERESTS.forEach(i => { const on = eI.includes(i); const s = document.createElement('span'); s.className = 'chip' + (on ? ' on' : ''); s.textContent = i; s.onclick = () => { const idx = eI.indexOf(i); if (idx > -1) { eI.splice(idx, 1); s.classList.remove('on'); } else if (eI.length < 8) { eI.push(i); s.classList.add('on'); } ic.querySelectorAll('.chip').forEach(c => { c.style.opacity = eI.length >= 8 && !eI.includes(c.textContent) ? '.4' : '1'; }); }; ic.appendChild(s); });
             let epAvFile = null;
-            window.loadEpAv = e => { const f = e.target.files[0]; if (!f) return; epAvFile = f; const r = new FileReader(); r.onload = ev => { Q('ep-av-ring').innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover">`; Q('ep-av-rm').style.display = 'block'; }; r.readAsDataURL(f); };
+            window.loadEpAv = e => { const f = e.target.files[0]; if (!f) return; epAvFile = f; const r = new FileReader(); r.onload = ev => { Q('ep-av-ring').innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover">`; Q('ep-av-rm').style.display = 'block'; haptic(HFX.tap); }; r.readAsDataURL(f); };
             window.clearEpAv = () => { epAvFile = null; Q('ep-av-ring').innerHTML = '<div style="text-align:center"><div style="font-size:24px">📷</div></div>'; Q('ep-av-rm').style.display = 'none'; };
+            let epCoverFile = null;
+            window.loadEpCover = e => { const f = e.target.files[0]; if (!f) return; epCoverFile = f; const r = new FileReader(); r.onload = ev => { const ring = Q('ep-cover-ring'); if (ring) { ring.style.backgroundImage = `url(${ev.target.result})`; ring.style.backgroundSize = 'cover'; ring.style.backgroundPosition = 'center'; ring.innerHTML = ''; } haptic(HFX.tap); }; r.readAsDataURL(f); };
             window.saveEdit = async () => {
                 const b = Q('ep-save'); b.disabled = true; b.textContent = 'Saving…';
                 let avUrl = PROFILE.avatar_url;
+                let coverUrl = PROFILE.cover_url || null;
                 if (epAvFile) {
                     try {
                         const compressed = await compressImage(epAvFile);
@@ -2418,10 +2893,21 @@
                         await sb.storage.from('avatars').upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
                         const { data } = sb.storage.from('avatars').getPublicUrl(path);
                         avUrl = data.publicUrl;
-                    } catch(e) { console.error(e); toast('Photo upload failed', 'warn'); }
+                    } catch (e) { console.error(e); toast('Photo upload failed', 'warn'); }
                 }
-                const upd = { full_name: Q('ep-name').value.trim(), username: Q('ep-user').value.trim().toLowerCase(), bio: Q('ep-bio').value.trim(), university_name: Q('ep-uni').value.trim(), course: Q('ep-course').value.trim(), year_of_study: YEARS.indexOf(eY) + 1 || 1, gender: eG, interests: eI, purposes: eP, avatar_url: avUrl };
+                if (epCoverFile) {
+                    try {
+                        const compressed = await compressImage(epCoverFile, 1200, 0.8);
+                        const path = `covers/${USER.id}/${Date.now()}.jpg`;
+                        await sb.storage.from('avatars').upload(path, compressed, { upsert: true, contentType: 'image/jpeg' });
+                        const { data } = sb.storage.from('avatars').getPublicUrl(path);
+                        coverUrl = data.publicUrl;
+                    } catch (e) { console.error(e); toast('Cover upload failed', 'warn'); }
+                }
+                const upd = { full_name: Q('ep-name').value.trim(), username: Q('ep-user').value.trim().toLowerCase(), bio: Q('ep-bio').value.trim(), university_name: Q('ep-uni').value.trim(), course: Q('ep-course').value.trim(), year_of_study: YEARS.indexOf(eY) + 1 || 1, gender: eG, interests: eI, purposes: eP, avatar_url: avUrl, cover_url: coverUrl };
                 await sb.from('profiles').update(upd).eq('id', USER.id); PROFILE = { ...PROFILE, ...upd };
+                haptic(HFX.success);
+                toast('Profile updated! ✨', 'ok');
                 renderProfile();
             };
         }
@@ -2431,14 +2917,14 @@
             const t = document.createElement('div'); t.className = `toast toast-${type}`; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('show'), 10); setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3000);
         }
         // Compress image before upload for speed
-        function compressImage(file, maxWidth=800, quality=0.75) {
+        function compressImage(file, maxWidth = 800, quality = 0.75) {
             return new Promise(resolve => {
                 const reader = new FileReader();
                 reader.onload = e => {
                     const img = new Image();
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const ratio = Math.min(maxWidth/img.width, maxWidth/img.height, 1);
+                        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height, 1);
                         canvas.width = img.width * ratio;
                         canvas.height = img.height * ratio;
                         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -2451,30 +2937,81 @@
         }
 
         function pwStrength(pw) { let s = 0; if (pw.length >= 8) s++; if (/[0-9]/.test(pw)) s++; if (/[^a-zA-Z0-9]/.test(pw)) s++; return s; }
-        const rL = {}; function rateCheck(type, src = 'app', lim = 10, win = 60000) { const k = `${type}-${src}`; const now = Date.now(); if (!rL[k]) rL[k] = []; rL[k] = rL[k].filter(t => now - t < win); if (rL[k].length >= lim) { toast('Too many requests, try again later', 'warn'); return false; } rL[k].push(now); return true; }
+        const rL = {};
+        function rateCheck(type, src = 'app', lim, win = 60000) {
+            // Per-type rate limits: messages get a generous limit, others are tighter
+            const limits = { msg: 60, like: 30, signup: 5, login: 8, post: 10 };
+            const cap = lim ?? limits[type] ?? 15;
+            const k = `${type}-${src}`; const now = Date.now();
+            if (!rL[k]) rL[k] = [];
+            rL[k] = rL[k].filter(t => now - t < win);
+            if (rL[k].length >= cap) { toast('Slow down a little 😅', 'warn'); return false; }
+            rL[k].push(now); return true;
+        }
+
+        // ── HAPTIC FEEDBACK ──
+        function haptic(pattern) {
+            try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) { }
+        }
+        // Preset patterns
+        const HFX = {
+            tap: 8,
+            send: [6, 20, 6],
+            match: [40, 60, 40, 60, 80],
+            like: [12, 30, 12],
+            success: [10, 40, 20],
+            error: [30, 20, 30]
+        };
 
         function verifyBadge(p) {
             if (p.is_founder) return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.35);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;color:#fbbf24">✦</span>';
             if (p.is_verified) return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.28);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;color:#34d399">✓</span>';
             return '';
         }
-        function san(str) { const tmp = document.createElement('div'); tmp.textContent = str; return tmp.innerHTML; }
+        // ── XSS PROTECTION ──
+        // san() = sanitize INPUT going INTO the database (strips tags)
+        // esc() = escape OUTPUT coming FROM the database before injecting into innerHTML
+        function san(str) {
+            if (!str) return '';
+            const tmp = document.createElement('div');
+            tmp.textContent = String(str).trim().slice(0, 5000);
+            return tmp.innerHTML;
+        }
+        // esc() must be used on EVERY user-supplied field rendered via innerHTML
+        function esc(str) {
+            if (str == null) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#x27;')
+                .replace(/\//g, '&#x2F;');
+        }
+        // Validate: returns true if string passes basic safety check
+        function isClean(str, maxLen = 1000) {
+            if (!str || typeof str !== 'string') return false;
+            if (str.length > maxLen) return false;
+            // Block script injection attempts
+            if (/<script|javascript:|on\w+\s*=|data:/i.test(str)) return false;
+            return true;
+        }
 
         // ══════════════════════════════════════════════
         // COMMUNITIES
         // ══════════════════════════════════════════════
         const COMM_CATS = [
-            { id: 'academic',    emoji: '🎓', label: 'Academic',    color: '#4fc3f7' },
-            { id: 'social',      emoji: '🎉', label: 'Social',      color: '#e8457a' },
-            { id: 'sports',      emoji: '⚽', label: 'Sports',      color: '#34d399' },
-            { id: 'career',      emoji: '💼', label: 'Career',      color: '#fbbf24' },
-            { id: 'gaming',      emoji: '🎮', label: 'Gaming',      color: '#a78bfa' },
-            { id: 'dating',      emoji: '💘', label: 'Dating',      color: '#f472b6' },
-            { id: 'nightlife',   emoji: '🌙', label: 'Nightlife',   color: '#f7915a' },
+            { id: 'academic', emoji: '🎓', label: 'Academic', color: '#4fc3f7' },
+            { id: 'social', emoji: '🎉', label: 'Social', color: '#e8457a' },
+            { id: 'sports', emoji: '⚽', label: 'Sports', color: '#34d399' },
+            { id: 'career', emoji: '💼', label: 'Career', color: '#fbbf24' },
+            { id: 'gaming', emoji: '🎮', label: 'Gaming', color: '#a78bfa' },
+            { id: 'dating', emoji: '💘', label: 'Dating', color: '#f472b6' },
+            { id: 'nightlife', emoji: '🌙', label: 'Nightlife', color: '#f7915a' },
             { id: 'confessions', emoji: '🤫', label: 'Confessions', color: '#94a3b8' },
         ];
-        const COMM_EMOJIS = ['🎓','💻','⚽','🎮','🎵','📚','🏋️','🎨','🌍','💘','🔥','🚀','🎭','🍔','🧘','💼','🤝','🎤'];
-        const COMM_COLORS = ['#4fc3f7','#e8457a','#a78bfa','#34d399','#fbbf24','#f7915a','#f472b6'];
+        const COMM_EMOJIS = ['🎓', '💻', '⚽', '🎮', '🎵', '📚', '🏋️', '🎨', '🌍', '💘', '🔥', '🚀', '🎭', '🍔', '🧘', '💼', '🤝', '🎤'];
+        const COMM_COLORS = ['#4fc3f7', '#e8457a', '#a78bfa', '#34d399', '#fbbf24', '#f7915a', '#f472b6'];
         let allComms = [], joinedCommIds = new Set(), activeCommId = null, activeChannel = 'feed', commCh = null;
         let selCommCat = 'social', selCommEmoji = '🎓', commCatFilter = 'all';
 
@@ -2492,15 +3029,15 @@
 
         function buildCommCats() {
             const el = Q('comm-cats'); if (!el || el.children.length) return;
-            [{ id:'all', label:'✦ All', color:'#a78bfa', emoji:'' }, ...COMM_CATS].forEach((c, i) => {
+            [{ id: 'all', label: '✦ All', color: '#a78bfa', emoji: '' }, ...COMM_CATS].forEach((c, i) => {
                 const b = document.createElement('button');
                 b.id = `cc-${c.id}`;
-                b.style.cssText = `padding:7px 14px;border-radius:20px;border:1px solid ${i===0?'rgba(167,139,250,.35)':'rgba(255,255,255,.1)'};background:${i===0?'rgba(167,139,250,.15)':'rgba(255,255,255,.05)'};color:${i===0?'#a78bfa':'rgba(255,255,255,.5)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0`;
-                b.textContent = `${c.emoji||''} ${c.label}`.trim();
+                b.style.cssText = `padding:7px 14px;border-radius:20px;border:1px solid ${i === 0 ? 'rgba(167,139,250,.35)' : 'rgba(255,255,255,.1)'};background:${i === 0 ? 'rgba(167,139,250,.15)' : 'rgba(255,255,255,.05)'};color:${i === 0 ? '#a78bfa' : 'rgba(255,255,255,.5)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0`;
+                b.textContent = `${c.emoji || ''} ${c.label}`.trim();
                 b.onclick = () => {
                     commCatFilter = c.id;
-                    document.querySelectorAll('[id^="cc-"]').forEach(x => { x.style.background='rgba(255,255,255,.05)'; x.style.color='rgba(255,255,255,.5)'; x.style.borderColor='rgba(255,255,255,.1)'; });
-                    b.style.background=`${c.color||'#a78bfa'}22`; b.style.color=c.color||'#a78bfa'; b.style.borderColor=`${c.color||'#a78bfa'}44`;
+                    document.querySelectorAll('[id^="cc-"]').forEach(x => { x.style.background = 'rgba(255,255,255,.05)'; x.style.color = 'rgba(255,255,255,.5)'; x.style.borderColor = 'rgba(255,255,255,.1)'; });
+                    b.style.background = `${c.color || '#a78bfa'}22`; b.style.color = c.color || '#a78bfa'; b.style.borderColor = `${c.color || '#a78bfa'}44`;
                     renderComms(allComms);
                 };
                 el.appendChild(b);
@@ -2512,7 +3049,7 @@
         function renderComms(comms, search = '') {
             let filtered = comms.filter(c => {
                 const matchCat = commCatFilter === 'all' || c.category === commCatFilter;
-                const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || (c.description||'').toLowerCase().includes(search.toLowerCase());
+                const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || (c.description || '').toLowerCase().includes(search.toLowerCase());
                 return matchCat && matchSearch;
             });
             const myList = filtered.filter(c => joinedCommIds.has(c.id));
@@ -2525,10 +3062,10 @@
         function commRowHTML(c) {
             const col = c.color || '#a78bfa';
             return `<div onclick="openCommRoom('${c.id}')" style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;cursor:pointer;margin-bottom:8px">
-                <div style="width:48px;height:48px;border-radius:14px;background:${col}22;border:1px solid ${col}44;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${c.emoji||'🏛️'}</div>
+                <div style="width:48px;height:48px;border-radius:14px;background:${col}22;border:1px solid ${col}44;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${c.emoji || '🏛️'}</div>
                 <div style="flex:1;min-width:0">
                     <div style="font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
-                    <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">${c.member_count||0} members · ${c.category}</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">${c.member_count || 0} members · ${c.category}</div>
                 </div>
                 <div style="font-size:18px;color:rgba(255,255,255,.3)">›</div>
             </div>`;
@@ -2538,11 +3075,11 @@
             const col = c.color || '#a78bfa';
             const joined = joinedCommIds.has(c.id);
             return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;cursor:pointer" onclick="openCommRoom('${c.id}')">
-                <div style="height:72px;background:${col}22;display:flex;align-items:center;justify-content:center;font-size:32px;border-bottom:1px solid ${col}33">${c.emoji||'🏛️'}</div>
+                <div style="height:72px;background:${col}22;display:flex;align-items:center;justify-content:center;font-size:32px;border-bottom:1px solid ${col}33">${c.emoji || '🏛️'}</div>
                 <div style="padding:10px 12px 12px">
                     <div style="font-size:13px;font-weight:700;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
-                    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:8px">${c.member_count||0} members</div>
-                    <button onclick="event.stopPropagation();toggleJoinComm('${c.id}',this)" style="width:100%;padding:7px;background:${joined?col+'22':'rgba(255,255,255,.06)'};border:1px solid ${joined?col+'44':'rgba(255,255,255,.12)'};border-radius:10px;color:${joined?col:'rgba(255,255,255,.6)'};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">${joined?'✓ Joined':'+ Join'}</button>
+                    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:8px">${c.member_count || 0} members</div>
+                    <button onclick="event.stopPropagation();toggleJoinComm('${c.id}',this)" style="width:100%;padding:7px;background:${joined ? col + '22' : 'rgba(255,255,255,.06)'};border:1px solid ${joined ? col + '44' : 'rgba(255,255,255,.12)'};border-radius:10px;color:${joined ? col : 'rgba(255,255,255,.6)'};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">${joined ? '✓ Joined' : '+ Join'}</button>
                 </div>
             </div>`;
         }
@@ -2550,11 +3087,11 @@
         async function toggleJoinComm(commId, btn) {
             if (joinedCommIds.has(commId)) { openCommRoom(commId); return; }
             joinedCommIds.add(commId);
-            const col = allComms.find(c=>c.id===commId)?.color || '#a78bfa';
-            if (btn) { btn.textContent = '✓ Joined'; btn.style.background=col+'22'; btn.style.borderColor=col+'44'; btn.style.color=col; }
-            await sb.from('community_members').insert({ community_id: commId, user_id: USER.id }).catch(()=>{});
-            const comm = allComms.find(c=>c.id===commId);
-            if (comm) { comm.member_count = (comm.member_count||0)+1; await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(()=>{}); }
+            const col = allComms.find(c => c.id === commId)?.color || '#a78bfa';
+            if (btn) { btn.textContent = '✓ Joined'; btn.style.background = col + '22'; btn.style.borderColor = col + '44'; btn.style.color = col; }
+            await sb.from('community_members').insert({ community_id: commId, user_id: USER.id }).catch(() => { });
+            const comm = allComms.find(c => c.id === commId);
+            if (comm) { comm.member_count = (comm.member_count || 0) + 1; await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => { }); }
             toast('Joined! 🎉', 'ok');
         }
 
@@ -2571,18 +3108,18 @@
 
             H('comm-room-hdr', `<div style="padding:14px 16px;display:flex;align-items:center;gap:12px">
                 <button onclick="navTo('communities')" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;padding:4px;flex-shrink:0">←</button>
-                <div style="width:36px;height:36px;border-radius:10px;background:${col}22;border:1px solid ${col}44;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${comm.emoji||'🏛️'}</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:${col}22;border:1px solid ${col}44;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${comm.emoji || '🏛️'}</div>
                 <div style="flex:1;min-width:0">
-                    <div style="font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${comm.name}</div>
-                    <div style="font-size:12px;color:rgba(255,255,255,.4)">${comm.member_count||0} members</div>
+                    <div style="font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(comm.name)}</div>
+                    <div style="font-size:12px;color:rgba(255,255,255,.4)">${comm.member_count || 0} members</div>
                 </div>
                 ${!joined ? `<button onclick="toggleJoinComm('${commId}',this)" style="padding:8px 16px;background:${col}22;border:1px solid ${col}44;border-radius:20px;color:${col};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">+ Join</button>` : ''}
             </div>`);
 
-            H('comm-room-tabs', ['📋 Feed','💬 Chat','ℹ️ About'].map((tab,i) => {
-                const id = ['feed','chat','about'][i];
+            H('comm-room-tabs', ['📋 Feed', '💬 Chat', 'ℹ️ About'].map((tab, i) => {
+                const id = ['feed', 'chat', 'about'][i];
                 const active = id === 'feed';
-                return `<button onclick="switchCommChannel('${commId}','${id}',this,'${col}')" style="padding:7px 14px;border-radius:14px;background:${active?col+'22':'transparent'};border:1px solid ${active?col+'44':'transparent'};color:${active?col:'rgba(255,255,255,.4)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0">${tab}</button>`;
+                return `<button onclick="switchCommChannel('${commId}','${id}',this,'${col}')" style="padding:7px 14px;border-radius:14px;background:${active ? col + '22' : 'transparent'};border:1px solid ${active ? col + '44' : 'transparent'};color:${active ? col : 'rgba(255,255,255,.4)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0">${tab}</button>`;
             }).join(''));
 
             loadCommChannel(commId, 'feed', col);
@@ -2590,8 +3127,8 @@
 
         function switchCommChannel(commId, channel, btn, col) {
             activeChannel = channel;
-            document.querySelectorAll('#comm-room-tabs button').forEach(b => { b.style.background='transparent'; b.style.borderColor='transparent'; b.style.color='rgba(255,255,255,.4)'; });
-            btn.style.background=col+'22'; btn.style.borderColor=col+'44'; btn.style.color=col;
+            document.querySelectorAll('#comm-room-tabs button').forEach(b => { b.style.background = 'transparent'; b.style.borderColor = 'transparent'; b.style.color = 'rgba(255,255,255,.4)'; });
+            btn.style.background = col + '22'; btn.style.borderColor = col + '44'; btn.style.color = col;
             loadCommChannel(commId, channel, col);
         }
 
@@ -2631,21 +3168,22 @@
                 }
                 content.innerHTML = data.map(post => {
                     const name = post.is_anonymous ? 'Anonymous' : (post.profiles?.full_name || 'Student');
+                    const isMe = post.author_id === USER?.id;
                     const avHtml = post.is_anonymous ? `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>` :
-                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0">` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
-                    const badge = post.is_anonymous ? '' : verifyBadge(post.profiles||{});
+                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:${isMe ? 'default' : 'pointer'}" ${isMe ? '' : 'onclick="showCommProfile(\'' + post.author_id + '\',\'' + post.profiles.full_name + '\')"'}>` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
+                    const badge = post.is_anonymous ? '' : verifyBadge(post.profiles || {});
                     return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:10px">
                         <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
                             ${avHtml}
-                            <div style="flex:1;min-width:0">
+                            <div style="flex:1;min-width:0;${!post.is_anonymous && !isMe ? 'cursor:pointer' : ''}" ${!post.is_anonymous && !isMe ? `onclick="showCommProfile('${post.author_id}','${name}')"` : ''}>
                                 <div style="display:flex;align-items:center;gap:5px"><span style="font-size:13px;font-weight:600">${name}</span>${badge}</div>
                                 <div style="font-size:11px;color:rgba(255,255,255,.35)">${tAgo(post.created_at)}</div>
                             </div>
-                            ${post.author_id === USER?.id ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px">🗑</button>` : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`}
+                            ${isMe ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px">🗑</button>` : (!post.is_anonymous ? `<button onclick="showCommProfile('${post.author_id}','${name}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.25);border-radius:20px;padding:5px 10px;color:#e8457a;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 DM</button>` : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`)}
                         </div>
-                        <p style="font-size:14px;color:rgba(255,255,255,.82);line-height:1.65;margin-bottom:12px">${post.content}</p>
+                        <p style="font-size:14px;color:rgba(255,255,255,.82);line-height:1.65;margin-bottom:12px">${esc(post.content)}</p>
                         <div style="display:flex;align-items:center;gap:10px">
-                            <button onclick="upvotePost('${post.id}',this,'${col}')" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">▲ <span>${post.upvotes||0}</span></button>
+                            <button onclick="upvotePost('${post.id}',this,'${col}')" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">▲ <span>${post.upvotes || 0}</span></button>
                             <button onclick="toggleCommComments('${post.id}',this,'${col}')" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">💬 Comment</button>
                         </div>
                         <div id="comm-comments-${post.id}" style="display:none;margin-top:10px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px"></div>
@@ -2658,11 +3196,11 @@
                 if (chatBar) chatBar.style.display = 'block';
                 content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
                 const { data } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('community_id', commId).order('created_at', { ascending: true }).limit(100);
-                renderCommChat(data||[], col);
+                renderCommChat(data || [], col);
                 setTimeout(() => { if (content) content.scrollTop = content.scrollHeight; }, 50);
                 if (commCh) sb.removeChannel(commCh);
                 commCh = sb.channel(`comm-chat-${commId}`)
-                    .on('postgres_changes', { event:'INSERT', schema:'public', table:'community_messages', filter:`community_id=eq.${commId}` }, async pl => {
+                    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `community_id=eq.${commId}` }, async pl => {
                         const { data: msg } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('id', pl.new.id).single();
                         if (msg) appendCommMsg(msg, col);
                     }).subscribe();
@@ -2678,10 +3216,12 @@
         function commMsgHTML(m, col) {
             const isMe = m.sender_id === USER?.id;
             const name = m.profiles?.full_name || 'Student';
-            const badge = verifyBadge(m.profiles||{});
-            const avHtml = m.profiles?.avatar_url ? `<img src="${m.profiles.avatar_url}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0">` : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">👤</div>`;
-            if (isMe) return `<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><div style="max-width:75%"><div style="background:linear-gradient(135deg,${col},${col}cc);color:#fff;border-radius:18px 18px 5px 18px;padding:10px 14px;font-size:14px;line-height:1.5">${m.content}</div><div style="font-size:10px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
-            return `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:4px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6)">${name}</span>${badge}</div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${m.content}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
+            const badge = verifyBadge(m.profiles || {});
+            const avHtml = m.profiles?.avatar_url
+                ? `<img src="${m.profiles.avatar_url}" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles.avatar_url}')" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:pointer">`
+                : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">👤</div>`;
+            if (isMe) return `<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><div style="max-width:75%"><div style="background:linear-gradient(135deg,${col},${col}cc);color:#fff;border-radius:18px 18px 5px 18px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
+            return `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')">${name}</span>${badge}<button onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.2);border-radius:8px;color:#e8457a;font-size:10px;font-weight:600;padding:2px 7px;cursor:pointer;font-family:'Sora',sans-serif">DM</button></div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
         }
 
         function appendCommMsg(m, col) {
@@ -2694,15 +3234,16 @@
 
         async function sendCommMsg() {
             const inp = Q('comm-chat-inp');
-            const content = san(inp?.value.trim()||'');
+            const content = san(inp?.value.trim() || '');
             if (!content || !activeCommId) return;
+            haptic(HFX.send);
             inp.value = '';
             await sb.from('community_messages').insert({ community_id: activeCommId, sender_id: USER.id, content });
         }
 
         async function submitCommPost() {
             const inp = Q('comm-post-inp');
-            const content = san(inp?.value.trim()||'');
+            const content = san(inp?.value.trim() || '');
             if (!content || !activeCommId) return;
             const is_anonymous = Q('comm-post-anon')?.checked || false;
             const { error } = await sb.from('community_posts').insert({ community_id: activeCommId, author_id: USER.id, content, is_anonymous, upvotes: 0 });
@@ -2713,9 +3254,9 @@
         }
 
         async function upvotePost(postId, btn, col) {
-            btn.style.background=col+'22'; btn.style.borderColor=col+'44'; btn.style.color=col;
+            btn.style.background = col + '22'; btn.style.borderColor = col + '44'; btn.style.color = col;
             const { data } = await sb.from('community_posts').select('upvotes').eq('id', postId).single();
-            const newCount = (data?.upvotes||0)+1;
+            const newCount = (data?.upvotes || 0) + 1;
             await sb.from('community_posts').update({ upvotes: newCount }).eq('id', postId);
             const span = btn.querySelector('span'); if (span) span.textContent = newCount;
         }
@@ -2726,11 +3267,11 @@
             container.style.display = 'block';
             container.innerHTML = `<div style="display:flex;justify-content:center;padding:10px"><div class="spin"></div></div>`;
             const { data } = await sb.from('community_comments').select('content,created_at,is_anonymous,profiles(full_name)').eq('post_id', postId).order('created_at', { ascending: true });
-            const html = (data||[]).map(c => {
-                const name = c.is_anonymous ? 'Anonymous' : (c.profiles?.full_name||'Student');
-                return `<div style="margin-bottom:8px"><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.55)">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.8)">${c.content}</span><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:2px">${tAgo(c.created_at)}</div></div>`;
+            const html = (data || []).map(c => {
+                const name = c.is_anonymous ? 'Anonymous' : (c.profiles?.full_name || 'Student');
+                return `<div style="margin-bottom:8px"><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.55)">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.8)">${esc(c.content)}</span><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:2px">${tAgo(c.created_at)}</div></div>`;
             }).join('');
-            container.innerHTML = `${html||'<p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:8px">No comments yet — be first!</p>'}
+            container.innerHTML = `${html || '<p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:8px">No comments yet — be first!</p>'}
                 <div style="display:flex;gap:7px;margin-top:8px">
                     <input id="cc-inp-${postId}" placeholder="Comment…" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:13px;padding:8px 12px;outline:none">
                     <button onclick="sendCommComment('${postId}','${col}')" style="background:${col};border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;font-family:'Sora',sans-serif">Send</button>
@@ -2739,7 +3280,7 @@
 
         async function sendCommComment(postId, col) {
             const inp = Q(`cc-inp-${postId}`);
-            const content = san(inp?.value.trim()||''); if (!content) return;
+            const content = san(inp?.value.trim() || ''); if (!content) return;
             inp.value = '';
             await sb.from('community_comments').insert({ post_id: postId, author_id: USER.id, content, is_anonymous: false });
             toggleCommComments(postId, null, col);
@@ -2766,8 +3307,8 @@
                     b.textContent = `${c.emoji} ${c.label}`;
                     b.onclick = () => {
                         selCommCat = c.id;
-                        catEl.querySelectorAll('button').forEach(x => { x.style.background='rgba(255,255,255,.05)'; x.style.color='rgba(255,255,255,.5)'; x.style.borderColor='rgba(255,255,255,.1)'; });
-                        b.style.background = c.color+'22'; b.style.color = c.color; b.style.borderColor = c.color+'44';
+                        catEl.querySelectorAll('button').forEach(x => { x.style.background = 'rgba(255,255,255,.05)'; x.style.color = 'rgba(255,255,255,.5)'; x.style.borderColor = 'rgba(255,255,255,.1)'; });
+                        b.style.background = c.color + '22'; b.style.color = c.color; b.style.borderColor = c.color + '44';
                     };
                     catEl.appendChild(b);
                 });
@@ -2789,13 +3330,13 @@
                 });
             }
         }
-        function closeCreateComm() { const s=Q('create-comm-sheet'); if(s) s.style.display='none'; }
+        function closeCreateComm() { const s = Q('create-comm-sheet'); if (s) s.style.display = 'none'; }
 
         async function submitCreateComm() {
             const name = Q('new-comm-name')?.value.trim();
-            const desc = Q('new-comm-desc')?.value.trim()||'';
+            const desc = Q('new-comm-desc')?.value.trim() || '';
             if (!name) { toast('Give your community a name', 'warn'); return; }
-            const catIdx = COMM_CATS.findIndex(c=>c.id===selCommCat);
+            const catIdx = COMM_CATS.findIndex(c => c.id === selCommCat);
             const col = COMM_COLORS[catIdx >= 0 ? catIdx % COMM_COLORS.length : 0];
             const { data, error } = await sb.from('communities').insert({ name, description: desc, category: selCommCat, emoji: selCommEmoji, color: col, member_count: 1, created_by: USER.id }).select().single();
             if (error) { toast('Failed to create community', 'err'); return; }
@@ -2811,19 +3352,19 @@
         // FEED
         // ══════════════════════════════════════════════
         const FEED_CATS = [
-            { id: 'all',         emoji: '✦',  label: 'All',         color: '#a78bfa' },
-            { id: 'hangout',     emoji: '🎉',  label: 'Hangouts',    color: '#e8457a' },
-            { id: 'study',       emoji: '📚',  label: 'Study',       color: '#4fc3f7' },
-            { id: 'nightout',    emoji: '🌙',  label: 'Nights Out',  color: '#f7915a' },
-            { id: 'event',       emoji: '📅',  label: 'Events',      color: '#34d399' },
-            { id: 'career',      emoji: '💼',  label: 'Career',      color: '#fbbf24' },
-            { id: 'confession',  emoji: '🤫',  label: 'Confessions', color: '#f472b6' },
-            { id: 'general',     emoji: '💬',  label: 'General',     color: '#a78bfa' },
+            { id: 'all', emoji: '✦', label: 'All', color: '#a78bfa' },
+            { id: 'hangout', emoji: '🎉', label: 'Hangouts', color: '#e8457a' },
+            { id: 'study', emoji: '📚', label: 'Study', color: '#4fc3f7' },
+            { id: 'nightout', emoji: '🌙', label: 'Nights Out', color: '#f7915a' },
+            { id: 'event', emoji: '📅', label: 'Events', color: '#34d399' },
+            { id: 'career', emoji: '💼', label: 'Career', color: '#fbbf24' },
+            { id: 'confession', emoji: '🤫', label: 'Confessions', color: '#f472b6' },
+            { id: 'general', emoji: '💬', label: 'General', color: '#a78bfa' },
         ];
         let feedFilter = 'all', feedUni = 'all', selPostCat = 'general';
 
         // Content moderation - auto-flag suspicious posts
-        const FLAGGED_PATTERNS = [/rape[sd]?/i,/molest/i,/corrupt/i,/stole?\b/i,/\bthief\b/i,/\bfraud\b/i,/bribe[sd]?/i,/\bscam\b/i];
+        const FLAGGED_PATTERNS = [/rape[sd]?/i, /molest/i, /corrupt/i, /stole?\b/i, /\bthief\b/i, /\bfraud\b/i, /bribe[sd]?/i, /\bscam\b/i];
         function isFlagged(text) { return FLAGGED_PATTERNS.some(p => p.test(text)); }
 
         function buildFeedUI() {
@@ -2832,12 +3373,12 @@
                 FEED_CATS.forEach((c, i) => {
                     const b = document.createElement('button');
                     b.id = `fcat-${c.id}`;
-                    b.style.cssText = `padding:7px 14px;border-radius:20px;border:1px solid ${i===0?c.color+'44':'rgba(255,255,255,.1)'};background:${i===0?c.color+'22':'rgba(255,255,255,.06)'};color:${i===0?c.color:'rgba(255,255,255,.5)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0`;
+                    b.style.cssText = `padding:7px 14px;border-radius:20px;border:1px solid ${i === 0 ? c.color + '44' : 'rgba(255,255,255,.1)'};background:${i === 0 ? c.color + '22' : 'rgba(255,255,255,.06)'};color:${i === 0 ? c.color : 'rgba(255,255,255,.5)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0`;
                     b.innerHTML = `${c.emoji} ${c.label}`;
                     b.onclick = () => {
                         feedFilter = c.id;
-                        document.querySelectorAll('[id^="fcat-"]').forEach(x => { x.style.background='rgba(255,255,255,.06)'; x.style.color='rgba(255,255,255,.5)'; x.style.borderColor='rgba(255,255,255,.1)'; });
-                        b.style.background=`${c.color}22`; b.style.color=c.color; b.style.borderColor=`${c.color}44`;
+                        document.querySelectorAll('[id^="fcat-"]').forEach(x => { x.style.background = 'rgba(255,255,255,.06)'; x.style.color = 'rgba(255,255,255,.5)'; x.style.borderColor = 'rgba(255,255,255,.1)'; });
+                        b.style.background = `${c.color}22`; b.style.color = c.color; b.style.borderColor = `${c.color}44`;
                         loadFeed();
                     };
                     ff.appendChild(b);
@@ -2852,20 +3393,31 @@
                     b.innerHTML = `${c.emoji} ${c.label}`;
                     b.onclick = () => {
                         selPostCat = c.id;
-                        pc.querySelectorAll('button').forEach(x => { x.style.background='rgba(255,255,255,.06)'; x.style.color='rgba(255,255,255,.5)'; x.style.borderColor='rgba(255,255,255,.1)'; });
-                        b.style.background=`${c.color}22`; b.style.color=c.color; b.style.borderColor=`${c.color}44`;
+                        pc.querySelectorAll('button').forEach(x => { x.style.background = 'rgba(255,255,255,.06)'; x.style.color = 'rgba(255,255,255,.5)'; x.style.borderColor = 'rgba(255,255,255,.1)'; });
+                        b.style.background = `${c.color}22`; b.style.color = c.color; b.style.borderColor = `${c.color}44`;
                     };
                     pc.appendChild(b);
                 });
             }
         }
 
+        function switchFeedTab(tab) {
+            haptic(HFX.tap);
+            const isFeed = tab === 'feed';
+            Q('feed-view').style.display = isFeed ? 'block' : 'none';
+            Q('explore-view').style.display = isFeed ? 'none' : 'block';
+            const ft = Q('feed-tab-feed'), et = Q('feed-tab-explore');
+            if (ft) { ft.style.background = isFeed ? 'rgba(167,139,250,.18)' : 'rgba(255,255,255,.05)'; ft.style.borderColor = isFeed ? 'rgba(167,139,250,.35)' : 'rgba(255,255,255,.1)'; ft.style.color = isFeed ? '#a78bfa' : 'rgba(255,255,255,.5)'; }
+            if (et) { et.style.background = !isFeed ? 'rgba(232,69,122,.18)' : 'rgba(255,255,255,.05)'; et.style.borderColor = !isFeed ? 'rgba(232,69,122,.35)' : 'rgba(255,255,255,.1)'; et.style.color = !isFeed ? '#e8457a' : 'rgba(255,255,255,.5)'; }
+            if (!isFeed) renderExplore();
+        }
+
         function setFeedUni(v) {
             feedUni = v;
-            Q('feed-uni-all').style.background = v==='all' ? 'linear-gradient(135deg,#a78bfa,#4fc3f7)' : 'rgba(255,255,255,.06)';
-            Q('feed-uni-all').style.color = v==='all' ? '#fff' : 'rgba(255,255,255,.55)';
-            Q('feed-uni-mine').style.background = v==='mine' ? 'linear-gradient(135deg,#a78bfa,#4fc3f7)' : 'rgba(255,255,255,.06)';
-            Q('feed-uni-mine').style.color = v==='mine' ? '#fff' : 'rgba(255,255,255,.55)';
+            Q('feed-uni-all').style.background = v === 'all' ? 'linear-gradient(135deg,#a78bfa,#4fc3f7)' : 'rgba(255,255,255,.06)';
+            Q('feed-uni-all').style.color = v === 'all' ? '#fff' : 'rgba(255,255,255,.55)';
+            Q('feed-uni-mine').style.background = v === 'mine' ? 'linear-gradient(135deg,#a78bfa,#4fc3f7)' : 'rgba(255,255,255,.06)';
+            Q('feed-uni-mine').style.color = v === 'mine' ? '#fff' : 'rgba(255,255,255,.55)';
             loadFeed();
         }
 
@@ -2881,26 +3433,29 @@
             if (!data?.length) { list.innerHTML = `<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">📭</div><div style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:8px">Nothing here yet</div><p style="font-size:13px;color:rgba(255,255,255,.35)">Be the first to post!</p></div>`; return; }
             list.innerHTML = data.map(post => {
                 const cat = FEED_CATS.find(c => c.id === post.category) || FEED_CATS[7];
+                const isMe = post.author_id === USER?.id;
                 const author = post.is_anonymous ? '👤 Anonymous' : (post.profiles?.full_name || 'Student');
                 const uni = post.is_anonymous ? '' : (post.profiles?.university_name ? `· ${post.profiles.university_name}` : '');
                 const badge = (!post.is_anonymous && post.profiles) ? verifyBadge(post.profiles) : '';
+                const canDM = !post.is_anonymous && !isMe && post.author_id;
                 const avHtml = post.is_anonymous || !post.profiles?.avatar_url
                     ? `<div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👤</div>`
-                    : `<img src="${post.profiles.avatar_url}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0">`;
+                    : `<img src="${post.profiles.avatar_url}" onclick="${canDM ? `openFeedUserSheet('${post.author_id}','${(post.profiles.full_name || '').replace(/'/g, "\\'")}','${post.profiles.avatar_url}')` : ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;${canDM ? 'cursor:pointer' : ''}">`;
                 return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:16px;margin-bottom:10px">
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
                         ${avHtml}
                         <div style="flex:1;min-width:0">
-                            <div style="display:flex;align-items:center;gap:5px"><span style="font-size:13px;font-weight:600">${author}</span>${badge}</div>
+                            <div style="display:flex;align-items:center;gap:5px"><span style="font-size:13px;font-weight:600${canDM ? ';cursor:pointer' : ''}"${canDM ? ` onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')"` : ''}>${author}</span>${badge}</div>
                             <div style="font-size:11px;color:rgba(255,255,255,.35)">${uni} ${tAgo(post.created_at)}</div>
                         </div>
                         <span style="padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;background:${cat.color}20;color:${cat.color};border:1px solid ${cat.color}30;flex-shrink:0">${cat.emoji} ${cat.label}</span>
                     </div>
-                    <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:14px">${post.content}</p>
-                    <div style="display:flex;gap:10px;align-items:center">
+                    <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:14px">${esc(post.content)}</p>
+                    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
                         <button onclick="imIn('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:10px;color:#34d399;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✋ I'm in</button>
                         <button onclick="loadComments('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">💬 Comment</button>
-                        ${post.author_id === USER?.id ? `<button onclick="deletePost('${post.id}')" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.2);font-size:12px;cursor:pointer;font-family:'Sora',sans-serif">🗑</button>` : `<button onclick="reportFeedPost('${post.id}')" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.15);font-size:12px;cursor:pointer">⚠️</button>`}
+                        ${canDM ? `<button onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')" style="display:flex;align-items:center;gap:6px;background:rgba(232,69,122,.08);border:1px solid rgba(232,69,122,.2);border-radius:10px;color:#e8457a;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✉️ Message</button>` : ''}
+                        ${isMe ? `<button onclick="deletePost('${post.id}')" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.2);font-size:12px;cursor:pointer;font-family:'Sora',sans-serif">🗑</button>` : `<button onclick="reportFeedPost('${post.id}')" style="margin-left:auto;background:none;border:none;color:rgba(255,255,255,.15);font-size:12px;cursor:pointer">⚠️</button>`}
                     </div>
                     <div id="comments-${post.id}" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px"></div>
                 </div>`;
@@ -2908,21 +3463,22 @@
         }
 
         async function imIn(postId, btn) {
-            btn.style.background='rgba(52,211,153,.25)'; btn.style.borderColor='rgba(52,211,153,.5)'; btn.textContent="✅ You're in!"; btn.disabled=true;
-            await sb.from('post_comments').insert({ post_id: postId, author_id: USER.id, content: "I'm in! 🙋" }).catch(()=>{});
+            haptic(HFX.like);
+            btn.style.background = 'rgba(52,211,153,.25)'; btn.style.borderColor = 'rgba(52,211,153,.5)'; btn.textContent = "✅ You're in!"; btn.disabled = true;
+            await sb.from('post_comments').insert({ post_id: postId, author_id: USER.id, content: "I'm in! 🙋" }).catch(() => { });
         }
 
         async function loadComments(postId, btn) {
             const container = Q(`comments-${postId}`);
-            if (container.style.display !== 'none') { container.style.display='none'; return; }
+            if (container.style.display !== 'none') { container.style.display = 'none'; return; }
             container.style.display = 'block';
             container.innerHTML = `<div style="display:flex;justify-content:center;padding:10px"><div class="spin"></div></div>`;
             const { data } = await sb.from('post_comments').select('content,created_at,is_anonymous,profiles(full_name)').eq('post_id', postId).order('created_at', { ascending: true });
-            const html = (data||[]).map(c => {
-                const name = c.is_anonymous ? 'Anonymous' : (c.profiles?.full_name||'Student');
-                return `<div style="margin-bottom:8px"><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.6)">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.8)">${c.content}</span><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:2px">${tAgo(c.created_at)}</div></div>`;
+            const html = (data || []).map(c => {
+                const name = c.is_anonymous ? 'Anonymous' : (c.profiles?.full_name || 'Student');
+                return `<div style="margin-bottom:8px"><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.6)">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.8)">${esc(c.content)}</span><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:2px">${tAgo(c.created_at)}</div></div>`;
             }).join('');
-            container.innerHTML = `${html||'<p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:10px">No comments yet — be first!</p>'}
+            container.innerHTML = `${html || '<p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:10px">No comments yet — be first!</p>'}
                 <div style="display:flex;gap:8px;margin-top:8px">
                     <input id="cmt-input-${postId}" placeholder="Add a comment…" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:13px;padding:8px 12px;outline:none">
                     <button onclick="postComment('${postId}')" style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;font-family:'Sora',sans-serif">Send</button>
@@ -2931,11 +3487,13 @@
 
         async function postComment(postId) {
             const inp = Q(`cmt-input-${postId}`);
-            const content = san(inp?.value.trim()||''); if (!content) return;
+            const raw = inp?.value.trim() || ''; if (!raw) return;
+            if (!isClean(raw, 500)) { toast('Invalid comment content', 'err'); return; }
+            const content = san(raw);
             inp.value = '';
             await sb.from('post_comments').insert({ post_id: postId, author_id: USER.id, content });
             loadComments(postId, null);
-            const c = Q(`comments-${postId}`); if (c) c.style.display='block';
+            const c = Q(`comments-${postId}`); if (c) c.style.display = 'block';
         }
 
         async function deletePost(postId) {
@@ -2945,8 +3503,119 @@
         }
 
         async function reportFeedPost(postId) {
-            await sb.from('content_reports').insert({ reporter_id: USER.id, content_type: 'post', content_id: postId, reason: 'user_report' }).catch(()=>{});
+            await sb.from('content_reports').insert({ reporter_id: USER.id, content_type: 'post', content_id: postId, reason: 'user_report' }).catch(() => { });
             toast('Post reported. Thank you 🙏', 'ok');
+        }
+
+        // ── FEED USER PROFILE SHEET (tap avatar/name on feed post) ──
+        async function openFeedUserSheet(userId, userName, avatarUrl) {
+            haptic(HFX.tap);
+            // Check if already matched
+            const { data: match } = await sb.from('matches')
+                .select('id')
+                .or(`and(user_id.eq.${USER.id},target_id.eq.${userId}),and(user_id.eq.${userId},target_id.eq.${USER.id})`)
+                .maybeSingle();
+
+            const sheet = document.createElement('div');
+            sheet.id = 'feed-user-sheet';
+            sheet.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center';
+            sheet.onclick = e => { if (e.target === sheet) sheet.remove(); };
+
+            const avEl = avatarUrl
+                ? `<img src="${avatarUrl}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(232,69,122,.5)">`
+                : `<div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>`;
+
+            const actionBtn = match
+                ? `<button onclick="document.getElementById('feed-user-sheet').remove();openChatById('${match.id}','${userId}')" style="width:100%;padding:15px;background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 Open Chat</button>`
+                : `<button onclick="sendFeedWave('${userId}','${userName}',this)" style="width:100%;padding:15px;background:linear-gradient(135deg,#4fc3f7,#a78bfa);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">👋 Wave at ${userName.split(' ')[0]}</button>`;
+
+            sheet.innerHTML = `<div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px">
+                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
+                <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+                    ${avEl}
+                    <div>
+                        <div style="font-size:17px;font-weight:700;margin-bottom:3px">${userName}</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,.4)">${match ? '💘 You\'re matched' : 'Posted on Campus Feed'}</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    ${actionBtn}
+                    <button onclick="document.getElementById('feed-user-sheet').remove()" style="width:100%;padding:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">Cancel</button>
+                </div>
+            </div>`;
+            document.body.appendChild(sheet);
+        }
+
+        // DM from Community — tap a member's name/avatar to open their profile sheet
+        async function showCommProfile(userId, userName) {
+            haptic(HFX.tap);
+            if (userId === USER.id) return; // no self-sheet
+            const { data: profile } = await sb.from('profiles')
+                .select('id,full_name,avatar_url,course,university_name,year_of_study,bio,is_verified,is_founder')
+                .eq('id', userId).single();
+
+            const { data: match } = await sb.from('matches')
+                .select('id')
+                .or(`and(user_id.eq.${USER.id},target_id.eq.${userId}),and(user_id.eq.${userId},target_id.eq.${USER.id})`)
+                .maybeSingle();
+
+            const p = profile || { id: userId, full_name: userName };
+            const avEl = p.avatar_url
+                ? `<img src="${esc(p.avatar_url)}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(167,139,250,.5)">`
+                : `<div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>`;
+
+            const badge = p.is_founder
+                ? `<span style="font-size:11px;color:#fbbf24;font-weight:700">✦ Founder</span>`
+                : p.is_verified
+                    ? `<span style="font-size:11px;color:#34d399;font-weight:700">✓ Verified</span>`
+                    : '';
+
+            const actionBtn = match
+                ? `<button onclick="document.getElementById('comm-profile-sheet').remove();openChatById('${match.id}','${userId}')" style="width:100%;padding:15px;background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 Open Chat</button>`
+                : `<button onclick="sendFeedWave('${userId}','${esc(p.full_name)}',this);document.getElementById('comm-profile-sheet')?.remove()" style="width:100%;padding:15px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">👋 Wave at ${esc(p.full_name?.split(' ')[0])}</button>`;
+
+            // Remove any existing sheet
+            document.getElementById('comm-profile-sheet')?.remove();
+            const sheet = document.createElement('div');
+            sheet.id = 'comm-profile-sheet';
+            sheet.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center';
+            sheet.onclick = e => { if (e.target === sheet) sheet.remove(); };
+            sheet.innerHTML = `<div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px">
+                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
+                <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+                    ${avEl}
+                    <div>
+                        <div style="font-size:17px;font-weight:700;margin-bottom:3px">${esc(p.full_name)}</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:4px">${esc(p.course || '')}${p.university_name ? ' · ' + esc(p.university_name) : ''}</div>
+                        ${badge}
+                    </div>
+                </div>
+                ${p.bio ? `<p style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:18px;padding:12px;background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.07);font-style:italic">"${esc(p.bio)}"</p>` : '<div style="margin-bottom:18px"></div>'}
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    ${actionBtn}
+                    <button onclick="document.getElementById('comm-profile-sheet').remove();openSafety('${userId}','${esc(p.full_name)}')" style="width:100%;padding:12px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:14px;color:rgba(251,191,36,.7);font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">⚠️ Report</button>
+                    <button onclick="document.getElementById('comm-profile-sheet').remove()" style="width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">Close</button>
+                </div>
+            </div>`;
+            document.body.appendChild(sheet);
+        }
+
+
+        btn.disabled = true; btn.textContent = 'Sending…';
+        haptic(HFX.like);
+        // Insert a like — if they already liked you, this creates a match
+        const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
+        const { data: match } = await sb.from('matches')
+            .select('id')
+            .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
+            .maybeSingle();
+        document.getElementById('feed-user-sheet')?.remove();
+        if (match) {
+            toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
+            haptic(HFX.match);
+        } else {
+            toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
+        }
         }
 
         function openNewPost() {
@@ -2959,42 +3628,131 @@
         async function submitFeedPost() {
             const content = Q('new-post-text')?.value.trim();
             if (!content) { toast('Write something first', 'warn'); return; }
+            if (!isClean(content, 1000)) { toast('Post contains invalid content', 'err'); return; }
             const is_anonymous = Q('post-anon')?.checked;
             const university_name = is_anonymous ? null : PROFILE?.university_name;
             // Auto-flag suspicious content
             if (isFlagged(content)) {
-                await sb.from('content_reports').insert({ reporter_id: USER.id, content_type: 'post', content_id: '00000000-0000-0000-0000-000000000000', content_text: content.substring(0,200), reason: 'auto_flagged' }).catch(()=>{});
+                await sb.from('content_reports').insert({ reporter_id: USER.id, content_type: 'post', content_id: '00000000-0000-0000-0000-000000000000', content_text: content.substring(0, 200), reason: 'auto_flagged' }).catch(() => { });
             }
-            const { error } = await sb.from('notice_posts').insert({ content, category: selPostCat, is_anonymous, author_id: USER.id, university_name });
+            const { error } = await sb.from('notice_posts').insert({ content: san(content), category: selPostCat, is_anonymous, author_id: USER.id, university_name });
             if (error) { toast('Failed to post — check your connection', 'err'); console.error(error); return; }
             Q('new-post-text').value = '';
             closeNewPost();
             loadFeed();
+            haptic(HFX.success);
             toast('Posted! 🚀', 'ok');
         }
         let safetyTargetId = null, safetyTargetName = null;
 
         function reportCurrentCard() { const p = discProfs[discIdx]; if (p) openSafety(p.id, p.full_name); }
-        function openSafety(userId, userName) { safetyTargetId=userId; safetyTargetName=userName; H('safety-name',`Report or Block ${userName}`); Q('safety-sheet').classList.add('on'); }
+        function openSafety(userId, userName) { safetyTargetId = userId; safetyTargetName = userName; H('safety-name', `Report or Block ${userName}`); Q('safety-sheet').classList.add('on'); }
         function closeSafety() { Q('safety-sheet').classList.remove('on'); }
 
         async function reportUser(reason) {
             if (!safetyTargetId) return; closeSafety();
-            try { await sb.from('reports').insert({ reporter_id:USER.id, reported_id:safetyTargetId, reason, created_at:new Date().toISOString() }); } catch(e){}
+            try { await sb.from('reports').insert({ reporter_id: USER.id, reported_id: safetyTargetId, reason, created_at: new Date().toISOString() }); } catch (e) { }
             toast(`Report submitted. We'll review this. 🙏`, 'ok');
         }
 
         async function blockUser() {
             if (!safetyTargetId) return; closeSafety();
-            try { await sb.from('blocks').insert({ blocker_id:USER.id, blocked_id:safetyTargetId, created_at:new Date().toISOString() }); } catch(e){}
-            toast(`${safetyTargetName} has been blocked. ✓`, 'ok');
-            discProfs = discProfs.filter(p => p.id !== safetyTargetId);
-            discIdx = Math.max(0, discIdx);
-            renderStack();
+            try { await sb.from('blocks').insert({ blocker_id: USER.id, blocked_id: safetyTargetId, created_at: new Date().toISOString() }); } catch (e) { }
+            toast(`${safetyTargetName} has been blocked.`, 'ok');
+            haptic(HFX.tap);
         }
 
-        boot();
+        // ══════════════════════════════════════════════
+        // EXPLORE — FOMO HOTSPOTS & CAMPUS EVENTS
+        // ══════════════════════════════════════════════
+        // Curated hangout spots seeded for the app (Nairobi campus context)
+        const HOTSPOTS = [
+            { name: 'Java House, Westgate', emoji: '☕', vibe: 'Study & Chill', tags: ['study', 'wifi', 'coffee'], color: '#4fc3f7', desc: 'Best WiFi on campus route. Order the Java Mocha and never leave.' },
+            { name: 'Garden City Rooftop', emoji: '🌅', vibe: 'Dates & Vibes', tags: ['date', 'view', 'sunset'], color: '#e8457a', desc: 'Sunset views that hit different. Perfect first date spot.' },
+            { name: 'The Alchemist Bar', emoji: '🌙', vibe: 'Nights Out', tags: ['nightlife', 'music', 'food'], color: '#f7915a', desc: 'The campus night-out scene. Thursday nights are legendary.' },
+            { name: 'Karura Forest', emoji: '🌿', vibe: 'Hangout & Sports', tags: ['nature', 'run', 'picnic'], color: '#34d399', desc: 'Morning runs, picnics and clearing your mind between CATs.' },
+            { name: 'Two Rivers Mall', emoji: '🛍️', vibe: 'Squad Outings', tags: ['food', 'movies', 'shopping'], color: '#a78bfa', desc: 'Squad meetups, movies and the best food court options.' },
+            { name: 'Uhuru Park', emoji: '🏞️', vibe: 'Casual Hangouts', tags: ['outdoor', 'free', 'chill'], color: '#fbbf24', desc: 'Free, iconic, vibrant. Great for post-exam unwinding.' },
+            { name: 'Campus Library', emoji: '📚', vibe: 'Study Groups', tags: ['study', 'quiet', 'focus'], color: '#4fc3f7', desc: 'Reserve a room for your study group. Serious sessions only.' },
+            { name: 'Nairobi Street Kitchen', emoji: '🍔', vibe: 'Food & Catch-Up', tags: ['food', 'night', 'street'], color: '#f472b6', desc: 'Late-night street food that hits after a long day on campus.' },
+        ];
+
+        function renderExplore() {
+            const wrap = Q('explore-wrap'); if (!wrap) return;
+            wrap.innerHTML = `
+            <div style="padding:0 16px 12px">
+                <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">🔥 Trending on Campus</div>
+                <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+                    ${['🌍 All', '📚 Study', '💘 Dates', '🌙 Night', '🏃 Active', '🍔 Food'].map((t, i) => `<button onclick="filterHotspots(${i},this)" style="padding:7px 14px;border-radius:20px;border:1px solid ${i === 0 ? 'rgba(232,69,122,.4)' : 'rgba(255,255,255,.1)'};background:${i === 0 ? 'rgba(232,69,122,.15)' : 'rgba(255,255,255,.05)'};color:${i === 0 ? '#e8457a' : 'rgba(255,255,255,.5)'};font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;flex-shrink:0">${t}</button>`).join('')}
+                </div>
+                <div id="hotspot-grid" style="display:flex;flex-direction:column;gap:10px">
+                    ${HOTSPOTS.map(s => hotspotCard(s)).join('')}
+                </div>
+            </div>
+            <div style="padding:0 16px 20px">
+                <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">📅 Plan Something</div>
+                <button onclick="openNewPost();setTimeout(()=>{const b=Q('pcat-hangout');if(b)b.click();},80)"
+                    style="width:100%;padding:18px;background:linear-gradient(135deg,rgba(232,69,122,.15),rgba(167,139,250,.15));border:1px solid rgba(232,69,122,.25);border-radius:18px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;text-align:left;display:flex;align-items:center;gap:14px">
+                    <span style="font-size:28px">🎉</span>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px">Organise a Hangout</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,.45)">Post it to the feed and see who's in</div>
+                    </div>
+                    <span style="margin-left:auto;color:rgba(255,255,255,.3);font-size:20px">›</span>
+                </button>
+            </div>`;
+        }
+
+        function hotspotCard(s) {
+            return `<div style="background:rgba(255,255,255,.04);border:1px solid ${s.color}22;border-radius:18px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer" onclick="shareHotspot('${s.name.replace(/'/g, "\\'")}')">
+                <div style="width:52px;height:52px;border-radius:14px;background:${s.color}20;border:1px solid ${s.color}33;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${s.emoji}</div>
+                <div style="flex:1;min-width:0">
+                    <div style="font-size:14px;font-weight:700;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.name}</div>
+                    <div style="font-size:11px;color:${s.color};font-weight:600;margin-bottom:4px">${s.vibe}</div>
+                    <p style="font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${s.desc}</p>
+                </div>
+                <button onclick="event.stopPropagation();shareHotspot('${s.name.replace(/'/g, "\\'")}',true)" style="background:${s.color}22;border:1px solid ${s.color}44;border-radius:10px;color:${s.color};font-size:11px;font-weight:700;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0">Share</button>
+            </div>`;
+        }
+
+        function filterHotspots(idx, btn) {
+            haptic(HFX.tap);
+            document.querySelectorAll('#explore-wrap button').forEach(b => {
+                if (['🌍 All', '📚 Study', '💘 Dates', '🌙 Night', '🏃 Active', '🍔 Food'].some(t => b.textContent.trim() === t.trim())) {
+                    b.style.background = 'rgba(255,255,255,.05)'; b.style.color = 'rgba(255,255,255,.5)'; b.style.borderColor = 'rgba(255,255,255,.1)';
+                }
+            });
+            btn.style.background = 'rgba(232,69,122,.15)'; btn.style.color = '#e8457a'; btn.style.borderColor = 'rgba(232,69,122,.4)';
+            const tagMap = [null, ['study', 'focus', 'quiet'], ['date', 'view', 'sunset'], ['nightlife', 'music', 'night'], ['run', 'nature', 'outdoor', 'active'], ['food', 'street']];
+            const tags = tagMap[idx];
+            const filtered = tags ? HOTSPOTS.filter(s => s.tags.some(t => tags.includes(t))) : HOTSPOTS;
+            const grid = Q('hotspot-grid'); if (grid) grid.innerHTML = filtered.map(s => hotspotCard(s)).join('');
+        }
+
+        function shareHotspot(name, direct = false) {
+            haptic(HFX.tap);
+            const spot = HOTSPOTS.find(s => s.name === name);
+            if (!spot) return;
+            const txt = `${spot.emoji} ${spot.name} — ${spot.vibe}. ${spot.desc}`;
+            if (direct) {
+                // Pre-fill post sheet
+                openNewPost();
+                setTimeout(() => {
+                    const ta = Q('new-post-text'); if (ta) ta.value = txt;
+                    const b = Q('pcat-hangout'); if (b) b.click();
+                }, 80);
+            } else {
+                openNewPost();
+                setTimeout(() => {
+                    const ta = Q('new-post-text'); if (ta) ta.value = `📍 Anyone down for ${spot.name}? ${spot.vibe} vibes 🔥`;
+                    const b = Q('pcat-hangout'); if (b) b.click();
+                }, 80);
+            }
+        }
+
+        // ══════════════════════════════════════════════
+        // INIT
+        // ══════════════════════════════════════════════
+        window.addEventListener('DOMContentLoaded', boot);
     </script>
 </body>
-
-</html>
