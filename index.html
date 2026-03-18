@@ -3016,7 +3016,9 @@
             if (!str || typeof str !== 'string') return false;
             if (str.length > maxLen) return false;
             // Block script injection attempts
-            if (/<script|javascript:|on\w+\s*=|data:/i.test(str)) return false;
+            // NOTE: '<scr' + 'ipt' split intentionally so browser doesn't parse as HTML tag
+            const bad = new RegExp('<scr' + 'ipt|javascript:|on\\w+\\s*=|data:', 'i');
+            if (bad.test(str)) return false;
             return true;
         }
 
