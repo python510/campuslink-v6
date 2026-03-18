@@ -3776,6 +3776,18 @@
         // ══════════════════════════════════════════════
         // INIT
         // ══════════════════════════════════════════════
-        window.addEventListener('DOMContentLoaded', boot);
+
+        // Keep Supabase warm — ping every 4 minutes to prevent cold starts
+        function keepAlive() {
+            sb.from('profiles').select('id').limit(1).then(() => { });
+            setInterval(() => {
+                sb.from('profiles').select('id').limit(1).then(() => { });
+            }, 4 * 60 * 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            boot();
+            keepAlive();
+        });
     </script>
 </body>
