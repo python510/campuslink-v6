@@ -2173,14 +2173,11 @@
                 <textarea id="comm-post-inp" placeholder="Write something to the community…" rows="2"
                     style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none;resize:none;line-height:1.55"></textarea>
                 <div style="display:flex;align-items:center;justify-content:space-between">
-                    <label
-                        style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.4);cursor:pointer">
-                        <input type="checkbox" id="comm-post-anon" style="accent-color:#a78bfa;width:14px;height:14px">
-                        Anonymous
+                    <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.4);cursor:pointer">
+                        <input type="checkbox" id="comm-post-anon" style="accent-color:#a78bfa;width:14px;height:14px"> Anonymous
                     </label>
                     <button onclick="submitCommPost()"
-                        style="padding:9px 20px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Post
-                        🚀</button>
+                        style="padding:9px 20px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Post 🚀</button>
                 </div>
             </div>
             <div id="comm-chat-bar" style="display:none;gap:10px;align-items:center;padding:10px 14px 32px">
@@ -3365,10 +3362,10 @@
             if (!confirm(`Delete "${comm.name}" permanently? All posts, messages and members will be gone. This cannot be undone.`)) return;
             haptic(HFX.tap);
             // Delete in order: comments → posts → messages → members → community
-            await sb.from('community_comments').delete().eq('community_id', commId).catch(() => { });
-            await sb.from('community_posts').delete().eq('community_id', commId).catch(() => { });
-            await sb.from('community_messages').delete().eq('community_id', commId).catch(() => { });
-            await sb.from('community_members').delete().eq('community_id', commId).catch(() => { });
+            await sb.from('community_comments').delete().eq('community_id', commId).catch(() => {});
+            await sb.from('community_posts').delete().eq('community_id', commId).catch(() => {});
+            await sb.from('community_messages').delete().eq('community_id', commId).catch(() => {});
+            await sb.from('community_members').delete().eq('community_id', commId).catch(() => {});
             const { error } = await sb.from('communities').delete().eq('id', commId).eq('created_by', USER.id);
             if (error) { toast('Delete failed — check your connection', 'err'); console.error(error); return; }
             // Remove from local state
@@ -3383,8 +3380,8 @@
         async function leaveComm(commId) {
             const comm = allComms.find(c => c.id === commId);
             if (!confirm(`Leave "${comm?.name}"? You can rejoin anytime.`)) return;
-            await sb.from('community_members').delete().eq('community_id', commId).eq('user_id', USER.id).catch(() => { });
-            if (comm) { comm.member_count = Math.max(0, (comm.member_count || 1) - 1); await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => { }); }
+            await sb.from('community_members').delete().eq('community_id', commId).eq('user_id', USER.id).catch(() => {});
+            if (comm) { comm.member_count = Math.max(0, (comm.member_count || 1) - 1); await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => {}); }
             joinedCommIds.delete(commId);
             haptic(HFX.tap);
             toast(`Left "${comm?.name}"`, 'ok');
@@ -3560,9 +3557,9 @@
                 const nsfwChip = post.is_nsfw ? `<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.25)">NSFW</span>` : '';
                 const spoilerChip = post.is_spoiler ? `<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.2)">Spoiler</span>` : '';
                 const authorActions = isMe ? `
-                    <button onclick="openEditPost('${post.id}',\`${esc(post.content).replace(/`/g, '\\`')}\`)" style="background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:10px;color:#4fc3f7;font-size:12px;font-weight:600;padding:6px 11px;cursor:pointer;font-family:'Sora',sans-serif">✏️</button>
-                    <button onclick="togglePostNsfw('${post.id}',${!!post.is_nsfw})" title="${post.is_nsfw ? 'Unmark NSFW' : 'Mark NSFW'}" style="background:${post.is_nsfw ? 'rgba(255,107,107,.15)' : 'rgba(255,255,255,.05)'};border:1px solid ${post.is_nsfw ? 'rgba(255,107,107,.3)' : 'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_nsfw ? '#ff6b6b' : 'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🔞</button>
-                    <button onclick="togglePostSpoiler('${post.id}',${!!post.is_spoiler})" title="${post.is_spoiler ? 'Unmark' : 'Mark Spoiler'}" style="background:${post.is_spoiler ? 'rgba(251,191,36,.12)' : 'rgba(255,255,255,.05)'};border:1px solid ${post.is_spoiler ? 'rgba(251,191,36,.25)' : 'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_spoiler ? '#fbbf24' : 'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">⚠️</button>
+                    <button onclick="openEditPost('${post.id}',\`${esc(post.content).replace(/`/g,'\\`')}\`)" style="background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:10px;color:#4fc3f7;font-size:12px;font-weight:600;padding:6px 11px;cursor:pointer;font-family:'Sora',sans-serif">✏️</button>
+                    <button onclick="togglePostNsfw('${post.id}',${!!post.is_nsfw})" title="${post.is_nsfw?'Unmark NSFW':'Mark NSFW'}" style="background:${post.is_nsfw?'rgba(255,107,107,.15)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_nsfw?'rgba(255,107,107,.3)':'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_nsfw?'#ff6b6b':'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🔞</button>
+                    <button onclick="togglePostSpoiler('${post.id}',${!!post.is_spoiler})" title="${post.is_spoiler?'Unmark':'Mark Spoiler'}" style="background:${post.is_spoiler?'rgba(251,191,36,.12)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_spoiler?'rgba(251,191,36,.25)':'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_spoiler?'#fbbf24':'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">⚠️</button>
                     <button onclick="hidePost('${post.id}')" title="Hide" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:rgba(255,255,255,.3);font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🙈</button>
                     <button onclick="deletePost('${post.id}')" title="Delete" style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:10px;color:rgba(255,107,107,.6);font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🗑</button>` : '';
                 const viewerActions = !isMe ? `
@@ -3572,7 +3569,7 @@
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
                         ${avHtml}
                         <div style="flex:1;min-width:0">
-                            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600${canDM ? ';cursor:pointer' : ''}"${canDM ? ` onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')"` : ''} >${author}</span>${badge}${nsfwChip}${spoilerChip}${editedTag}</div>
+                            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600${canDM?';cursor:pointer':''}"${canDM?` onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name||'').replace(/'/g,"\\'")}','${post.profiles?.avatar_url||''}')"`:''} >${author}</span>${badge}${nsfwChip}${spoilerChip}${editedTag}</div>
                             <div style="font-size:11px;color:rgba(255,255,255,.35)">${uni} ${tAgo(post.created_at)}</div>
                         </div>
                         <span style="padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;background:${cat.color}20;color:${cat.color};border:1px solid ${cat.color}30;flex-shrink:0">${cat.emoji} ${cat.label}</span>
@@ -3581,7 +3578,7 @@
                     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
                         <button onclick="imIn('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:10px;color:#34d399;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✋ I'm in</button>
                         <button onclick="loadComments('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">💬 Comment</button>
-                        ${canDM ? `<button onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')" style="display:flex;align-items:center;gap:6px;background:rgba(232,69,122,.08);border:1px solid rgba(232,69,122,.2);border-radius:10px;color:#e8457a;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✉️ Message</button>` : ''}
+                        ${canDM?`<button onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name||'').replace(/'/g,"\\'")}','${post.profiles?.avatar_url||''}')" style="display:flex;align-items:center;gap:6px;background:rgba(232,69,122,.08);border:1px solid rgba(232,69,122,.2);border-radius:10px;color:#e8457a;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✉️ Message</button>`:''}
                         <div style="margin-left:auto;display:flex;gap:5px;align-items:center">${authorActions}${viewerActions}</div>
                     </div>
                     <div id="comments-${post.id}" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px"></div>
