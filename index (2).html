@@ -1853,9 +1853,14 @@
                         🌍</div>
                     <span style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">Campus Feed</span>
                 </div>
-                <button onclick="openNewPost()"
-                    style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+
-                    Post</button>
+                <div style="display:flex;gap:7px;align-items:center">
+                    <button onclick="openPollPanel()"
+                        style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:20px;color:#a78bfa;font-size:12px;font-weight:700;padding:8px 13px;cursor:pointer;font-family:'Sora',sans-serif">📊 Poll</button>
+                    <button id="ann-btn" onclick="openAnnouncementPanel()" style="display:none;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.25);border-radius:20px;color:#fbbf24;font-size:12px;font-weight:700;padding:8px 13px;cursor:pointer;font-family:'Sora',sans-serif">📢</button>
+                    <button onclick="openNewPost()"
+                        style="background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:20px;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;cursor:pointer;font-family:'Sora',sans-serif">+
+                        Post</button>
+                </div>
             </div>
             <!-- Feed / Explore Tab Toggle -->
             <div style="display:flex;padding:0 16px;margin-bottom:12px;gap:6px">
@@ -2137,7 +2142,7 @@
             </div>
             <div style="padding:0 16px 12px;position:relative">
                 <span style="position:absolute;left:28px;top:50%;transform:translateY(-50%);font-size:14px">🔍</span>
-                <input id="comm-search" placeholder="Search communities..." oninput="filterComms(this.value)"
+                <input id="comm-search" placeholder="Search communities..." oninput="filterComms()"
                     style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px 11px 38px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none" />
             </div>
             <div id="comm-cats"
@@ -2168,19 +2173,20 @@
         </div>
         <div id="comm-room-content" style="padding:16px 16px 120px;min-height:60vh"></div>
         <div id="comm-room-input"
-            style="position:fixed;bottom:0;left:0;right:0;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);max-width:480px;left:50%;transform:translateX(-50%);width:100%;z-index:10">
-            <div id="comm-post-bar" style="display:none;flex-direction:column;gap:8px;padding:10px 14px 32px">
+            style="position:fixed;bottom:0;left:0;right:0;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);max-width:480px;margin:0 auto;z-index:10;width:100%">
+            <!-- Feed post input -->
+            <div id="comm-post-bar" style="display:none;flex-direction:column;gap:8px;padding:10px 14px 30px">
                 <textarea id="comm-post-inp" placeholder="Write something to the community…" rows="2"
-                    style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none;resize:none;line-height:1.55"></textarea>
+                    style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none;resize:none"></textarea>
                 <div style="display:flex;align-items:center;justify-content:space-between">
                     <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.4);cursor:pointer">
                         <input type="checkbox" id="comm-post-anon" style="accent-color:#a78bfa;width:14px;height:14px"> Anonymous
                     </label>
-                    <button onclick="submitCommPost()"
-                        style="padding:9px 20px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Post 🚀</button>
+                    <button onclick="submitCommPost()" style="padding:9px 20px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Post 🚀</button>
                 </div>
             </div>
-            <div id="comm-chat-bar" style="display:none;gap:10px;align-items:center;padding:10px 14px 32px">
+            <!-- Chat input -->
+            <div id="comm-chat-bar" style="display:none;gap:10px;align-items:center;padding:10px 14px 30px">
                 <input id="comm-chat-inp" placeholder="Message the community…"
                     onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCommMsg();}"
                     style="flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none" />
@@ -2330,7 +2336,12 @@
             });
         }
         async function loadProf() { if (!USER) return; const { data } = await sb.from('profiles').select('*').eq('id', USER.id).single(); PROFILE = data; }
-        function enterApp() { go('pg-discover'); loadDisc(); loadConvos(); }
+        function enterApp() {
+            go('pg-discover'); loadDisc(); loadConvos();
+            // Show mod-only UI
+            const isMod = PROFILE?.role === 'mod' || PROFILE?.role === 'admin' || PROFILE?.is_founder;
+            const annBtn = Q('ann-btn'); if (annBtn) annBtn.style.display = isMod ? 'block' : 'none';
+        }
 
         function buildUI() {
             const pg = Q('su-purposes');
@@ -2843,6 +2854,10 @@
             <span style="font-size:20px">🤝</span>
             <div><div style="font-size:13px;font-weight:600">Community Guidelines</div><div style="font-size:11px;color:rgba(255,255,255,.35)">Read our rules for a safe campus space</div></div>
           </button>
+          ${(p.is_founder || p.role === 'admin') ? `<button onclick="openModPanel()" style="display:flex;align-items:center;gap:12px;background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:14px;padding:12px 14px;cursor:pointer;font-family:'Sora',sans-serif;color:#ff6b6b;text-align:left">
+            <span style="font-size:20px">⚡</span>
+            <div><div style="font-size:13px;font-weight:600">Mod Panel</div><div style="font-size:11px;color:rgba(255,255,255,.35)">Assign moderator & tutor roles</div></div>
+          </button>` : ''}
           <button onclick="doSignOut()" style="display:flex;align-items:center;gap:12px;background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:14px;padding:12px 14px;cursor:pointer;font-family:'Sora',sans-serif;color:#ff6b6b;text-align:left">
             <span style="font-size:20px">🚪</span>
             <div><div style="font-size:13px;font-weight:600">Sign Out</div><div style="font-size:11px;color:rgba(255,255,255,.35)">See you next time</div></div>
@@ -3006,6 +3021,10 @@
 
         function verifyBadge(p) {
             if (p.is_founder) return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.35);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;color:#fbbf24">✦</span>';
+            if (p.role === 'admin') return '<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#ff6b6b;background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.3)">⚡ Admin</span>';
+            if (p.role === 'mod') return '<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.25)">🛡 Mod</span>';
+            if (p.role === 'tutor') return '<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#4fc3f7;background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.25)">📘 Tutor</span>';
+            if (p.role === 'senior') return '<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#a78bfa;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25)">🎓 Senior</span>';
             if (p.is_verified) return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.28);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;color:#34d399">✓</span>';
             return '';
         }
@@ -3154,10 +3173,7 @@
                     <div style="font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(comm.name)}</div>
                     <div style="font-size:12px;color:rgba(255,255,255,.4)">${comm.member_count || 0} members</div>
                 </div>
-                ${comm.created_by === USER?.id
-                    ? `<button onclick="switchCommChannel('${commId}','about',document.querySelector('#comm-room-tabs button:last-child'),'${col}')" style="padding:8px 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:rgba(255,255,255,.6);font-size:14px;cursor:pointer">⚙️</button>`
-                    : !joined ? `<button onclick="toggleJoinComm('${commId}',this)" style="padding:8px 16px;background:${col}22;border:1px solid ${col}44;border-radius:20px;color:${col};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">+ Join</button>` : ''
-                }
+                ${!joined ? `<button onclick="toggleJoinComm('${commId}',this)" style="padding:8px 16px;background:${col}22;border:1px solid ${col}44;border-radius:20px;color:${col};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">+ Join</button>` : ''}
             </div>`);
 
             H('comm-room-tabs', ['📋 Feed', '💬 Chat', 'ℹ️ About'].map((tab, i) => {
@@ -3185,18 +3201,12 @@
 
             if (channel === 'about') {
                 const comm = allComms.find(c => c.id === commId);
-                const isCreator = comm?.created_by === USER?.id;
-                const isMember = joinedCommIds.has(commId);
                 content.innerHTML = `<div style="padding:8px 0">
                     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:12px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${col};margin-bottom:8px">About</div>
                         <p style="font-size:14px;color:rgba(255,255,255,.7);line-height:1.65">${comm?.description || 'No description yet.'}</p>
-                        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px;font-size:12px;color:rgba(255,255,255,.35)">
-                            <span>👥 ${comm?.member_count || 0} members</span>
-                            <span>· ${comm?.category || ''}</span>
-                        </div>
                     </div>
-                    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:12px">
+                    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px">Community Rules</div>
                         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.6">
                             <div>1. Be respectful to all members</div>
@@ -3206,18 +3216,6 @@
                             <div>5. No hate speech or harassment</div>
                         </div>
                     </div>
-                    ${isMember && !isCreator ? `
-                    <button onclick="leaveComm('${commId}')" style="width:100%;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.45);font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px">
-                        🚪 Leave Community
-                    </button>` : ''}
-                    ${isCreator ? `
-                    <div style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:16px;padding:16px;margin-bottom:10px">
-                        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ff6b6b;margin-bottom:10px">⚙️ Creator Controls</div>
-                        <p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:14px">Deleting this community permanently removes all posts, messages, and membership data. This cannot be undone.</p>
-                        <button onclick="deleteComm('${commId}')" style="width:100%;padding:13px;background:rgba(255,107,107,.12);border:1.5px solid rgba(255,107,107,.3);border-radius:12px;color:#ff6b6b;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
-                            🗑️ Delete Community
-                        </button>
-                    </div>` : ''}
                 </div>`; return;
             }
 
@@ -3255,7 +3253,7 @@
             }
 
             if (channel === 'chat') {
-                if (chatBar) { chatBar.style.display = 'flex'; }
+                if (chatBar) chatBar.style.display = 'block';
                 content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
                 const { data } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('community_id', commId).order('created_at', { ascending: true }).limit(100);
                 renderCommChat(data || [], col);
@@ -3353,39 +3351,6 @@
             if (!confirm('Delete post?')) return;
             await sb.from('community_posts').delete().eq('id', postId);
             loadCommChannel(commId, 'feed', col);
-        }
-
-        // ── DELETE COMMUNITY (creator only) ──
-        async function deleteComm(commId) {
-            const comm = allComms.find(c => c.id === commId);
-            if (!comm || comm.created_by !== USER?.id) { toast('Only the creator can delete this community', 'err'); return; }
-            if (!confirm(`Delete "${comm.name}" permanently? All posts, messages and members will be gone. This cannot be undone.`)) return;
-            haptic(HFX.tap);
-            // Delete in order: comments → posts → messages → members → community
-            await sb.from('community_comments').delete().eq('community_id', commId).catch(() => {});
-            await sb.from('community_posts').delete().eq('community_id', commId).catch(() => {});
-            await sb.from('community_messages').delete().eq('community_id', commId).catch(() => {});
-            await sb.from('community_members').delete().eq('community_id', commId).catch(() => {});
-            const { error } = await sb.from('communities').delete().eq('id', commId).eq('created_by', USER.id);
-            if (error) { toast('Delete failed — check your connection', 'err'); console.error(error); return; }
-            // Remove from local state
-            allComms = allComms.filter(c => c.id !== commId);
-            joinedCommIds.delete(commId);
-            haptic(HFX.success);
-            toast(`"${comm.name}" has been deleted.`, 'ok');
-            navTo('communities');
-        }
-
-        // ── LEAVE COMMUNITY (members) ──
-        async function leaveComm(commId) {
-            const comm = allComms.find(c => c.id === commId);
-            if (!confirm(`Leave "${comm?.name}"? You can rejoin anytime.`)) return;
-            await sb.from('community_members').delete().eq('community_id', commId).eq('user_id', USER.id).catch(() => {});
-            if (comm) { comm.member_count = Math.max(0, (comm.member_count || 1) - 1); await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => {}); }
-            joinedCommIds.delete(commId);
-            haptic(HFX.tap);
-            toast(`Left "${comm?.name}"`, 'ok');
-            navTo('communities');
         }
 
         function openCreateComm() {
@@ -3520,22 +3485,17 @@
             buildFeedUI();
             const list = Q('feed-list'); if (!list) return;
             list.innerHTML = `<div style="display:flex;justify-content:center;padding:40px"><div class="spin"></div></div>`;
-            let q = sb.from('notice_posts').select('id,content,category,is_anonymous,created_at,author_id,is_deleted,is_nsfw,is_spoiler,is_edited,profiles(full_name,avatar_url,university_name,is_founder,is_verified)').order('created_at', { ascending: false }).limit(30);
+            let q = sb.from('notice_posts').select('id,content,category,is_anonymous,created_at,author_id,is_nsfw,is_spoiler,is_edited,is_pinned,poll_data,profiles(full_name,avatar_url,university_name,is_founder,is_verified,role)').order('is_pinned', { ascending: false }).order('created_at', { ascending: false }).limit(30);
             if (feedFilter !== 'all') q = q.eq('category', feedFilter);
             if (feedUni === 'mine' && PROFILE?.university_name) q = q.eq('university_name', PROFILE.university_name);
             const { data, error } = await q;
             if (error) { list.innerHTML = `<p style="text-align:center;color:rgba(255,255,255,.3);padding:40px">Failed to load. Pull to refresh.</p>`; return; }
             if (!data?.length) { list.innerHTML = `<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">📭</div><div style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:8px">Nothing here yet</div><p style="font-size:13px;color:rgba(255,255,255,.35)">Be the first to post!</p></div>`; return; }
-            const hiddenIds = JSON.parse(localStorage.getItem('cl_hidden_posts') || '[]');
-            list.innerHTML = data.filter(post => !hiddenIds.includes(post.id)).map(post => {
-                if (post.is_deleted) {
-                    return `<div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:18px;padding:16px;margin-bottom:10px;opacity:.5">
-                        <p style="font-size:13px;color:rgba(255,255,255,.35);font-style:italic">[deleted] — the comment thread remains.</p>
-                        <div id="comments-${post.id}" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px"></div>
-                    </div>`;
-                }
+            list.innerHTML = data.map(post => {
                 const cat = FEED_CATS.find(c => c.id === post.category) || FEED_CATS[7];
                 const isMe = post.author_id === USER?.id;
+                const isMod = PROFILE?.role === 'mod' || PROFILE?.role === 'admin' || PROFILE?.is_founder;
+                const canDelete = isMe || isMod;
                 const author = post.is_anonymous ? '👤 Anonymous' : (post.profiles?.full_name || 'Student');
                 const uni = post.is_anonymous ? '' : (post.profiles?.university_name ? `· ${post.profiles.university_name}` : '');
                 const badge = (!post.is_anonymous && post.profiles) ? verifyBadge(post.profiles) : '';
@@ -3543,43 +3503,62 @@
                 const avHtml = post.is_anonymous || !post.profiles?.avatar_url
                     ? `<div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👤</div>`
                     : `<img src="${post.profiles.avatar_url}" onclick="${canDM ? `openFeedUserSheet('${post.author_id}','${(post.profiles.full_name || '').replace(/'/g, "\\'")}','${post.profiles.avatar_url}')` : ''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;${canDM ? 'cursor:pointer' : ''}">`;
+                // Poll rendering
+                const isPoll = !!post.poll_data;
+                let pollHtml = '';
+                if (isPoll) {
+                    const pd = post.poll_data;
+                    const totalVotes = Object.values(pd.votes || {}).reduce((a,b) => a+b, 0);
+                    const alreadyVoted = (pd.voters || []).includes(USER?.id);
+                    pollHtml = `<div style="margin-bottom:14px;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:14px;padding:14px">
+                        <div style="font-size:13px;font-weight:700;margin-bottom:12px">📊 ${esc(pd.question)}</div>
+                        ${pd.options.map(opt => {
+                            const votes = pd.votes?.[opt] || 0;
+                            const pct = totalVotes ? Math.round(votes/totalVotes*100) : 0;
+                            return alreadyVoted
+                                ? `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${esc(opt)}</span><span style="color:rgba(255,255,255,.45)">${votes} (${pct}%)</span></div><div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#a78bfa,#4fc3f7);border-radius:3px;transition:width .4s"></div></div></div>`
+                                : `<button onclick="votePoll('${post.id}','${opt.replace(/'/g,"\\'")}',this)" style="width:100%;margin-bottom:7px;padding:9px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.8);font-size:13px;font-weight:500;cursor:pointer;text-align:left;font-family:'Sora',sans-serif">${esc(opt)}</button>`;
+                        }).join('')}
+                        <div style="font-size:11px;color:rgba(255,255,255,.28);margin-top:4px">${totalVotes} vote${totalVotes!==1?'s':''}</div>
+                    </div>`;
+                }
+                // NSFW/Spoiler blur
                 const needsBlur = post.is_nsfw || post.is_spoiler;
                 const blurLabel = post.is_nsfw ? '🔞 NSFW' : '⚠️ Spoiler';
-                const contentHtml = needsBlur
-                    ? `<div style="position:relative;margin-bottom:14px" id="blur-wrap-${post.id}">
-                        <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);filter:blur(6px);user-select:none;pointer-events:none">${esc(post.content)}</p>
-                        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px" id="blur-overlay-${post.id}">
-                            <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.6);background:rgba(7,9,15,.85);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px">${blurLabel}</span>
-                            <button onclick="revealBlurred('${post.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;padding:5px 14px;cursor:pointer;font-family:'Sora',sans-serif">Show anyway</button>
-                        </div></div>`
-                    : `<p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:14px">${esc(post.content)}</p>`;
-                const editedTag = post.is_edited ? `<span style="font-size:10px;color:rgba(255,255,255,.25);margin-left:4px">(edited)</span>` : '';
-                const nsfwChip = post.is_nsfw ? `<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.25)">NSFW</span>` : '';
-                const spoilerChip = post.is_spoiler ? `<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.2)">Spoiler</span>` : '';
-                const authorActions = isMe ? `
-                    <button onclick="openEditPost('${post.id}',\`${esc(post.content).replace(/`/g,'\\`')}\`)" style="background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:10px;color:#4fc3f7;font-size:12px;font-weight:600;padding:6px 11px;cursor:pointer;font-family:'Sora',sans-serif">✏️</button>
-                    <button onclick="togglePostNsfw('${post.id}',${!!post.is_nsfw})" title="${post.is_nsfw?'Unmark NSFW':'Mark NSFW'}" style="background:${post.is_nsfw?'rgba(255,107,107,.15)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_nsfw?'rgba(255,107,107,.3)':'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_nsfw?'#ff6b6b':'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🔞</button>
-                    <button onclick="togglePostSpoiler('${post.id}',${!!post.is_spoiler})" title="${post.is_spoiler?'Unmark':'Mark Spoiler'}" style="background:${post.is_spoiler?'rgba(251,191,36,.12)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_spoiler?'rgba(251,191,36,.25)':'rgba(255,255,255,.1)'};border-radius:10px;color:${post.is_spoiler?'#fbbf24':'rgba(255,255,255,.35)'};font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">⚠️</button>
-                    <button onclick="hidePost('${post.id}')" title="Hide" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:rgba(255,255,255,.3);font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🙈</button>
-                    <button onclick="deletePost('${post.id}')" title="Delete" style="background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.15);border-radius:10px;color:rgba(255,107,107,.6);font-size:12px;padding:6px 10px;cursor:pointer;font-family:'Sora',sans-serif">🗑</button>` : '';
-                const viewerActions = !isMe ? `
-                    <button onclick="hidePost('${post.id}')" title="Hide" style="background:none;border:none;color:rgba(255,255,255,.18);font-size:13px;cursor:pointer">🙈</button>
-                    <button onclick="reportFeedPost('${post.id}')" style="background:none;border:none;color:rgba(255,255,255,.15);font-size:12px;cursor:pointer">⚠️</button>` : '';
-                return `<div id="post-card-${post.id}" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:16px;margin-bottom:10px">
+                const mainContent = isPoll ? pollHtml : (needsBlur
+                    ? `<div style="position:relative;margin-bottom:14px" id="blur-wrap-${post.id}"><p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);filter:blur(6px);user-select:none;pointer-events:none">${esc(post.content)}</p><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px" id="blur-overlay-${post.id}"><span style="font-size:12px;font-weight:700;background:rgba(7,9,15,.85);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;color:rgba(255,255,255,.7)">${blurLabel}</span><button onclick="revealBlurred('${post.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;padding:5px 14px;cursor:pointer;font-family:'Sora',sans-serif">Show anyway</button></div></div>`
+                    : `<p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:14px">${esc(post.content)}</p>`);
+                const editedTag = post.is_edited ? `<span style="font-size:10px;color:rgba(255,255,255,.22);margin-left:5px">(edited)</span>` : '';
+                const nsfwChip = post.is_nsfw ? `<span style="padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.2)">NSFW</span>` : '';
+                const spoilerChip = post.is_spoiler ? `<span style="padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.2)">Spoiler</span>` : '';
+                const pinChip = post.is_pinned ? `<span style="padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.2)">📌 Pinned</span>` : '';
+                // Author controls
+                const authorBtns = isMe ? `
+                    <button onclick="openEditPost('${post.id}',\`${esc(post.content).replace(/`/g,'\\`')}\`)" style="background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);border-radius:9px;color:#4fc3f7;font-size:12px;font-weight:600;padding:5px 10px;cursor:pointer;font-family:'Sora',sans-serif">✏️</button>
+                    <button onclick="togglePostNsfw('${post.id}',${!!post.is_nsfw})" title="Toggle NSFW" style="background:${post.is_nsfw?'rgba(255,107,107,.15)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_nsfw?'rgba(255,107,107,.25)':'rgba(255,255,255,.09)'};border-radius:9px;color:${post.is_nsfw?'#ff6b6b':'rgba(255,255,255,.3)'};font-size:12px;padding:5px 9px;cursor:pointer">🔞</button>
+                    <button onclick="togglePostSpoiler('${post.id}',${!!post.is_spoiler})" title="Toggle Spoiler" style="background:${post.is_spoiler?'rgba(251,191,36,.12)':'rgba(255,255,255,.05)'};border:1px solid ${post.is_spoiler?'rgba(251,191,36,.2)':'rgba(255,255,255,.09)'};border-radius:9px;color:${post.is_spoiler?'#fbbf24':'rgba(255,255,255,.3)'};font-size:12px;padding:5px 9px;cursor:pointer">⚠️</button>` : '';
+                // Mod controls
+                const modBtns = isMod && !isMe ? `
+                    <button onclick="modPinPost('${post.id}',${!!post.is_pinned})" title="${post.is_pinned?'Unpin':'Pin post'}" style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:9px;color:#34d399;font-size:12px;padding:5px 9px;cursor:pointer">📌</button>` : '';
+                const pinBtn = isMe && isMod ? `<button onclick="modPinPost('${post.id}',${!!post.is_pinned})" title="${post.is_pinned?'Unpin':'Pin'}" style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:9px;color:#34d399;font-size:12px;padding:5px 9px;cursor:pointer">📌</button>` : '';
+                const deleteBtn = canDelete ? `<button onclick="deletePost('${post.id}')" style="background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.15);border-radius:9px;color:rgba(255,107,107,.6);font-size:12px;padding:5px 9px;cursor:pointer">🗑</button>` : '';
+                const hideBtn = `<button onclick="hidePost('${post.id}')" title="Hide from feed" style="background:none;border:none;color:rgba(255,255,255,.18);font-size:13px;cursor:pointer">🙈</button>`;
+                const reportBtn = !isMe ? `<button onclick="reportFeedPost('${post.id}')" style="background:none;border:none;color:rgba(255,255,255,.15);font-size:12px;cursor:pointer">⚠️</button>` : '';
+                return `<div data-post-id="${post.id}" style="background:rgba(255,255,255,.04);border:1px solid ${post.is_pinned ? 'rgba(52,211,153,.25)' : 'rgba(255,255,255,.07)'};border-radius:18px;padding:16px;margin-bottom:10px">
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
                         ${avHtml}
                         <div style="flex:1;min-width:0">
-                            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600${canDM?';cursor:pointer':''}"${canDM?` onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name||'').replace(/'/g,"\\'")}','${post.profiles?.avatar_url||''}')"`:''} >${author}</span>${badge}${nsfwChip}${spoilerChip}${editedTag}</div>
+                            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600${canDM ? ';cursor:pointer' : ''}"${canDM ? ` onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')"` : ''}>${author}</span>${badge}${nsfwChip}${spoilerChip}${pinChip}${editedTag}</div>
                             <div style="font-size:11px;color:rgba(255,255,255,.35)">${uni} ${tAgo(post.created_at)}</div>
                         </div>
                         <span style="padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;background:${cat.color}20;color:${cat.color};border:1px solid ${cat.color}30;flex-shrink:0">${cat.emoji} ${cat.label}</span>
                     </div>
-                    ${contentHtml}
+                    ${mainContent}
                     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
                         <button onclick="imIn('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:10px;color:#34d399;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✋ I'm in</button>
                         <button onclick="loadComments('${post.id}',this)" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">💬 Comment</button>
-                        ${canDM?`<button onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name||'').replace(/'/g,"\\'")}','${post.profiles?.avatar_url||''}')" style="display:flex;align-items:center;gap:6px;background:rgba(232,69,122,.08);border:1px solid rgba(232,69,122,.2);border-radius:10px;color:#e8457a;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✉️ Message</button>`:''}
-                        <div style="margin-left:auto;display:flex;gap:5px;align-items:center">${authorActions}${viewerActions}</div>
+                        ${canDM ? `<button onclick="openFeedUserSheet('${post.author_id}','${(post.profiles?.full_name || '').replace(/'/g, "\\'")}','${post.profiles?.avatar_url || ''}')" style="display:flex;align-items:center;gap:6px;background:rgba(232,69,122,.08);border:1px solid rgba(232,69,122,.2);border-radius:10px;color:#e8457a;font-size:12px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:'Sora',sans-serif">✉️ Message</button>` : ''}
+                        <div style="margin-left:auto;display:flex;gap:5px;align-items:center">${authorBtns}${modBtns}${pinBtn}${deleteBtn}${hideBtn}${reportBtn}</div>
                     </div>
                     <div id="comments-${post.id}" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px"></div>
                     <div id="edit-panel-${post.id}" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px"></div>
@@ -3622,62 +3601,238 @@
         }
 
         async function deletePost(postId) {
-            if (!confirm('Delete this post? The comment thread will stay visible to others.')) return;
-            const { error } = await sb.from('notice_posts')
-                .update({ is_deleted: true, content: '[deleted]', author_id: null })
-                .eq('id', postId).eq('author_id', USER.id);
-            if (error) { toast('Could not delete — try again', 'err'); return; }
-            haptic(HFX.tap); toast('Post deleted.', 'ok'); loadFeed();
-        }
-        function hidePost(postId) {
-            const hidden = JSON.parse(localStorage.getItem('cl_hidden_posts') || '[]');
-            if (!hidden.includes(postId)) hidden.push(postId);
-            localStorage.setItem('cl_hidden_posts', JSON.stringify(hidden));
-            const card = Q(`post-card-${postId}`);
-            if (card) { card.style.transition = 'opacity .3s,transform .3s'; card.style.opacity = '0'; card.style.transform = 'translateX(40px)'; setTimeout(() => card.remove(), 320); }
-            toast('Post hidden from your feed.', 'ok');
-        }
-        function openEditPost(postId, currentContent) {
-            const panel = Q(`edit-panel-${postId}`); if (!panel) return;
-            if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
-            panel.style.display = 'block';
-            panel.innerHTML = `
-                <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">✏️ Edit Post Body</div>
-                <textarea id="edit-ta-${postId}" class="inp" style="height:90px;margin-bottom:8px">${currentContent}</textarea>
-                <div style="display:flex;gap:8px">
-                    <button onclick="saveEditPost('${postId}')" style="flex:1;padding:10px;background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:11px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Save</button>
-                    <button onclick="Q('edit-panel-${postId}').style.display='none'" style="flex:1;padding:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:11px;color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Cancel</button>
-                </div>
-                <p style="font-size:11px;color:rgba(255,255,255,.22);margin-top:8px">📌 Post titles cannot be changed after publishing.</p>`;
-        }
-        async function saveEditPost(postId) {
-            const ta = Q(`edit-ta-${postId}`);
-            const newContent = ta?.value.trim() || '';
-            if (!newContent) { toast('Content can\'t be empty', 'warn'); return; }
-            if (!isClean(newContent, 1000)) { toast('Post contains invalid content', 'err'); return; }
-            const { error } = await sb.from('notice_posts')
-                .update({ content: san(newContent), is_edited: true, edited_at: new Date().toISOString() })
-                .eq('id', postId).eq('author_id', USER.id);
-            if (error) { toast('Save failed', 'err'); return; }
-            haptic(HFX.success); toast('Post updated ✨', 'ok'); loadFeed();
-        }
-        async function togglePostNsfw(postId, currently) {
-            await sb.from('notice_posts').update({ is_nsfw: !currently }).eq('id', postId).eq('author_id', USER.id);
-            haptic(HFX.tap); toast(currently ? 'NSFW tag removed' : 'Marked NSFW 🔞', 'ok'); loadFeed();
-        }
-        async function togglePostSpoiler(postId, currently) {
-            await sb.from('notice_posts').update({ is_spoiler: !currently }).eq('id', postId).eq('author_id', USER.id);
-            haptic(HFX.tap); toast(currently ? 'Spoiler tag removed' : 'Marked as Spoiler ⚠️', 'ok'); loadFeed();
-        }
-        function revealBlurred(postId) {
-            const wrap = Q(`blur-wrap-${postId}`); if (!wrap) return;
-            const overlay = Q(`blur-overlay-${postId}`); if (overlay) overlay.remove();
-            const p = wrap.querySelector('p'); if (p) p.style.filter = 'none';
+            if (!confirm('Delete this post? This cannot be undone.')) return;
+            const isMod = PROFILE?.role === 'mod' || PROFILE?.role === 'admin' || PROFILE?.is_founder;
+            let query = sb.from('notice_posts').delete().eq('id', postId);
+            if (!isMod) query = query.eq('author_id', USER.id);
+            const { error } = await query;
+            if (error) { console.error('Delete error:', error); toast('Delete failed — check your connection', 'err'); return; }
+            haptic(HFX.tap);
+            toast('Post deleted.', 'ok');
+            const card = document.querySelector(`[data-post-id="${postId}"]`);
+            if (card) { card.style.transition = 'opacity .25s'; card.style.opacity = '0'; setTimeout(() => card.remove(), 260); }
+            else loadFeed();
         }
 
         async function reportFeedPost(postId) {
             await sb.from('content_reports').insert({ reporter_id: USER.id, content_type: 'post', content_id: postId, reason: 'user_report' }).catch(() => { });
             toast('Post reported. Thank you 🙏', 'ok');
+        }
+
+        // ── HIDE POST (local, stored in localStorage) ──
+        function hidePost(postId) {
+            const hidden = JSON.parse(localStorage.getItem('cl_hidden_posts') || '[]');
+            if (!hidden.includes(postId)) { hidden.push(postId); localStorage.setItem('cl_hidden_posts', JSON.stringify(hidden)); }
+            const card = document.querySelector(`[data-post-id="${postId}"]`);
+            if (card) { card.style.transition = 'opacity .25s,transform .25s'; card.style.opacity = '0'; card.style.transform = 'translateX(30px)'; setTimeout(() => card.remove(), 270); }
+            toast('Hidden from your feed.', 'ok');
+        }
+
+        // ── EDIT POST BODY ──
+        function openEditPost(postId, currentContent) {
+            const panel = Q(`edit-panel-${postId}`);
+            if (!panel) return;
+            if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+            panel.style.display = 'block';
+            panel.innerHTML = `
+                <div style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">✏️ Edit Body</div>
+                <textarea id="edit-ta-${postId}" class="inp" style="height:88px;margin-bottom:8px">${currentContent}</textarea>
+                <div style="display:flex;gap:8px">
+                    <button onclick="saveEditPost('${postId}')" style="flex:1;padding:10px;background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:11px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Save</button>
+                    <button onclick="Q('edit-panel-${postId}').style.display='none'" style="flex:1;padding:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:11px;color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Cancel</button>
+                </div>`;
+        }
+        async function saveEditPost(postId) {
+            const ta = Q(`edit-ta-${postId}`);
+            const newContent = ta?.value.trim() || '';
+            if (!newContent) { toast('Content can\'t be empty', 'warn'); return; }
+            if (!isClean(newContent, 1000)) { toast('Invalid content', 'err'); return; }
+            const { error } = await sb.from('notice_posts').update({ content: san(newContent), is_edited: true }).eq('id', postId).eq('author_id', USER.id);
+            if (error) { toast('Save failed', 'err'); return; }
+            haptic(HFX.success); toast('Post updated ✨', 'ok'); loadFeed();
+        }
+
+        // ── NSFW / SPOILER TOGGLES ──
+        async function togglePostNsfw(postId, cur) {
+            await sb.from('notice_posts').update({ is_nsfw: !cur }).eq('id', postId).eq('author_id', USER.id);
+            haptic(HFX.tap); toast(cur ? 'NSFW tag removed' : 'Marked NSFW 🔞', 'ok'); loadFeed();
+        }
+        async function togglePostSpoiler(postId, cur) {
+            await sb.from('notice_posts').update({ is_spoiler: !cur }).eq('id', postId).eq('author_id', USER.id);
+            haptic(HFX.tap); toast(cur ? 'Spoiler tag removed' : 'Marked as Spoiler ⚠️', 'ok'); loadFeed();
+        }
+
+        // ── REVEAL BLURRED CONTENT ──
+        function revealBlurred(postId) {
+            const wrap = Q(`blur-wrap-${postId}`); if (!wrap) return;
+            Q(`blur-overlay-${postId}`)?.remove();
+            const p = wrap.querySelector('p'); if (p) p.style.filter = 'none';
+        }
+
+        // ── MOD: PIN POST ──
+        async function modPinPost(postId, cur) {
+            const isMod = PROFILE?.role === 'mod' || PROFILE?.role === 'admin' || PROFILE?.is_founder;
+            if (!isMod) { toast('Mods only', 'warn'); return; }
+            await sb.from('notice_posts').update({ is_pinned: !cur }).eq('id', postId);
+            haptic(HFX.tap); toast(cur ? 'Post unpinned' : '📌 Post pinned', 'ok'); loadFeed();
+        }
+
+        // ══════════════════════════════════════════════
+        // ROLE SYSTEM — Mod Management
+        // ══════════════════════════════════════════════
+        function getRoleStyle(role) {
+            const styles = {
+                admin:  { color: '#ff6b6b', bg: 'rgba(255,107,107,.15)', border: 'rgba(255,107,107,.3)', label: '⚡ Admin' },
+                mod:    { color: '#fbbf24', bg: 'rgba(251,191,36,.12)', border: 'rgba(251,191,36,.25)', label: '🛡 Mod' },
+                tutor:  { color: '#4fc3f7', bg: 'rgba(79,195,247,.12)', border: 'rgba(79,195,247,.25)', label: '📘 Tutor' },
+                senior: { color: '#a78bfa', bg: 'rgba(167,139,250,.12)', border: 'rgba(167,139,250,.25)', label: '🎓 Senior' },
+            };
+            return styles[role] || null;
+        }
+
+        function roleBadge(role) {
+            const s = getRoleStyle(role); if (!s) return '';
+            return `<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:${s.color};background:${s.bg};border:1px solid ${s.border}">${s.label}</span>`;
+        }
+
+        // Open mod panel from profile page (founder/admin only)
+        async function openModPanel() {
+            if (!PROFILE?.is_founder && PROFILE?.role !== 'admin') { toast('Admin access only', 'warn'); return; }
+            const sheet = document.createElement('div');
+            sheet.id = 'mod-panel-sheet';
+            sheet.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center';
+            sheet.onclick = e => { if (e.target === sheet) sheet.remove(); };
+            sheet.innerHTML = `<div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto">
+                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
+                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:4px">⚡ Mod Panel</h3>
+                <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:20px">Assign or revoke roles for any user by their User ID.</p>
+                <div style="margin-bottom:14px">
+                    <label style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:7px">User ID or Username</label>
+                    <input id="mod-user-inp" class="inp" placeholder="Paste user UUID or @username" />
+                </div>
+                <div style="margin-bottom:18px">
+                    <label style="font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:7px">Assign Role</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        ${['mod','tutor','senior','none'].map(r => { const s = getRoleStyle(r); return `<button onclick="assignRole('${r}')" style="padding:8px 14px;border-radius:12px;background:${s?s.bg:'rgba(255,255,255,.06)'};border:1px solid ${s?s.border:'rgba(255,255,255,.1)'};color:${s?s.color:'rgba(255,255,255,.5)'};font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">${s?s.label:'🚫 Remove Role'}</button>`; }).join('')}
+                    </div>
+                </div>
+                <div id="mod-result" style="font-size:13px;color:rgba(255,255,255,.4);min-height:20px"></div>
+                <button onclick="document.getElementById('mod-panel-sheet').remove()" style="width:100%;padding:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;margin-top:14px">Close</button>
+            </div>`;
+            document.body.appendChild(sheet);
+        }
+
+        async function assignRole(role) {
+            const inp = Q('mod-user-inp')?.value.trim();
+            if (!inp) { toast('Enter a user ID or username', 'warn'); return; }
+            const result = Q('mod-result');
+            if (result) result.textContent = 'Looking up user…';
+            // Try by UUID first, then by username
+            let query = inp.includes('-') && inp.length > 30
+                ? sb.from('profiles').select('id,full_name,username').eq('id', inp).single()
+                : sb.from('profiles').select('id,full_name,username').eq('username', inp.replace('@','')).single();
+            const { data: target, error } = await query;
+            if (error || !target) { if (result) result.innerHTML = '<span style="color:#ff6b6b">User not found. Double-check the ID/username.</span>'; return; }
+            const newRole = role === 'none' ? null : role;
+            const { error: upErr } = await sb.from('profiles').update({ role: newRole }).eq('id', target.id);
+            if (upErr) { if (result) result.innerHTML = '<span style="color:#ff6b6b">Update failed — check RLS policy.</span>'; return; }
+            if (result) result.innerHTML = `<span style="color:#34d399">✓ ${target.full_name || target.username} is now ${role === 'none' ? 'a regular user' : role}.</span>`;
+            haptic(HFX.success);
+        }
+
+        // ══════════════════════════════════════════════
+        // ANNOUNCEMENTS (one-way broadcast channel)
+        // ══════════════════════════════════════════════
+        function openAnnouncementPanel() {
+            const isMod = PROFILE?.role === 'mod' || PROFILE?.role === 'admin' || PROFILE?.is_founder;
+            if (!isMod) { toast('Mods only', 'warn'); return; }
+            const sheet = document.createElement('div');
+            sheet.id = 'ann-sheet';
+            sheet.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center';
+            sheet.onclick = e => { if (e.target === sheet) sheet.remove(); };
+            sheet.innerHTML = `<div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px">
+                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
+                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:4px">📢 Send Announcement</h3>
+                <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:18px">Pinned to the top of the feed. Only mods can post here.</p>
+                <div class="field"><label class="lbl">Title</label><input class="inp" id="ann-title" placeholder="e.g. Career Fair Next Week" maxlength="80" /></div>
+                <div class="field"><label class="lbl">Body</label><textarea class="inp" id="ann-body" style="height:100px" placeholder="Full announcement details…" maxlength="500"></textarea></div>
+                <div style="display:flex;gap:10px;margin-top:4px">
+                    <button onclick="submitAnnouncement()" style="flex:1;padding:14px;background:linear-gradient(135deg,#fbbf24,#f7915a);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">📢 Broadcast</button>
+                    <button onclick="document.getElementById('ann-sheet').remove()" style="flex:1;padding:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Cancel</button>
+                </div>
+            </div>`;
+            document.body.appendChild(sheet);
+        }
+
+        async function submitAnnouncement() {
+            const title = Q('ann-title')?.value.trim();
+            const body = Q('ann-body')?.value.trim();
+            if (!title || !body) { toast('Fill in both fields', 'warn'); return; }
+            const { error } = await sb.from('notice_posts').insert({
+                content: `📢 **${san(title)}**\n\n${san(body)}`,
+                category: 'general', is_anonymous: false, author_id: USER.id,
+                is_pinned: true, university_name: PROFILE?.university_name || null
+            });
+            if (error) { toast('Failed to broadcast', 'err'); return; }
+            document.getElementById('ann-sheet')?.remove();
+            haptic(HFX.success); toast('Announcement sent! 📢', 'ok'); loadFeed();
+        }
+
+        // ══════════════════════════════════════════════
+        // POLLS
+        // ══════════════════════════════════════════════
+        function openPollPanel() {
+            const sheet = document.createElement('div');
+            sheet.id = 'poll-sheet';
+            sheet.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center';
+            sheet.onclick = e => { if (e.target === sheet) sheet.remove(); };
+            sheet.innerHTML = `<div style="background:#111318;border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto">
+                <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px"></div>
+                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:900;margin-bottom:4px">📊 Create Poll</h3>
+                <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:18px">Anonymous votes. Results visible to all.</p>
+                <div class="field"><label class="lbl">Question</label><input class="inp" id="poll-q" placeholder="e.g. Where should we eat lunch?" maxlength="120" /></div>
+                <div id="poll-options-wrap">
+                    <label class="lbl">Options</label>
+                    <div id="poll-opts" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+                        <input class="inp poll-opt" placeholder="Option 1" maxlength="80" />
+                        <input class="inp poll-opt" placeholder="Option 2" maxlength="80" />
+                        <input class="inp poll-opt" placeholder="Option 3 (optional)" maxlength="80" />
+                        <input class="inp poll-opt" placeholder="Option 4 (optional)" maxlength="80" />
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px">
+                    <button onclick="submitPoll()" style="flex:1;padding:14px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">📊 Post Poll</button>
+                    <button onclick="document.getElementById('poll-sheet').remove()" style="flex:1;padding:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.5);font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Cancel</button>
+                </div>
+            </div>`;
+            document.body.appendChild(sheet);
+        }
+
+        async function submitPoll() {
+            const q = Q('poll-q')?.value.trim();
+            if (!q) { toast('Enter a question', 'warn'); return; }
+            const opts = [...document.querySelectorAll('.poll-opt')].map(i => i.value.trim()).filter(Boolean);
+            if (opts.length < 2) { toast('Add at least 2 options', 'warn'); return; }
+            const pollData = { question: q, options: opts, votes: Object.fromEntries(opts.map(o => [o, 0])), voters: [] };
+            const content = `📊 **POLL**\n${q}\n\nOptions: ${opts.join(' | ')}`;
+            const { data, error } = await sb.from('notice_posts').insert({
+                content: san(content), category: 'general', is_anonymous: false,
+                author_id: USER.id, poll_data: pollData, university_name: PROFILE?.university_name || null
+            }).select().single();
+            if (error) { toast('Failed to post poll', 'err'); return; }
+            document.getElementById('poll-sheet')?.remove();
+            haptic(HFX.success); toast('Poll posted! 📊', 'ok'); loadFeed();
+        }
+
+        async function votePoll(postId, option) {
+            const { data: post } = await sb.from('notice_posts').select('poll_data').eq('id', postId).single();
+            if (!post?.poll_data) return;
+            const pd = post.poll_data;
+            if (pd.voters?.includes(USER.id)) { toast('You already voted', 'warn'); return; }
+            pd.votes[option] = (pd.votes[option] || 0) + 1;
+            pd.voters = [...(pd.voters || []), USER.id];
+            await sb.from('notice_posts').update({ poll_data: pd }).eq('id', postId);
+            haptic(HFX.tap); toast(`Voted: ${option} ✓`, 'ok'); loadFeed();
         }
 
         // ── FEED USER PROFILE SHEET (tap avatar/name on feed post) ──
