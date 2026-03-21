@@ -3088,20 +3088,24 @@ If this is not a student ID card, set is_student_id to false.`
 
             // If liked profile is a bot — auto match + send welcome message
             if (p.is_bot) {
-                // Bot likes back
                 await sb.from('likes').insert({ liker_id: p.id, liked_id: USER.id }).catch(() => { });
-
-                // Create the match
                 const { data: newMatch } = await sb.from('matches').insert({ user_id: p.id, target_id: USER.id }).select('id').single();
                 if (newMatch) {
                     showMatchModal(p, newMatch.id);
-                    // Bot sends welcome message after 3 seconds
                     setTimeout(async () => {
                         const msg = BOT_MESSAGES[Math.floor(Math.random() * BOT_MESSAGES.length)];
                         await sb.from('messages').insert({ sender_id: p.id, receiver_id: USER.id, content: msg });
-                        loadConvos(); // refresh inbox
+                        loadConvos();
                     }, 3000);
                 }
+                return;
+            }
+
+            // Check if the other real user has already liked you back — if so, create the match
+            const { data: theyLikedMe } = await sb.from('likes').select('id').eq('liker_id', p.id).eq('liked_id', USER.id).maybeSingle();
+            if (theyLikedMe) {
+                const { data: newMatch } = await sb.from('matches').insert({ user_id: USER.id, target_id: p.id }).select('id').single();
+                if (newMatch) showMatchModal(p, newMatch.id);
             }
         }
         function showMatchModal(p, mid) {
@@ -3735,13 +3739,21 @@ If this is not a student ID card, set is_student_id to false.`
             if (postBar) postBar.style.display = 'none';
             if (chatBar) chatBar.style.display = 'none';
 
+            // Determine if current user is the community leader
+            const comm = allComms.find(c => c.id === commId);
+            const isLeader = !!(comm?.created_by && comm.created_by === USER?.id);
+
             if (channel === 'about') {
-                const comm = allComms.find(c => c.id === commId);
                 content.innerHTML = `<div style="padding:8px 0">
                     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:12px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${col};margin-bottom:8px">About</div>
                         <p style="font-size:14px;color:rgba(255,255,255,.7);line-height:1.65">${comm?.description || 'No description yet.'}</p>
                     </div>
+                    ${isLeader ? `<div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:16px;padding:16px;margin-bottom:12px">
+                        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fbbf24;margin-bottom:10px">⚡ Leader Controls</div>
+                        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:12px;line-height:1.6">You created this community. You can delete any post and remove members.</p>
+                        <button onclick="loadCommMembers('${commId}','${col}')" style="width:100%;padding:10px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);border-radius:11px;color:#fbbf24;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">👥 Manage Members</button>
+                    </div>` : ''}
                     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px">Community Rules</div>
                         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.6">
@@ -3765,9 +3777,11 @@ If this is not a student ID card, set is_student_id to false.`
                 content.innerHTML = data.map(post => {
                     const name = post.is_anonymous ? 'Anonymous' : (post.profiles?.full_name || 'Student');
                     const isMe = post.author_id === USER?.id;
+                    const canDelete = isMe || isLeader;
                     const avHtml = post.is_anonymous ? `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>` :
-                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:${isMe ? 'default' : 'pointer'}" ${isMe ? '' : 'onclick="showCommProfile(\'' + post.author_id + '\',\'' + post.profiles.full_name + '\')"'}>` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
+                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:${isMe ? 'default' : 'pointer'}" ${isMe ? '' : 'onclick="showCommProfile(\'' + post.author_id + '\',\'' + (post.profiles.full_name || '').replace(/'/g, "\\'") + '\')"'}>` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
                     const badge = post.is_anonymous ? '' : verifyBadge(post.profiles || {});
+                    const trashColor = (isLeader && !isMe) ? 'rgba(251,191,36,.6)' : 'rgba(255,255,255,.2)';
                     return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:10px">
                         <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
                             ${avHtml}
@@ -3775,7 +3789,11 @@ If this is not a student ID card, set is_student_id to false.`
                                 <div style="display:flex;align-items:center;gap:5px"><span style="font-size:13px;font-weight:600">${name}</span>${badge}</div>
                                 <div style="font-size:11px;color:rgba(255,255,255,.35)">${tAgo(post.created_at)}</div>
                             </div>
-                            ${isMe ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px">🗑</button>` : (!post.is_anonymous ? `<button onclick="showCommProfile('${post.author_id}','${name}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.25);border-radius:20px;padding:5px 10px;color:#e8457a;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 DM</button>` : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`)}
+                            ${canDelete
+                                ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:${trashColor};cursor:pointer;font-size:14px" title="Delete post">🗑</button>`
+                                : (!post.is_anonymous
+                                    ? `<button onclick="showCommProfile('${post.author_id}','${name}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.25);border-radius:20px;padding:5px 10px;color:#e8457a;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 DM</button>`
+                                    : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`)}
                         </div>
                         <p style="font-size:14px;color:rgba(255,255,255,.82);line-height:1.65;margin-bottom:12px">${esc(post.content)}</p>
                         <div style="display:flex;align-items:center;gap:10px">
@@ -3792,38 +3810,84 @@ If this is not a student ID card, set is_student_id to false.`
                 if (chatBar) chatBar.style.display = 'block';
                 content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
                 const { data } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('community_id', commId).order('created_at', { ascending: true }).limit(100);
-                renderCommChat(data || [], col);
+                renderCommChat(data || [], col, isLeader);
                 setTimeout(() => { if (content) content.scrollTop = content.scrollHeight; }, 50);
                 if (commCh) sb.removeChannel(commCh);
                 commCh = sb.channel(`comm-chat-${commId}`)
                     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `community_id=eq.${commId}` }, async pl => {
                         const { data: msg } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('id', pl.new.id).single();
-                        if (msg) appendCommMsg(msg, col);
+                        if (msg) appendCommMsg(msg, col, isLeader);
                     }).subscribe();
             }
         }
 
-        function renderCommChat(msgs, col) {
+        // Leader: load member list with remove buttons
+        async function loadCommMembers(commId, col) {
             const content = Q('comm-room-content');
-            if (!msgs.length) { content.innerHTML = `<div style="text-align:center;padding:50px 20px;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:12px">💬</div><p style="font-size:13px">No messages yet. Say hello!</p></div>`; return; }
-            content.innerHTML = msgs.map(m => commMsgHTML(m, col)).join('');
+            content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
+            const { data } = await sb.from('community_members')
+                .select('user_id,joined_at,profiles(id,full_name,avatar_url,is_verified,is_founder)')
+                .eq('community_id', commId)
+                .order('joined_at', { ascending: true });
+            if (!data?.length) { content.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(255,255,255,.35)">No members yet.</div>`; return; }
+            content.innerHTML = `
+                <div style="padding:4px 0 8px">
+                    <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">${data.length} Member${data.length !== 1 ? 's' : ''}</div>
+                    ${data.map(m => {
+                        const p = m.profiles;
+                        const isSelf = m.user_id === USER?.id;
+                        return `<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+                            ${av(p?.avatar_url, 40)}
+                            <div style="flex:1;min-width:0">
+                                <div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p?.full_name || 'Student')}</div>
+                                <div style="font-size:11px;color:rgba(255,255,255,.3)">${isSelf ? 'You (Leader)' : 'Member'}</div>
+                            </div>
+                            ${!isSelf ? `<button onclick="kickCommMember('${commId}','${m.user_id}','${col}',this)" style="padding:6px 12px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);border-radius:9px;color:#ff6b6b;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Remove</button>` : ''}
+                        </div>`;
+                    }).join('')}
+                </div>`;
         }
 
-        function commMsgHTML(m, col) {
+        async function kickCommMember(commId, userId, col, btn) {
+            if (!confirm('Remove this member from the community?')) return;
+            btn.disabled = true; btn.textContent = '…';
+            await sb.from('community_members').delete().eq('community_id', commId).eq('user_id', userId);
+            const comm = allComms.find(c => c.id === commId);
+            if (comm && comm.member_count > 0) {
+                comm.member_count--;
+                await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => {});
+            }
+            toast('Member removed.', 'ok');
+            loadCommMembers(commId, col);
+        }
+
+        function renderCommChat(msgs, col, isLeader = false) {
+            const content = Q('comm-room-content');
+            if (!msgs.length) { content.innerHTML = `<div style="text-align:center;padding:50px 20px;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:12px">💬</div><p style="font-size:13px">No messages yet. Say hello!</p></div>`; return; }
+            content.innerHTML = msgs.map(m => commMsgHTML(m, col, isLeader)).join('');
+        }
+
+        function commMsgHTML(m, col, isLeader = false) {
             const isMe = m.sender_id === USER?.id;
             const name = m.profiles?.full_name || 'Student';
             const badge = verifyBadge(m.profiles || {});
             const avHtml = m.profiles?.avatar_url
                 ? `<img src="${m.profiles.avatar_url}" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles.avatar_url}')" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:pointer">`
                 : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">👤</div>`;
+            const leaderDelete = (isLeader && !isMe) ? `<button onclick="deleteCommMessage('${m.id}')" style="background:none;border:none;color:rgba(251,191,36,.4);cursor:pointer;font-size:11px;padding:0 3px" title="Remove message">🗑</button>` : '';
             if (isMe) return `<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><div style="max-width:75%"><div style="background:linear-gradient(135deg,${col},${col}cc);color:#fff;border-radius:18px 18px 5px 18px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
-            return `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')">${name}</span>${badge}<button onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.2);border-radius:8px;color:#e8457a;font-size:10px;font-weight:600;padding:2px 7px;cursor:pointer;font-family:'Sora',sans-serif">DM</button></div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
+            return `<div id="cmsg-${m.id}" style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')">${name}</span>${badge}<button onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.2);border-radius:8px;color:#e8457a;font-size:10px;font-weight:600;padding:2px 7px;cursor:pointer;font-family:'Sora',sans-serif">DM</button>${leaderDelete}</div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
         }
 
-        function appendCommMsg(m, col) {
+        async function deleteCommMessage(msgId) {
+            await sb.from('community_messages').delete().eq('id', msgId);
+            const el = Q(`cmsg-${msgId}`); if (el) el.remove();
+        }
+
+        function appendCommMsg(m, col, isLeader = false) {
             const content = Q('comm-room-content');
             const div = document.createElement('div');
-            div.innerHTML = commMsgHTML(m, col);
+            div.innerHTML = commMsgHTML(m, col, isLeader);
             while (div.firstChild) content.appendChild(div.firstChild);
             content.scrollTop = content.scrollHeight;
         }
@@ -4199,19 +4263,31 @@ If this is not a student ID card, set is_student_id to false.`
         async function sendFeedWave(targetId, targetName, btn) {
             btn.disabled = true; btn.textContent = 'Sending…';
             haptic(HFX.like);
-            // Insert a like — if they already liked you, this creates a match
-            const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(e => ({ error: e }));
-            const { data: match } = await sb.from('matches')
+            // Insert a like
+            await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(() => {});
+            // Check if a match already exists
+            const { data: existingMatch } = await sb.from('matches')
                 .select('id')
                 .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
                 .maybeSingle();
             document.getElementById('feed-user-sheet')?.remove();
-            if (match) {
+            document.getElementById('comm-profile-sheet')?.remove();
+            if (existingMatch) {
                 toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
                 haptic(HFX.match);
-            } else {
-                toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
+                return;
             }
+            // Check if they already liked you — if so, create the match now
+            const { data: theyLikedMe } = await sb.from('likes').select('id').eq('liker_id', targetId).eq('liked_id', USER.id).maybeSingle();
+            if (theyLikedMe) {
+                const { data: newMatch } = await sb.from('matches').insert({ user_id: USER.id, target_id: targetId }).select('id').single();
+                if (newMatch) {
+                    toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
+                    haptic(HFX.match);
+                    return;
+                }
+            }
+            toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
         }
 
         function openNewPost() {
