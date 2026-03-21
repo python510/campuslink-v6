@@ -2262,8 +2262,28 @@
             style="display:flex;gap:6px;padding:8px 16px;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,.07);scrollbar-width:none;background:rgba(7,9,15,.95)">
         </div>
         <div id="comm-room-content" style="padding:16px 16px 120px;min-height:60vh"></div>
-        <div id="comm-room-input"
-            style="position:fixed;bottom:0;left:0;right:0;padding:10px 14px 32px;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto;z-index:10">
+
+        <!-- Community post bar (Feed tab) -->
+        <div id="comm-post-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;padding:10px 14px 32px;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);max-width:480px;margin:0 auto;z-index:10">
+            <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:6px">
+                <textarea id="comm-post-inp" placeholder="Post something to this community…" maxlength="500"
+                    style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 14px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;resize:none;height:44px;max-height:100px;outline:none;line-height:1.4"
+                    oninput="this.style.height='44px';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+                <button onclick="submitCommPost()" style="padding:11px 16px;background:linear-gradient(135deg,#e8457a,#f7915a);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0">Post</button>
+            </div>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.4);cursor:pointer">
+                <input type="checkbox" id="comm-post-anon" style="accent-color:#a78bfa;width:14px;height:14px"> Post anonymously
+            </label>
+        </div>
+
+        <!-- Community chat bar (Chat tab) -->
+        <div id="comm-chat-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;padding:10px 14px 32px;background:rgba(7,9,15,.97);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.07);max-width:480px;margin:0 auto;z-index:10">
+            <div style="display:flex;gap:8px;align-items:center">
+                <input id="comm-chat-inp" placeholder="Say something…" maxlength="300"
+                    style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:11px 16px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;outline:none"
+                    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendCommMsg()}">
+                <button onclick="sendCommMsg()" style="padding:11px 16px;background:linear-gradient(135deg,#a78bfa,#4fc3f7);border:none;border-radius:22px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0">Send</button>
+            </div>
         </div>
     </div>
 
@@ -2424,7 +2444,7 @@
         function av(url, size = 48) { return url ? `<img src="${url}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1.5px solid rgba(255,255,255,.08)">` : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:${size * .38}px;flex-shrink:0">👤</div>`; }
         function mc(p) { return p >= 85 ? '#34d399' : p >= 65 ? '#fbbf24' : '#f7915a'; }
         function ylbl(n) { return ['', '1st', '2nd', '3rd', '4th', '5th', 'Masters', 'PhD', 'Other'][n] || `${n}th`; }
-        function tAgo(iso) { const h = Math.floor((Date.now() - new Date(iso)) / 3.6e6); return h < 1 ? 'Just now' : h < 24 ? `${h}h ago` : h < 48 ? 'Yesterday' : `${Math.floor(h / 24)}d ago`; }
+        function tAgo(iso) { const h = Math.max(0, Math.floor((Date.now() - new Date(iso)) / 3.6e6)); return h < 1 ? 'Just now' : h < 24 ? `${h}h ago` : h < 48 ? 'Yesterday' : `${Math.floor(h / 24)}d ago`; }
         function fmtT(iso) { return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
         function fmtInbox(iso) { if (!iso) return ''; const d = new Date(iso), now = new Date(), diff = Math.floor((now - d) / 86400000); if (diff === 0) return fmtT(iso); if (diff === 1) return 'Yesterday'; if (diff < 7) return d.toLocaleDateString([], { weekday: 'short' }); return d.toLocaleDateString([], { month: 'short', day: 'numeric' }); }
 
@@ -2448,6 +2468,12 @@
             if (!USER) return;
             const { data } = await sb.from('profiles').select('*').eq('id', USER.id).single();
             PROFILE = data;
+            // Auto-repair founder badge for the founder account
+            if (USER.email === 'felyxkeem@gmail.com' && PROFILE && !PROFILE.is_founder) {
+                await sb.from('profiles').update({ is_founder: true, is_verified: true }).eq('id', USER.id);
+                PROFILE.is_founder = true;
+                PROFILE.is_verified = true;
+            }
         }
         function enterApp() {
             const status = PROFILE?.verification_status;
@@ -2812,7 +2838,10 @@ If this is not a student ID card, set is_student_id to false.`
             const b = Q('su-b1'); b.disabled = true; b.innerHTML = '<div class="spin" style="width:18px;height:18px;border-width:2px;margin:0"></div> Creating account…';
             const { data, error } = await sb.auth.signUp({ email: em, password: pw, options: { data: { full_name: '' } } });
             if (error) { showE('su-em-e', error.message); b.disabled = false; b.textContent = 'Continue →'; toast(error.message, 'err'); return; }
-            USER = data.user; b.disabled = false; b.textContent = 'Continue →';
+            USER = data.user;
+            // Create profile row immediately so subsequent updates don't silently fail
+            await sb.from('profiles').upsert({ id: USER.id, created_at: new Date().toISOString() }, { onConflict: 'id', ignoreDuplicates: true }).catch(() => {});
+            b.disabled = false; b.textContent = 'Continue →';
             toast('Account created! 🎉', 'ok'); suGo(2);
         }
         async function suStep2() {
@@ -2976,6 +3005,16 @@ If this is not a student ID card, set is_student_id to false.`
             if (page === 'matches') loadMatches();
             if (page === 'messages') loadConvos();
             if (page === 'profile') renderProfile();
+            if (page === 'discover') {
+                // Re-sync filter button highlight with current discFilter state
+                const df = Q('disc-filters');
+                if (df) df.querySelectorAll('button').forEach(b => {
+                    const isActive = (b._filter === discFilter) || (discFilter === 'all' && b._filter === 'all');
+                    b.style.background = isActive ? 'linear-gradient(135deg,#e8457a,#f7915a)' : 'rgba(255,255,255,.06)';
+                    b.style.color = isActive ? '#fff' : 'rgba(255,255,255,.55)';
+                    b.style.borderColor = isActive ? 'transparent' : 'rgba(255,255,255,.1)';
+                });
+            }
         }
 
         // ══════════════════════════════════════════════
@@ -3078,17 +3117,14 @@ If this is not a student ID card, set is_student_id to false.`
         ];
 
         async function doLike(p) {
-            // Insert the like
             const { error } = await sb.from('likes').insert({ liker_id: USER.id, liked_id: p.id });
             if (error && error.code !== '23505') { console.error('Like error:', error); return; }
-
-            // Check if match already exists
+            // Match already exists?
             const { data: existingMatch } = await sb.from('matches').select('id').or(`and(user_id.eq.${USER.id},target_id.eq.${p.id}),and(user_id.eq.${p.id},target_id.eq.${USER.id})`).maybeSingle();
             if (existingMatch) { showMatchModal(p, existingMatch.id); return; }
-
-            // If liked profile is a bot — auto match + send welcome message
+            // Bot — auto match + welcome message
             if (p.is_bot) {
-                await sb.from('likes').insert({ liker_id: p.id, liked_id: USER.id }).catch(() => { });
+                await sb.from('likes').insert({ liker_id: p.id, liked_id: USER.id }).catch(() => {});
                 const { data: newMatch } = await sb.from('matches').insert({ user_id: p.id, target_id: USER.id }).select('id').single();
                 if (newMatch) {
                     showMatchModal(p, newMatch.id);
@@ -3100,8 +3136,7 @@ If this is not a student ID card, set is_student_id to false.`
                 }
                 return;
             }
-
-            // Check if the other real user has already liked you back — if so, create the match
+            // Real user — check if they already liked you back
             const { data: theyLikedMe } = await sb.from('likes').select('id').eq('liker_id', p.id).eq('liked_id', USER.id).maybeSingle();
             if (theyLikedMe) {
                 const { data: newMatch } = await sb.from('matches').insert({ user_id: USER.id, target_id: p.id }).select('id').single();
@@ -3165,8 +3200,6 @@ If this is not a student ID card, set is_student_id to false.`
         // MESSAGES
         // ══════════════════════════════════════════════
         async function loadConvos() {
-            // messages table uses sender_id + receiver_id (no match_id)
-            // get all matches to know who we're connected with
             const { data: matches } = await sb.from('matches')
                 .select(`id,created_at,user_id,target_id,
                     profile_a:profiles!matches_user_id_fkey(id,full_name,avatar_url,course),
@@ -3174,26 +3207,32 @@ If this is not a student ID card, set is_student_id to false.`
                 .or(`user_id.eq.${USER.id},target_id.eq.${USER.id}`)
                 .order('created_at', { ascending: false });
             if (!matches?.length) { convos = []; renderConvos(); return; }
-            convos = await Promise.all(matches.map(async m => {
+            const otherIds = matches.map(m => (m.user_id === USER.id ? m.profile_b : m.profile_a)?.id).filter(Boolean);
+            // Batch fetch last message and unread count for all conversations at once
+            const [{ data: allMsgs }, { data: unreadMsgs }] = await Promise.all([
+                sb.from('messages')
+                    .select('id,content,sender_id,receiver_id,is_read,created_at')
+                    .or(otherIds.map(id => `and(sender_id.eq.${USER.id},receiver_id.eq.${id}),and(sender_id.eq.${id},receiver_id.eq.${USER.id})`).join(','))
+                    .order('created_at', { ascending: false }),
+                sb.from('messages')
+                    .select('id,sender_id')
+                    .eq('receiver_id', USER.id)
+                    .eq('is_read', false)
+                    .in('sender_id', otherIds)
+            ]);
+            convos = matches.map(m => {
                 const other = m.user_id === USER.id ? m.profile_b : m.profile_a;
                 if (!other) return null;
                 const otherId = other.id;
-                // fetch last message between me and this person
-                const { data: msgs } = await sb.from('messages')
-                    .select('id,content,sender_id,is_read,created_at')
-                    .or(`and(sender_id.eq.${USER.id},receiver_id.eq.${otherId}),and(sender_id.eq.${otherId},receiver_id.eq.${USER.id})`)
-                    .order('created_at', { ascending: false })
-                    .limit(1);
-                // count unread messages sent TO me by this person
-                const { count } = await sb.from('messages')
-                    .select('id', { count: 'exact', head: true })
-                    .eq('sender_id', otherId)
-                    .eq('receiver_id', USER.id)
-                    .eq('is_read', false);
-                return { matchId: m.id, other, lastMsg: msgs?.[0] || null, unread: count || 0 };
-            }));
-            convos = convos.filter(Boolean).filter(c => c.other)
-                .sort((a, b) => (b.lastMsg?.created_at || b.matchId || '0').localeCompare(a.lastMsg?.created_at || a.matchId || '0'));
+                const msgs = (allMsgs || []).filter(msg =>
+                    (msg.sender_id === USER.id && msg.receiver_id === otherId) ||
+                    (msg.sender_id === otherId && msg.receiver_id === USER.id)
+                );
+                const lastMsg = msgs[0] || null;
+                const unread = (unreadMsgs || []).filter(msg => msg.sender_id === otherId).length;
+                return { matchId: m.id, other, lastMsg, unread };
+            }).filter(Boolean).filter(c => c.other)
+              .sort((a, b) => (b.lastMsg?.created_at || b.matchId || '0').localeCompare(a.lastMsg?.created_at || a.matchId || '0'));
             renderConvos(); updateBadge();
         }
         function renderConvos() {
@@ -3228,7 +3267,14 @@ If this is not a student ID card, set is_student_id to false.`
         // ══════════════════════════════════════════════
         // CHAT
         // ══════════════════════════════════════════════
-        async function openChatById(matchId, otherId) { const { data: other } = await sb.from('profiles').select('*').eq('id', otherId).single(); openChat(matchId, other); }
+        async function openChatById(matchId, otherId) {
+            // Show header immediately with data we already have from the convo list
+            const cached = convos.find(c => c.matchId === matchId)?.other;
+            if (cached) openChat(matchId, cached);
+            // Then fetch full profile and refresh if needed
+            const { data: other } = await sb.from('profiles').select('*').eq('id', otherId).single();
+            if (other && (!cached || other.bio !== undefined)) openChat(matchId, other);
+        }
         async function openChat(matchId, other) {
             if (typeof other === 'string') try { other = JSON.parse(other) } catch (e) { }
             chatMatchId = matchId; chatOther = other; chatMsgs = [];
@@ -3288,9 +3334,12 @@ If this is not a student ID card, set is_student_id to false.`
         function toggleEP() { const ep = Q('chat-ep'); ep.style.display = ep.style.display === 'flex' ? 'none' : 'flex'; }
         async function sendMsg(text) {
             if (!rateCheck('msg')) return;
-            const content = san(text || Q('chat-inp').value); if (!content || !chatOther) return;
+            const inp = Q('chat-inp');
+            const content = san(text || inp.value); if (!content || !chatOther) return;
             haptic(HFX.send);
-            Q('chat-inp').value = ''; updateSendBtn(); Q('chat-ep').style.display = 'none';
+            inp.value = ''; updateSendBtn(); Q('chat-ep').style.display = 'none';
+            // Dismiss mobile keyboard
+            inp.blur();
             const tid = `t-${Date.now()}`;
             chatMsgs.push({ id: tid, sender_id: USER.id, receiver_id: chatOther.id, content, created_at: new Date().toISOString(), is_read: false, _temp: true });
             renderMsgs();
@@ -3739,21 +3788,13 @@ If this is not a student ID card, set is_student_id to false.`
             if (postBar) postBar.style.display = 'none';
             if (chatBar) chatBar.style.display = 'none';
 
-            // Determine if current user is the community leader
-            const comm = allComms.find(c => c.id === commId);
-            const isLeader = !!(comm?.created_by && comm.created_by === USER?.id);
-
             if (channel === 'about') {
+                const comm = allComms.find(c => c.id === commId);
                 content.innerHTML = `<div style="padding:8px 0">
                     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:12px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${col};margin-bottom:8px">About</div>
                         <p style="font-size:14px;color:rgba(255,255,255,.7);line-height:1.65">${comm?.description || 'No description yet.'}</p>
                     </div>
-                    ${isLeader ? `<div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:16px;padding:16px;margin-bottom:12px">
-                        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fbbf24;margin-bottom:10px">⚡ Leader Controls</div>
-                        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:12px;line-height:1.6">You created this community. You can delete any post and remove members.</p>
-                        <button onclick="loadCommMembers('${commId}','${col}')" style="width:100%;padding:10px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);border-radius:11px;color:#fbbf24;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">👥 Manage Members</button>
-                    </div>` : ''}
                     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px">
                         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px">Community Rules</div>
                         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.6">
@@ -3777,11 +3818,9 @@ If this is not a student ID card, set is_student_id to false.`
                 content.innerHTML = data.map(post => {
                     const name = post.is_anonymous ? 'Anonymous' : (post.profiles?.full_name || 'Student');
                     const isMe = post.author_id === USER?.id;
-                    const canDelete = isMe || isLeader;
                     const avHtml = post.is_anonymous ? `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>` :
-                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:${isMe ? 'default' : 'pointer'}" ${isMe ? '' : 'onclick="showCommProfile(\'' + post.author_id + '\',\'' + (post.profiles.full_name || '').replace(/'/g, "\\'") + '\')"'}>` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
+                        (post.profiles?.avatar_url ? `<img src="${post.profiles.avatar_url}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:${isMe ? 'default' : 'pointer'}" ${isMe ? '' : 'onclick="showCommProfile(\'' + post.author_id + '\',\'' + post.profiles.full_name + '\')"'}>` : `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div>`);
                     const badge = post.is_anonymous ? '' : verifyBadge(post.profiles || {});
-                    const trashColor = (isLeader && !isMe) ? 'rgba(251,191,36,.6)' : 'rgba(255,255,255,.2)';
                     return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:10px">
                         <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
                             ${avHtml}
@@ -3789,11 +3828,7 @@ If this is not a student ID card, set is_student_id to false.`
                                 <div style="display:flex;align-items:center;gap:5px"><span style="font-size:13px;font-weight:600">${name}</span>${badge}</div>
                                 <div style="font-size:11px;color:rgba(255,255,255,.35)">${tAgo(post.created_at)}</div>
                             </div>
-                            ${canDelete
-                                ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:${trashColor};cursor:pointer;font-size:14px" title="Delete post">🗑</button>`
-                                : (!post.is_anonymous
-                                    ? `<button onclick="showCommProfile('${post.author_id}','${name}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.25);border-radius:20px;padding:5px 10px;color:#e8457a;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 DM</button>`
-                                    : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`)}
+                            ${isMe ? `<button onclick="deleteCommPost('${post.id}','${commId}','${col}')" style="background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:14px">🗑</button>` : (!post.is_anonymous ? `<button onclick="showCommProfile('${post.author_id}','${name}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.25);border-radius:20px;padding:5px 10px;color:#e8457a;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">💬 DM</button>` : `<button onclick="openSafety('${post.author_id}','${name}')" style="background:none;border:none;color:rgba(255,255,255,.15);cursor:pointer;font-size:12px">⚠️</button>`)}
                         </div>
                         <p style="font-size:14px;color:rgba(255,255,255,.82);line-height:1.65;margin-bottom:12px">${esc(post.content)}</p>
                         <div style="display:flex;align-items:center;gap:10px">
@@ -3810,84 +3845,38 @@ If this is not a student ID card, set is_student_id to false.`
                 if (chatBar) chatBar.style.display = 'block';
                 content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
                 const { data } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('community_id', commId).order('created_at', { ascending: true }).limit(100);
-                renderCommChat(data || [], col, isLeader);
+                renderCommChat(data || [], col);
                 setTimeout(() => { if (content) content.scrollTop = content.scrollHeight; }, 50);
                 if (commCh) sb.removeChannel(commCh);
                 commCh = sb.channel(`comm-chat-${commId}`)
                     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_messages', filter: `community_id=eq.${commId}` }, async pl => {
                         const { data: msg } = await sb.from('community_messages').select('id,content,created_at,sender_id,profiles(full_name,avatar_url,is_verified,is_founder)').eq('id', pl.new.id).single();
-                        if (msg) appendCommMsg(msg, col, isLeader);
+                        if (msg) appendCommMsg(msg, col);
                     }).subscribe();
             }
         }
 
-        // Leader: load member list with remove buttons
-        async function loadCommMembers(commId, col) {
-            const content = Q('comm-room-content');
-            content.innerHTML = `<div style="display:flex;justify-content:center;padding:30px"><div class="spin"></div></div>`;
-            const { data } = await sb.from('community_members')
-                .select('user_id,joined_at,profiles(id,full_name,avatar_url,is_verified,is_founder)')
-                .eq('community_id', commId)
-                .order('joined_at', { ascending: true });
-            if (!data?.length) { content.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(255,255,255,.35)">No members yet.</div>`; return; }
-            content.innerHTML = `
-                <div style="padding:4px 0 8px">
-                    <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px">${data.length} Member${data.length !== 1 ? 's' : ''}</div>
-                    ${data.map(m => {
-                        const p = m.profiles;
-                        const isSelf = m.user_id === USER?.id;
-                        return `<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)">
-                            ${av(p?.avatar_url, 40)}
-                            <div style="flex:1;min-width:0">
-                                <div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p?.full_name || 'Student')}</div>
-                                <div style="font-size:11px;color:rgba(255,255,255,.3)">${isSelf ? 'You (Leader)' : 'Member'}</div>
-                            </div>
-                            ${!isSelf ? `<button onclick="kickCommMember('${commId}','${m.user_id}','${col}',this)" style="padding:6px 12px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);border-radius:9px;color:#ff6b6b;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif">Remove</button>` : ''}
-                        </div>`;
-                    }).join('')}
-                </div>`;
-        }
-
-        async function kickCommMember(commId, userId, col, btn) {
-            if (!confirm('Remove this member from the community?')) return;
-            btn.disabled = true; btn.textContent = '…';
-            await sb.from('community_members').delete().eq('community_id', commId).eq('user_id', userId);
-            const comm = allComms.find(c => c.id === commId);
-            if (comm && comm.member_count > 0) {
-                comm.member_count--;
-                await sb.from('communities').update({ member_count: comm.member_count }).eq('id', commId).catch(() => {});
-            }
-            toast('Member removed.', 'ok');
-            loadCommMembers(commId, col);
-        }
-
-        function renderCommChat(msgs, col, isLeader = false) {
+        function renderCommChat(msgs, col) {
             const content = Q('comm-room-content');
             if (!msgs.length) { content.innerHTML = `<div style="text-align:center;padding:50px 20px;color:rgba(255,255,255,.3)"><div style="font-size:36px;margin-bottom:12px">💬</div><p style="font-size:13px">No messages yet. Say hello!</p></div>`; return; }
-            content.innerHTML = msgs.map(m => commMsgHTML(m, col, isLeader)).join('');
+            content.innerHTML = msgs.map(m => commMsgHTML(m, col)).join('');
         }
 
-        function commMsgHTML(m, col, isLeader = false) {
+        function commMsgHTML(m, col) {
             const isMe = m.sender_id === USER?.id;
             const name = m.profiles?.full_name || 'Student';
             const badge = verifyBadge(m.profiles || {});
             const avHtml = m.profiles?.avatar_url
                 ? `<img src="${m.profiles.avatar_url}" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles.avatar_url}')" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:pointer">`
                 : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">👤</div>`;
-            const leaderDelete = (isLeader && !isMe) ? `<button onclick="deleteCommMessage('${m.id}')" style="background:none;border:none;color:rgba(251,191,36,.4);cursor:pointer;font-size:11px;padding:0 3px" title="Remove message">🗑</button>` : '';
             if (isMe) return `<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><div style="max-width:75%"><div style="background:linear-gradient(135deg,${col},${col}cc);color:#fff;border-radius:18px 18px 5px 18px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
-            return `<div id="cmsg-${m.id}" style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')">${name}</span>${badge}<button onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.2);border-radius:8px;color:#e8457a;font-size:10px;font-weight:600;padding:2px 7px;cursor:pointer;font-family:'Sora',sans-serif">DM</button>${leaderDelete}</div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
+            return `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-start">${avHtml}<div style="max-width:75%"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer" onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')">${name}</span>${badge}<button onclick="openFeedUserSheet('${m.sender_id}','${(name).replace(/'/g, "\\'")}','${m.profiles?.avatar_url || ''}')" style="background:rgba(232,69,122,.1);border:1px solid rgba(232,69,122,.2);border-radius:8px;color:#e8457a;font-size:10px;font-weight:600;padding:2px 7px;cursor:pointer;font-family:'Sora',sans-serif">DM</button></div><div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-radius:18px 18px 18px 5px;padding:10px 14px;font-size:14px;line-height:1.5">${esc(m.content)}</div><div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:3px">${fmtT(m.created_at)}</div></div></div>`;
         }
 
-        async function deleteCommMessage(msgId) {
-            await sb.from('community_messages').delete().eq('id', msgId);
-            const el = Q(`cmsg-${msgId}`); if (el) el.remove();
-        }
-
-        function appendCommMsg(m, col, isLeader = false) {
+        function appendCommMsg(m, col) {
             const content = Q('comm-room-content');
             const div = document.createElement('div');
-            div.innerHTML = commMsgHTML(m, col, isLeader);
+            div.innerHTML = commMsgHTML(m, col);
             while (div.firstChild) content.appendChild(div.firstChild);
             content.scrollTop = content.scrollHeight;
         }
@@ -3909,6 +3898,7 @@ If this is not a student ID card, set is_student_id to false.`
             const { error } = await sb.from('community_posts').insert({ community_id: activeCommId, author_id: USER.id, content, is_anonymous, upvotes: 0 });
             if (error) { toast('Failed to post', 'err'); return; }
             inp.value = '';
+            inp.style.height = '44px';
             const comm = allComms.find(c => c.id === activeCommId);
             loadCommChannel(activeCommId, 'feed', comm?.color || '#a78bfa');
         }
@@ -4122,10 +4112,13 @@ If this is not a student ID card, set is_student_id to false.`
             }).join('');
         }
 
+        const _imInSet = new Set();
         async function imIn(postId, btn) {
+            if (_imInSet.has(postId)) return;
+            _imInSet.add(postId);
             haptic(HFX.like);
             btn.style.background = 'rgba(52,211,153,.25)'; btn.style.borderColor = 'rgba(52,211,153,.5)'; btn.textContent = "✅ You're in!"; btn.disabled = true;
-            await sb.from('post_comments').insert({ post_id: postId, author_id: USER.id, content: "I'm in! 🙋" }).catch(() => { });
+            await sb.from('post_comments').insert({ post_id: postId, author_id: USER.id, content: "I'm in! 🙋" }).catch(() => {});
         }
 
         async function loadComments(postId, btn) {
@@ -4263,29 +4256,17 @@ If this is not a student ID card, set is_student_id to false.`
         async function sendFeedWave(targetId, targetName, btn) {
             btn.disabled = true; btn.textContent = 'Sending…';
             haptic(HFX.like);
-            // Insert a like
             await sb.from('likes').insert({ liker_id: USER.id, liked_id: targetId }).catch(() => {});
-            // Check if a match already exists
-            const { data: existingMatch } = await sb.from('matches')
-                .select('id')
-                .or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`)
-                .maybeSingle();
             document.getElementById('feed-user-sheet')?.remove();
             document.getElementById('comm-profile-sheet')?.remove();
-            if (existingMatch) {
-                toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
-                haptic(HFX.match);
-                return;
-            }
-            // Check if they already liked you — if so, create the match now
+            // Match already exists?
+            const { data: existingMatch } = await sb.from('matches').select('id').or(`and(user_id.eq.${USER.id},target_id.eq.${targetId}),and(user_id.eq.${targetId},target_id.eq.${USER.id})`).maybeSingle();
+            if (existingMatch) { toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok'); haptic(HFX.match); return; }
+            // Check if they already liked you — create match if so
             const { data: theyLikedMe } = await sb.from('likes').select('id').eq('liker_id', targetId).eq('liked_id', USER.id).maybeSingle();
             if (theyLikedMe) {
                 const { data: newMatch } = await sb.from('matches').insert({ user_id: USER.id, target_id: targetId }).select('id').single();
-                if (newMatch) {
-                    toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok');
-                    haptic(HFX.match);
-                    return;
-                }
+                if (newMatch) { toast(`It's a match with ${targetName.split(' ')[0]}! 💘`, 'ok'); haptic(HFX.match); return; }
             }
             toast(`Wave sent to ${targetName.split(' ')[0]}! 👋`, 'ok');
         }
@@ -4332,6 +4313,10 @@ If this is not a student ID card, set is_student_id to false.`
             try { await sb.from('blocks').insert({ blocker_id: USER.id, blocked_id: safetyTargetId, created_at: new Date().toISOString() }); } catch (e) { }
             toast(`${safetyTargetName} has been blocked.`, 'ok');
             haptic(HFX.tap);
+            // Remove blocked user from current discover deck instantly
+            discProfs = discProfs.filter(p => p.id !== safetyTargetId);
+            if (discProfs[discIdx]?.id === safetyTargetId) { discIdx++; }
+            renderStack();
         }
 
         // ══════════════════════════════════════════════
